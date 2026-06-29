@@ -137,7 +137,7 @@ const CallOverlayContent = ({ callStatus, callType, remoteUserId, callerInfo, ac
  }
 
  return (
-    <div className={`fixed inset-0 z-[100] flex items-center justify-center pointer-events-none transition-opacity duration-300 ${callStatus === 'idle' ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`fixed inset-0 z-[200] flex items-center justify-center pointer-events-none transition-opacity duration-300 ${callStatus === 'idle' ? 'opacity-0' : 'opacity-100'}`}>
       
       {/* Backdrop ONLY for connected state, not for banner states */}
       <div className={`absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto transition-opacity duration-300 ${(isMinimized || (callStatus === 'calling' || callStatus === 'receiving')) ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${isVideoConnected ? 'bg-black/90' : ''}`} />
