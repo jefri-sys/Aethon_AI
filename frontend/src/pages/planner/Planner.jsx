@@ -10,8 +10,8 @@ import CustomPdfPlanModal from '../../components/planner/CustomPdfPlanModal.jsx'
 import { useAuth } from '../../hooks/useAuth.js';
 import useMobileView from '../../hooks/useMobileView.js';
 import MobilePlanner from '../../components/mobile/pages/MobilePlanner.jsx';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
 
 function Planner() {
  const { user, updateUser } = useAuth();

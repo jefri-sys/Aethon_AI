@@ -9,8 +9,8 @@ import {
   AiFillFileExcel, AiFillFilePpt, AiFillFileZip, AiFillFile, AiFillPicture, AiFillFolder 
 } from 'react-icons/ai';
 import { subjectFileService } from '../../services/subjectFileService';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
 
 export default function SubjectDrawer({ subject, isOpen, onClose }) {
   const [folders, setFolders] = useState([]);

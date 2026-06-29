@@ -3,8 +3,8 @@ import { Plus, CheckCircle, GraduationCap, Clock, Award, TrendingUp, Star, Alert
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import api from '../../services/api';
 import AddSemesterModal from './AddSemesterModal.jsx';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
 
 const SemesterList = ({ onSelectSemester }) => {
   const [semesters, setSemesters] = useState([]);

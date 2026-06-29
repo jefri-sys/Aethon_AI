@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Calendar, AlertTriangle, UploadCloud, FileText } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import api from '../../services/api';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
 
 const getDaysUntil = (dateString) => {
   if (!dateString) return null;

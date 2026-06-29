@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import api from '../../services/api';
 import { formatDistanceToNow } from 'date-fns';
-import { Button } from '../../components/ui/Button';
+import { Button } from '../../components/ui/button';
 import { usePullToRefresh } from '../../hooks/usePullToRefresh.js';
 import PullToRefreshIndicator from '../../components/mobile/PullToRefreshIndicator.jsx';
 

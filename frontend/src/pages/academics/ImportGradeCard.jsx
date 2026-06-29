@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { CheckCircle, X, FileText, UploadCloud, AlertCircle, Trash2, Plus, ArrowLeft } from 'lucide-react';
 import api from '../../services/api';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
 
 export default function ImportGradeCard() {
   const navigate = useNavigate();

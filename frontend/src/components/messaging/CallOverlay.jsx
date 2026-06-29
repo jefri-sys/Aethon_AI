@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import useVoiceCall from '../../hooks/useVoiceCall';
 import { useAuth } from '../../hooks/useAuth';
-import { Button } from '../../components/ui/Button';
+import { Button } from '../../components/ui/button';
 import { PhoneOff } from 'lucide-react';
 
 const CallOverlayContent = ({ callStatus, callType, remoteUserId, callerInfo, acceptCall, endCall, rejectCall, mediaRef, micError, streamRef, remoteStream }) => {
