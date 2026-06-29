@@ -45,7 +45,8 @@ export default function BottomNavBar() {
     window.addEventListener('synapse:messages-read', handleMessagesRead);
 
     return () => {
-      socket.disconnect();
+      socket.off('newMessage', handleNewActivity);
+      socket.off('message:receive', handleNewActivity);
       window.removeEventListener('synapse:messages-read', handleMessagesRead);
     };
   }, [location.pathname]);

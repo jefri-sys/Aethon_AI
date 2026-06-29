@@ -71,7 +71,9 @@ const GroupChat = ({ group, onLeave }) => {
 
  return () => {
  newSocket.emit('leaveGroup', { groupId: group._id });
- newSocket.disconnect();
+ newSocket.off('newMessage');
+ newSocket.off('userTyping');
+ newSocket.off('connect');
  };
  }, [group._id]);
 

@@ -70,7 +70,6 @@ export default function MobileStudyGroups({ user }) {
     
     return () => {
       newSocket.off('newMessage', handleNewMessage);
-      newSocket.disconnect();
     };
   }, [activeGroupId]);
 

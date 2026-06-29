@@ -35,7 +35,6 @@ function Messages({ isPopupMode }) {
         withCredentials: true
       });
       setSocket(newSocket);
-      return () => newSocket.disconnect();
     }
   }, [user]);
 

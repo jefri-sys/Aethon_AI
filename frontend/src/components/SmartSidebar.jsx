@@ -65,7 +65,11 @@ export default function SmartSidebar() {
  }
  });
 
- return () => socket.disconnect();
+ return () => {
+    socket.off('newMessage');
+    socket.off('message:receive');
+    socket.off('friend:request');
+ };
  }
  }, [showMessages]);
 

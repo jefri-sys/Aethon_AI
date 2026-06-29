@@ -98,7 +98,6 @@ const StudyGroups = () => {
     
     return () => {
       socket.off('newMessage', handleNewMessage);
-      socket.disconnect();
     };
   }, [activeGroupId]);
 
