@@ -78,7 +78,7 @@ const VoiceRecorder = ({ conversationId, replyTo, onUploadSuccess, uploadUrl }) 
       formData.append('file', blob, 'voicenote.webm');
       if (replyTo) formData.append('replyTo', replyTo);
 
-      const token = localStorage.getItem('token') || '';
+      const token = localStorage.getItem('synapse_token') || '';
       const baseUrl = import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com';
       const endpoint = uploadUrl ? `${baseUrl}/api${uploadUrl}` : `${baseUrl}/api/conversations/${conversationId}/messages/media`;
 

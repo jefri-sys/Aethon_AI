@@ -42,7 +42,7 @@ export default function MobileStudyGroups({ user }) {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('synapse_token');
     if (!token) return;
     
     const newSocket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {

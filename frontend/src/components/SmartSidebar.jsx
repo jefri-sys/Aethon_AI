@@ -24,7 +24,7 @@ export default function SmartSidebar() {
 
  const fetchUnread = async () => {
  try {
- const token = localStorage.getItem('token');
+ const token = localStorage.getItem('synapse_token');
  if (token) {
  const { data } = await api.get('/users/unread-count');
  if (data && data.count !== undefined) {
@@ -41,7 +41,7 @@ export default function SmartSidebar() {
  }, []);
 
  useEffect(() => {
- const token = localStorage.getItem('token');
+ const token = localStorage.getItem('synapse_token');
  if (token) {
  const socket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
  auth: { token },

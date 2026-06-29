@@ -29,7 +29,7 @@ function Messages({ isPopupMode }) {
 
   useEffect(() => {
     if (user) {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('synapse_token');
       const newSocket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
         auth: { token },
         withCredentials: true
