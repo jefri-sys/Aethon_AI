@@ -168,9 +168,9 @@ const useVoiceCall = (socket, currentUserId) => {
       setIsCaller(true);
       setCallerInfo(recipientData); // So the local UI shows who we are calling
       setMicError(false);
-      const turnConfig = await fetchTurnCredentials();
       const stream = preFetchedStream || await navigator.mediaDevices.getUserMedia({ audio: true, video: type === 'video' });
       streamRef.current = stream;
+      const turnConfig = await fetchTurnCredentials();
       setCallStatus('calling');
       setRemoteUserId(recipientId);
 
@@ -207,9 +207,10 @@ const useVoiceCall = (socket, currentUserId) => {
   const acceptCall = async () => {
     try {
       setMicError(false);
-      const turnConfig = await fetchTurnCredentials();
+      // Await getUserMedia immediately to prevent Safari from dropping the user gesture context
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: callType === 'video' });
       streamRef.current = stream;
+      const turnConfig = await fetchTurnCredentials();
 
       const pc = createPeerConnection(turnConfig, remoteUserId);
       peerRef.current = pc;
