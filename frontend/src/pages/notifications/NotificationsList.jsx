@@ -8,6 +8,8 @@ import {
 import api from '../../services/api';
 import { formatDistanceToNow } from 'date-fns';
 import { Button } from '../../components/ui/Button';
+import { usePullToRefresh } from '../../hooks/usePullToRefresh.js';
+import PullToRefreshIndicator from '../../components/mobile/PullToRefreshIndicator.jsx';
 
 export default function NotificationsList() {
   const navigate = useNavigate();
@@ -43,6 +45,12 @@ export default function NotificationsList() {
       setLoadingMore(false);
     }
   };
+
+  const handleRefresh = async () => {
+    await fetchNotifications(1);
+  };
+
+  const { isPulling, pullProgress, isRefreshing } = usePullToRefresh(handleRefresh);
 
   const handleLoadMore = () => {
     if (page < totalPages) {
@@ -103,7 +111,8 @@ export default function NotificationsList() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-base p-4 md:p-8">
+    <div className="min-h-screen bg-surface-base p-4 md:p-8 relative">
+      <PullToRefreshIndicator isPulling={isPulling} pullProgress={pullProgress} isRefreshing={isRefreshing} />
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div className="flex items-center gap-4">

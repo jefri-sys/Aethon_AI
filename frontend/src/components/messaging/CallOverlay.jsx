@@ -3,8 +3,9 @@ import { io } from 'socket.io-client';
 import useVoiceCall from '../../hooks/useVoiceCall';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '../../components/ui/Button';
+import { PhoneOff } from 'lucide-react';
 
-const CallOverlayContent = ({ callStatus, callType, remoteUserId, callerInfo, acceptCall, endCall, mediaRef, micError, streamRef, remoteStream }) => {
+const CallOverlayContent = ({ callStatus, callType, remoteUserId, callerInfo, acceptCall, endCall, rejectCall, mediaRef, micError, streamRef, remoteStream }) => {
  const [isMinimized, setIsMinimized] = useState(false);
  const [timer, setTimer] = useState(0);
  const [isMuted, setIsMuted] = useState(false);
@@ -20,6 +21,15 @@ const CallOverlayContent = ({ callStatus, callType, remoteUserId, callerInfo, ac
  }
  return () => clearInterval(interval);
  }, [callStatus]);
+
+ useEffect(() => {
+ if (callStatus === 'rejected' || callStatus === 'timeout') {
+ const t = setTimeout(() => {
+ endCall();
+ }, 2500);
+ return () => clearTimeout(t);
+ }
+ }, [callStatus, endCall]);
 
  useEffect(() => {
  if (callType === 'video' && callStatus === 'connected' && localVideoRef.current && streamRef?.current) {
@@ -57,6 +67,22 @@ const CallOverlayContent = ({ callStatus, callType, remoteUserId, callerInfo, ac
  }
 
  if (callStatus === 'idle') return null;
+
+ if (callStatus === 'rejected' || callStatus === 'timeout') {
+ return (
+ <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-md">
+ <div className="bg-surface-base rounded-2xl shadow-xl p-6 flex flex-col items-center border border-surface-border">
+ <PhoneOff className="w-12 h-12 text-status-danger mb-4" />
+ <h2 className="text-xl font-bold text-text-primary mb-2">
+ {callStatus === 'rejected' ? 'Call Declined' : 'No Answer'}
+ </h2>
+ <p className="text-text-secondary mb-6 text-center max-w-xs">
+ {callerInfo?.name || 'User'}
+ </p>
+ </div>
+ </div>
+ );
+ }
 
  const toggleMute = () => {
  if (streamRef?.current) {
@@ -175,7 +201,7 @@ const CallOverlayContent = ({ callStatus, callType, remoteUserId, callerInfo, ac
  <h2 className="text-xl font-bold mb-1 text-text-primary">{callerInfo?.name || 'Unknown'}</h2>
  <p className="text-text-secondary mb-8 animate-pulse">Incoming call...</p>
  <div className="flex space-x-6">
- <Button onClick={endCall} variant="danger" shape="circular" className="w-14 h-14 shadow-lg transition-transform hover:scale-105">
+ <Button onClick={rejectCall} variant="danger" shape="circular" className="w-14 h-14 shadow-lg transition-transform hover:scale-105">
  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
  </Button>
  <Button onClick={acceptCall} variant="primary" shape="circular" className="w-14 h-14 bg-status-success hover:bg-status-success/90 shadow-lg transition-transform hover:scale-105">

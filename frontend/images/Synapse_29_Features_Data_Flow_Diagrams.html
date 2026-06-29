@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse 29 Feature Data Flow Diagrams</title>
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; color: #1e293b; line-height: 1.6; margin: 0; padding: 0; background-color: #f8fafc; }
+        .page { max-width: 900px; margin: 0 auto; background: white; padding: 50px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        @media print {
+            body { background: white; }
+            .page { box-shadow: none; margin: 0; padding: 0; max-width: 100%; }
+            .page-break { page-break-before: always; }
+        }
+        h1 { color: #1d4ed8; font-size: 2rem; border-bottom: 2px solid #3b82f6; padding-bottom: 10px; margin-top: 0; }
+        .subtitle { font-size: 1.1rem; color: #64748b; margin-bottom: 20px; }
+        
+        .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 30px; margin-bottom: 30px; width: 100%; }
+        
+        /* Box Styles replicating the screenshot exactly */
+        .box { width: 80%; border-radius: 12px; padding: 20px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .box h3 { margin: 0 0 8px 0; font-size: 1.2rem; color: #0f172a; }
+        .box p { margin: 0; font-size: 0.95rem; color: #334155; }
+        
+        .arrow { font-size: 24px; color: #94a3b8; margin-bottom: 10px; text-align: center; font-weight: bold; }
+
+        .bg-actor { background-color: #e0f2fe; border: 2px solid #bae6fd; } /* Light Blue */
+        .bg-frontend { background-color: #dcfce7; border: 2px solid #bbf7d0; } /* Light Green */
+        .bg-api { background-color: #fef9c3; border: 2px solid #fde047; } /* Light Yellow */
+        .bg-backend { background-color: #ffe4e6; border: 2px solid #fecdd3; } /* Light Pink */
+        .bg-db { background-color: #f8fafc; border: 2px solid #e2e8f0; } /* Light Gray */
+        .bg-service { background-color: #f8fafc; border: 2px solid #e2e8f0; } /* Light Gray */
+
+        .how-to-explain { background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; }
+        .how-to-explain h4 { margin-top: 0; color: #1e3a8a; font-size: 1.3rem; margin-bottom: 15px; border-bottom: 1px solid #bfdbfe; padding-bottom: 8px;}
+        .how-to-explain p { font-size: 1.05rem; line-height: 1.8; color: #1e3a8a; margin-bottom: 15px; }
+        
+        .main-files { background: #f8fafc; padding: 15px; border: 1px dashed #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 0.9rem; color: #475569; }
+        
+        .cover { height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .cover h1 { font-size: 3rem; border: none; margin-bottom: 10px; }
+        .cover h2 { font-size: 1.5rem; color: #475569; font-weight: 400; border: none; }
+    </style>
+</head>
+<body>
+
+<div class="page">
+    <div class="cover">
+        <h1>SYNAPSE</h1>
+        <h2>29 Feature Data Flow Diagrams</h2>
+        <p style="margin-top: 40px; color: #64748b; font-size: 1.1rem;">Visual Flowchart & Viva Guide for understanding how each feature works</p>
+        <p style="margin-top: 20px; color: #94a3b8;">Open this file in Chrome and press Ctrl+P (Print to PDF) to generate the final document.</p>
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 1 - Authentication with Email Verification (Core)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>AuthLayout.jsx, auth-context.js, AuthContext.jsx, useAuth.js, ForgotPassword.jsx, Login.jsx, Onboarding.jsx, Register.jsx, ResetPassword.jsx, VerifyEmail.jsx, ForgotVaultPassword.jsx, ResetVaultPassword.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>auth.js, users.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>authController.js, userController.js, usersController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>AuthLayout.jsx, auth-context.js, AuthContext.jsx, useAuth.js, ForgotPassword.jsx, Login.jsx, Onboarding.jsx, Register.jsx, ResetPassword.jsx, VerifyEmail.jsx, ForgotVaultPassword.jsx, ResetVaultPassword.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>auth.js, users.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>authController.js, userController.js, usersController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Authentication</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        authController.js; userController.js; usersController.js; auth.js; authMiddleware.js; careerVaultUpload.js; jobDescriptionUpload.js; mediaUpload.js; rateLimiter.js; resumeUpload.js
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 2 - Student Profile and Onboarding Flow (Core)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Global UI Components / Context</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Global UI Components / Context</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Student</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        Core application files
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 3 - Today Dashboard with AI Morning Briefing (Core)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>TodayDashboard.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>Briefing.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>TodayDashboard.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Today</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>Briefing.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        Briefing.js; TodayDashboard.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 4 - Academic Tracker — Marks, CGPA, Attendance (Academic)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>MarkdownText.jsx, SubjectDrawer.jsx, Academics.jsx, AcademicTracker.jsx, AddSemesterModal.jsx, ExamImportModal.jsx, ExamScheduleList.jsx, ImportGradeCard.jsx, MigrationModal.jsx, SemesterList.jsx, SemesterWorkspace.jsx, Timetable.jsx, TimetableImportModal.jsx, WhatIfCalculator.jsx, Subjects.jsx, subjectFileService.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>academics.js, semesters.js, subjectFiles.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>academicsController.js, semesterController.js, subjectFileController.js, academicService.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>Attendance.js, Mark.js, Semester.js, Subject.js, SubjectFile.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>MarkdownText.jsx, SubjectDrawer.jsx, Academics.jsx, AcademicTracker.jsx, AddSemesterModal.jsx, ExamImportModal.jsx, ExamScheduleList.jsx, ImportGradeCard.jsx, MigrationModal.jsx, SemesterList.jsx, SemesterWorkspace.jsx, Timetable.jsx, TimetableImportModal.jsx, WhatIfCalculator.jsx, Subjects.jsx, subjectFileService.js</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>academics.js, semesters.js, subjectFiles.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>academicsController.js, semesterController.js, subjectFileController.js, academicService.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Academic</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>Attendance.js, Mark.js, Semester.js, Subject.js, SubjectFile.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        academicsController.js; semesterController.js; subjectFileController.js; Attendance.js; Mark.js; Semester.js; Subject.js; SubjectFile.js; academics.js; semesters.js
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 5 - CGPA What-If Calculator (Academic)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Global UI Components / Context</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Global UI Components / Context</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>CGPA</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        Core application files
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 6 - AI Explains My Marks (Academic + AI)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Global UI Components / Context</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Global UI Components / Context</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>AI</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        Core application files
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 7 - AI Study Planner with Schedule Generation (Academic + AI)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>CustomPdfPlanModal.jsx, StudyGroups.jsx, FocusMode.jsx, Planner.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>planner.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>plannerController.js, studyPlannerService.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>ExamSchedule.js, StudyGroup.js, StudyPlan.js, StudyTask.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>CustomPdfPlanModal.jsx, StudyGroups.jsx, FocusMode.jsx, Planner.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>planner.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>plannerController.js, studyPlannerService.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>AI</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>ExamSchedule.js, StudyGroup.js, StudyPlan.js, StudyTask.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        plannerController.js; ExamSchedule.js; StudyGroup.js; StudyPlan.js; StudyTask.js; planner.js; studyPlannerService.js; plannerScheduler.js; CustomPdfPlanModal.jsx; StudyGroups.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 8 - Focus Mode — Pomodoro Study Timer (Academic)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>FocusTimerContext.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>focus.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>focusController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>FocusSession.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>FocusTimerContext.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>focus.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>focusController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Focus</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>FocusSession.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        focusController.js; FocusSession.js; focus.js; FocusTimerContext.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 9 - AI Notebook — NotebookLM-Style Study Tool (AI)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>VoiceNotePlayer.jsx, Notebook.jsx, NotebookList.jsx, NotebookView.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>notebook.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>notebookController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>Notebook.js, NotebookChat.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>VoiceNotePlayer.jsx, Notebook.jsx, NotebookList.jsx, NotebookView.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>notebook.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>notebookController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>AI</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>Notebook.js, NotebookChat.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        notebookController.js; Notebook.js; NotebookChat.js; notebook.js; aiNotes.js; VoiceNotePlayer.jsx; Notebook.jsx; NotebookList.jsx; NotebookView.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 10 - Finance Tracker with AI Spending Analysis (Finance)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Finance.jsx, FinanceTracker.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>finance.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>financeController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>Budget.js, Expense.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Finance.jsx, FinanceTracker.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>finance.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>financeController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Finance</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>Budget.js, Expense.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        financeController.js; recurringExpenses.js; Budget.js; Expense.js; finance.js; Finance.jsx; FinanceTracker.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 11 - Habit Tracker with AI Pattern Detection (Habits)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Habits.jsx, HabitTracker.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>habits.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>habitsController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>Habit.js, HabitLog.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Habits.jsx, HabitTracker.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>habits.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>habitsController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Habit</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>Habit.js, HabitLog.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        habitsController.js; habitReminders.js; Habit.js; HabitLog.js; habits.js; Habits.jsx; HabitTracker.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 12 - Central AI Assistant — Cross-Module Intelligence (AI)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>ChatWidget.jsx, ChatInput.jsx, ChatWindow.jsx, ai-accent.jsx, ChatBubble.jsx, main.jsx, CareerDocDetailView.jsx, GroupChat.jsx, ExplorerChat.jsx, AIPersonalizationSettings.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>ai.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>aiController.js, aiContextBuilder.js, aiPreferenceNormalizer.js, aiRouter.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>ChatWidget.jsx, ChatInput.jsx, ChatWindow.jsx, ai-accent.jsx, ChatBubble.jsx, main.jsx, CareerDocDetailView.jsx, GroupChat.jsx, ExplorerChat.jsx, AIPersonalizationSettings.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>ai.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>aiController.js, aiContextBuilder.js, aiPreferenceNormalizer.js, aiRouter.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Central</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        aiController.js; ai.js; aiContextBuilder.js; aiPreferenceNormalizer.js; aiRouter.js; groqGroupAI.js; ChatWidget.jsx; ChatInput.jsx; ChatWindow.jsx; ai-accent.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 13 - Weekly AI Report Card (Sunday Auto-Generation) (AI)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Global UI Components / Context</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>WeeklyReport.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Global UI Components / Context</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Weekly</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>WeeklyReport.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        weeklyReport.js; WeeklyReport.js
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 14 - Study Groups — Real-Time Collaborative Chat (Social)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>MessagesPopup.jsx, MessageBubble.jsx, GroupInfoPanel.jsx, GroupPermissionsPanel.jsx, Groups.jsx, Messages.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>groups.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>groupsController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>GroupMessage.js, Message.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>MessagesPopup.jsx, MessageBubble.jsx, GroupInfoPanel.jsx, GroupPermissionsPanel.jsx, Groups.jsx, Messages.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>groups.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>groupsController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Study</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>GroupMessage.js, Message.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        groupsController.js; GroupMessage.js; Message.js; groups.js; socket.js; socketHandler.js; groupPermissions.js; saveGroupBotMessage.js; MessagesPopup.jsx; MessageBubble.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 15 - Quick Capture — Universal Floating Action Button (UX)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>QuickCapture.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>QuickCapture.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Quick</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        QuickCapture.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 16 - Notifications System with Preferences (Core)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>NotificationBell.jsx, NotificationsPopup.jsx, NotificationsList.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>notifications.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>notificationsController.js, notificationService.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>Notification.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>NotificationBell.jsx, NotificationsPopup.jsx, NotificationsList.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>notifications.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>notificationsController.js, notificationService.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Notifications</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>Notification.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        notificationsController.js; Notification.js; notifications.js; notificationService.js; NotificationBell.jsx; NotificationsPopup.jsx; NotificationsList.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 17 - Settings — Profile, Budget, Subjects, Theme (Core)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Settings.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>settings.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Settings.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>settings.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Settings</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        settings.js; Settings.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 18 - AI Learning Resource Explorer (AI)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>ResourceExplorer.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>resources.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>resourceController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>ExplorerSession.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>ResourceExplorer.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>resources.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>resourceController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>AI</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>ExplorerSession.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        resourceController.js; ExplorerSession.js; resources.js; ResourceExplorer.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 19 - Smart Task Prioritisation (AI + Planning)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Global UI Components / Context</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Global UI Components / Context</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Smart</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        Core application files
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 20 - Study Analytics Dashboard (Analytics)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Analytics.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Analytics.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Study</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        Analytics.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 21 - Resource Recommendation Engine — Weak Areas (AI)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Global UI Components / Context</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Global UI Components / Context</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Resource</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        Core application files
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 22 - Exam Readiness Score (AI + Academic)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Global UI Components / Context</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>exams.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>examController.js, readinessService.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Global UI Components / Context</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>exams.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>examController.js, readinessService.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Exam</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        examController.js; examReminders.js; exams.js; readinessService.js
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 23 - Semester Performance Predictor (AI + Academic)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Global UI Components / Context</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Global UI Components / Context</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Semester</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        Core application files
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 24 - Universal Academic Calendar (Academic + Planning)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Calendar.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>calendar.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>calendarController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>CustomEvent.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Calendar.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>calendar.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>calendarController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Universal</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>CustomEvent.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        calendarController.js; eventReminders.js; CustomEvent.js; calendar.js; Calendar.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 25 - Peer Networking & Direct Messaging (Social)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>Global UI Components / Context</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>friends.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>friendsController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>Friendship.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>Global UI Components / Context</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>friends.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>friendsController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Peer</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>Friendship.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        friendsController.js; Friendship.js; friends.js
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 26 - Career Vault Security — Independent Password Access Gate (Security)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>CareerVaultGate.jsx, CareerVaultLayout.jsx, CareerVaultList.jsx, CareerVaultNav.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>careerVaultRoutes.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>careerVaultController.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>CareerVaultGate.jsx, CareerVaultLayout.jsx, CareerVaultList.jsx, CareerVaultNav.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>careerVaultRoutes.js</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>careerVaultController.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Career</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        careerVaultController.js; careerVaultRoutes.js; CareerVaultGate.jsx; CareerVaultLayout.jsx; CareerVaultList.jsx; CareerVaultNav.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 27 - Career Timeline (Career)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>CareerTimeline.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>CareerTimeline.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Career</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        CareerTimeline.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 28 - Resume Intelligence (AI + Career)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>ResumeIntelligence.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>Shared Core Controllers</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>User and feature-specific state</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>ResumeIntelligence.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>Shared Core Controllers</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>Resume</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>User and feature-specific state</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        ResumeIntelligence.jsx
+    </div>
+</div>
+
+<div class="page page-break">
+    <h1>Feature 29 - AI Resume Builder (AI + Career)</h1>
+    <div class="subtitle">Data Flow Diagram: actor/input ➔ frontend ➔ API/backend ➔ database ➔ output</div>
+    
+    <div class="diagram-container">
+        
+        <div class="box bg-actor">
+            <h3>External Actor</h3>
+            <p><strong>Student</strong> initiates the feature or receives the result.</p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-frontend">
+            <h3>Frontend Process</h3>
+            <p>React page/component/hook where the user action happens:<br/><strong>CareerDocUploadModal.jsx, ResumeBuilderList.jsx, ResumeEditor.jsx</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-api">
+            <h3>API / Route</h3>
+            <p>HTTP endpoint used to cross into backend logic:<br/><strong>Standard protected API endpoints</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-backend">
+            <h3>Backend Logic</h3>
+            <p>Controller, middleware, service, or socket handler processing the data:<br/><strong>resumeController.js, careerDocExtractor.js, resumeGenerator.js, resumeParser.js, resumePdfExporter.js, resumeRewriteService.js, resumeSkillGapAnalyzer.js, atsClassic.js, index.js, researchHigherStudies.js, softwareDeveloper.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-db">
+            <h3>Database / Data Store</h3>
+            <p>MongoDB model or persistent storage touched:<br/><strong>CareerDocument.js, Resume.js</strong></p>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="box bg-service">
+            <h3>Result / Output</h3>
+            <p>JSON response triggers React state update, displaying updated data to the user.</p>
+        </div>
+        
+    </div>
+
+    <div class="how-to-explain">
+        <h4>How to Explain This Feature (Viva Defense Guide)</h4>
+        <p><strong>Step 1 (Initiation):</strong> The data flow begins with the <strong>Student</strong> interacting with the system. They access the visual interface rendered by <strong>CareerDocUploadModal.jsx, ResumeBuilderList.jsx, ResumeEditor.jsx</strong>. Here, the user inputs their data or triggers an event (like clicking a submit button or opening a dashboard).</p><p><strong>Step 2 (Transmission):</strong> Once the action is triggered, the React frontend packages the payload and fires an asynchronous HTTP/API request. This request crosses the network boundary and hits the Express router at <strong>Standard protected API endpoints</strong>.</p><p><strong>Step 3 (Processing):</strong> The router intercepts the request and forwards it to the dedicated business logic handlers in <strong>resumeController.js, careerDocExtractor.js, resumeGenerator.js, resumeParser.js, resumePdfExporter.js, resumeRewriteService.js, resumeSkillGapAnalyzer.js, atsClassic.js, index.js, researchHigherStudies.js, softwareDeveloper.js</strong>. In this layer, the server verifies the user's JWT authorization token, parses the incoming payload, and executes the core algorithmic logic required for the <em>AI</em> feature.</p><p><strong>Step 4 (Persistence & Response):</strong> Finally, to make the changes permanent, the backend controller interacts with the <strong>CareerDocument.js, Resume.js</strong> database schema. It performs the necessary Read/Write operations using Mongoose. Once the database confirms the transaction, the controller formulates a JSON response and sends it back to the frontend, which instantly updates the DOM so the user sees the final result.</p>
+    </div>
+
+    <div class="main-files">
+        <strong>Main files associated with this flow:</strong><br/>
+        resumeController.js; CareerDocument.js; Resume.js; careerDocExtractor.js; resumeGenerator.js; resumeParser.js; resumePdfExporter.js; resumeRewriteService.js; resumeSkillGapAnalyzer.js; atsClassic.js
+    </div>
+</div>
+
+</body>
+</html>

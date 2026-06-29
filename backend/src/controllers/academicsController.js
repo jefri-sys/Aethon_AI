@@ -114,6 +114,22 @@ const deleteSubject = async (req, res) => {
 // Marks
 const addMark = async (req, res) => {
   try {
+    const { subjectId, assessmentType } = req.body;
+    
+    // Check for existing mark of the same assessment type for this subject
+    const existingMark = await Mark.findOne({ 
+      userId: req.user.id, 
+      subjectId, 
+      assessmentType 
+    });
+
+    if (existingMark) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `A mark for ${assessmentType} already exists for this subject. Please delete the existing one first.` 
+      });
+    }
+
     const mark = await Mark.create({ ...req.body, userId: req.user.id });
     res.status(201).json({ success: true, mark });
   } catch (err) {

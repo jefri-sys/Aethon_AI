@@ -18,7 +18,8 @@ const MessagingLayout = ({
   onStartDM,
   currentUserId,
   centerContent,
-  rightContent
+  rightContent,
+  leftPanelScrollRef
 }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('chats'); // chats, people
@@ -119,7 +120,7 @@ const MessagingLayout = ({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto no-scrollbar">
+        <div ref={leftPanelScrollRef} className="flex-1 overflow-y-auto no-scrollbar">
           {activeTab === 'chats' && (
             <div className="space-y-1 p-2">
               {sortedConversations.map(conv => {

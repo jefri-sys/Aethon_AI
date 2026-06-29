@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+.mobile-shell {
+  /* LIGHT MODE */
+  --mobile-bg: #FFF8F0;
+  --mobile-surface: #FFFFFF;
+  --mobile-surface-raised: #FFFDF9;
+  --mobile-primary: #FF7A59;
+  --mobile-primary-hover: #E8623F;
+  --mobile-secondary: #7C6FF0;
+  --mobile-secondary-subtle: #ECE9FE;
+  --mobile-success: #4CAF82;
+  --mobile-success-subtle: #E3F5EB;
+  --mobile-warning: #F2A93B;
+  --mobile-warning-subtle: #FCF1DC;
+  --mobile-danger: #E85C5C;
+  --mobile-danger-subtle: #FCE6E6;
+  
+  --mobile-text-primary: #2B2520;
+  --mobile-text-secondary: #7A7268;
+  --mobile-text-tertiary: #B0A89D;
+  
+  --mobile-border: #F0E6D8;
+  --mobile-nav-bg: #FFFFFF;
+  --mobile-nav-border: #F0E6D8;
+
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+[data-theme="dark"] .mobile-shell {
+  /* DARK MODE */
+  --mobile-bg: #1C1815;
+  --mobile-surface: #262019;
+  --mobile-surface-raised: #2E2620;
+  --mobile-primary: #FF8F73;
+  --mobile-primary-hover: #FFA68C;
+  --mobile-secondary: #A39BFF;
+  --mobile-secondary-subtle: #332D52;
+  --mobile-success: #6FCB9F;
+  --mobile-success-subtle: #1F3329;
+  --mobile-warning: #F2BB66;
+  --mobile-warning-subtle: #3A2F18;
+  --mobile-danger: #F08080;
+  --mobile-danger-subtle: #3A2020;
+  
+  --mobile-text-primary: #F5F0E8;
+  --mobile-text-secondary: #B8AFA3;
+  --mobile-text-tertiary: #7A7268;
+  
+  --mobile-border: #3A332B;
+  --mobile-nav-bg: #262019;
+  --mobile-nav-border: #3A332B;
+}
+
+.safe-top { padding-top: env(safe-area-inset-top, 0px); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.safe-left { padding-left: env(safe-area-inset-left, 0px); }
+.safe-right { padding-right: env(safe-area-inset-right, 0px); }
+
+.mobile-shell button:active,
+.mobile-shell [role="button"]:active,
+.mobile-shell .tappable:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease-out;
+}
+

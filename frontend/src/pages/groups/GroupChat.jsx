@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import api from '../../services/api';
-import { Send, Share2, X, BookOpen, Clock, LogOut, Link as LinkIcon, Check, CheckCheck, Settings, Shield, Zap, Smile, Trash2 } from 'lucide-react';
+import { Send, Share2, X, BookOpen, Clock, LogOut, Link as LinkIcon, Check, CheckCheck, Settings, Shield, Zap, Smile, Trash2, ArrowLeft } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../../hooks/useAuth';
 import ChatInput from '../../components/messaging/ChatInput';
@@ -355,8 +355,15 @@ const GroupChat = ({ group, onLeave }) => {
  <div className="flex flex-col h-full w-full">
  {/* Header */}
  <div className="bg-surface-base border-b border-surface-border p-4 flex justify-between items-center z-10 shrink-0 shadow-sm">
+ <div className="flex items-center min-w-0">
+ <button 
+ onClick={() => { if(onLeave) onLeave() }} 
+ className="mr-3 p-2 -ml-2 bg-surface-sunken hover:bg-surface-raised rounded-xl transition-all md:hidden text-text-secondary shrink-0"
+ >
+ <ArrowLeft className="w-5 h-5" />
+ </button>
  <div 
- className="cursor-pointer hover:bg-surface-sunken p-2 -ml-2 rounded-xl transition-all"
+ className="cursor-pointer hover:bg-surface-sunken p-2 -ml-2 sm:-ml-2 rounded-xl transition-all min-w-0"
  onClick={() => setShowSettingsModal(true)}
  >
  <div className="flex items-center space-x-2">
@@ -366,7 +373,7 @@ const GroupChat = ({ group, onLeave }) => {
  )}
  </div>
  <div className="flex items-center mt-1 space-x-2">
-   <div className="flex -space-x-1.5">
+   <div className="flex -space-x-1.5 shrink-0">
      {(group.members || []).slice(0, 3).map((m, i) => {
        const u = m.userId || {};
        return (
@@ -379,7 +386,8 @@ const GroupChat = ({ group, onLeave }) => {
        );
      })}
    </div>
-   <p className="text-xs text-text-secondary">{group.members?.length || 1} members • {group.course}</p>
+   <p className="text-xs text-text-secondary truncate">{group.members?.length || 1} members • {group.course}</p>
+ </div>
  </div>
  </div>
  <div className="flex space-x-2">

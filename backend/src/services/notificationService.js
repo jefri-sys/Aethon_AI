@@ -1,6 +1,7 @@
 const Notification = require('../models/Notification');
 const User = require('../models/User');
-const { getIO } = require('../socket/socket');
+const { getIO, userSockets } = require('../socket/socket');
+const { sendPushToUser, DEEP_LINK_MAP, SOCKET_SUPPRESSED_TYPES } = require('./pushService');
 
 const createNotification = async (userId, type, title, message) => {
   try {
@@ -30,6 +31,25 @@ const createNotification = async (userId, type, title, message) => {
       console.log("Socket not initialized or error emitting:", e.message);
     }
     
+    // Add Web Push notification logic
+    try {
+      let shouldPush = true;
+      if (SOCKET_SUPPRESSED_TYPES.includes(type)) {
+        if (userSockets.has(userId.toString())) {
+          shouldPush = false;
+        }
+      }
+      
+      if (shouldPush) {
+        const url = DEEP_LINK_MAP[type] || '/dashboard';
+        sendPushToUser(userId, { title, body: message, url, type }).catch(err => {
+          console.error("Non-fatal push send error:", err);
+        });
+      }
+    } catch (e) {
+      console.error("Non-fatal push evaluation error:", e.message);
+    }
+
     return notification;
   } catch (error) {
     console.error('Error creating notification:', error);

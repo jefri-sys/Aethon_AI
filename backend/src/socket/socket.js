@@ -10,6 +10,7 @@ const { createNotification } = require('../services/notificationService');
 
 let io;
 const userSockets = new Map();
+const activeCalls = new Set();
 
 const initSocket = (server) => {
   io = new Server(server, {
@@ -321,18 +322,26 @@ const initSocket = (server) => {
       }
     });
 
+    const emitToUser = (targetUserId, event, payload) => {
+      const targetSockets = userSockets.get(targetUserId.toString());
+      if (targetSockets && targetSockets.size > 0) {
+        targetSockets.forEach(socketId => {
+          io.to(socketId).emit(event, payload);
+        });
+      }
+    };
+
     socket.on('call:initiate', ({ recipientId, callerInfo, type, conversationId }) => {
       console.log(`[SOCKET] ${userId} initiated ${type} call to ${recipientId}`);
-      // Emit globally for new client code
-      io.emit('call:incoming:global', {
+      if (activeCalls.has(recipientId.toString())) {
+        emitToUser(userId, 'call:busy:global', { recipientId: recipientId.toString() });
+        return;
+      }
+      activeCalls.add(userId);
+      activeCalls.add(recipientId.toString());
+
+      emitToUser(recipientId, 'call:incoming:global', {
         recipientId: recipientId.toString(),
-        callerId: userId,
-        callerInfo,
-        type,
-        conversationId
-      });
-      // Fallback: emit locally for stale client code
-      socket.to(recipientId.toString()).emit('call:incoming', {
         callerId: userId,
         callerInfo,
         type,
@@ -341,38 +350,47 @@ const initSocket = (server) => {
     });
 
     socket.on('call:offer', ({ recipientId, offer }) => {
-      io.emit('call:offer:global', {
+      emitToUser(recipientId, 'call:offer:global', {
         recipientId: recipientId.toString(),
-        callerId: userId,
-        offer
-      });
-      socket.to(recipientId.toString()).emit('call:offer', {
         callerId: userId,
         offer
       });
     });
 
     socket.on('call:answer', ({ callerId, answer }) => {
-      io.emit('call:answer:global', {
+      activeCalls.add(userId);
+      activeCalls.add(callerId.toString());
+      emitToUser(callerId, 'call:answer:global', {
         recipientId: callerId.toString(),
         answer
       });
-      socket.to(callerId.toString()).emit('call:answer', { answer });
     });
 
     socket.on('call:ice-candidate', ({ recipientId, candidate }) => {
-      io.emit('call:ice-candidate:global', {
+      emitToUser(recipientId, 'call:ice-candidate:global', {
         recipientId: recipientId.toString(),
         candidate
       });
-      socket.to(recipientId.toString()).emit('call:ice-candidate', { candidate });
     });
 
     socket.on('call:end', ({ recipientId }) => {
-      io.emit('call:ended:global', {
-        recipientId: recipientId.toString()
-      });
-      socket.to(recipientId.toString()).emit('call:ended');
+      activeCalls.delete(userId);
+      if (recipientId) activeCalls.delete(recipientId.toString());
+      if (recipientId) {
+        emitToUser(recipientId, 'call:ended:global', {
+          recipientId: recipientId.toString()
+        });
+      }
+    });
+
+    socket.on('call:reject', ({ callerId }) => {
+      activeCalls.delete(userId);
+      if (callerId) activeCalls.delete(callerId.toString());
+      if (callerId) {
+        emitToUser(callerId, 'call:reject:global', {
+          rejectedBy: userId
+        });
+      }
     });
 
     socket.on('disconnect', () => {
@@ -384,6 +402,7 @@ const initSocket = (server) => {
           io.emit('user:offline', userId);
         }
       }
+      activeCalls.delete(userId);
       console.log(`User disconnected: ${userId}`);
     });
   });
@@ -398,4 +417,4 @@ const getIO = () => {
   return io;
 };
 
-module.exports = { initSocket, getIO };
+module.exports = { initSocket, getIO, userSockets };

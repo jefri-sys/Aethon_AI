@@ -388,9 +388,10 @@ const login = async (req, res) => {
       user: buildUserResponse(user),
     });
   } catch (error) {
+    console.error('Login error:', error);
     return res.status(500).json({
       success: false,
-      message: 'Login failed',
+      message: 'Login failed: ' + error.message,
     });
   }
 };

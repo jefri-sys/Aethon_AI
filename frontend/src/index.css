@@ -141,6 +141,13 @@
 
   #root {
     min-height: 100vh;
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+
+  @media (min-width: 640px) {
+    #root {
+      padding-bottom: 0;
+    }
   }
 
   /* Thin discrete scrollbar for WebKit */

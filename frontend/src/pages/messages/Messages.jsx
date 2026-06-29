@@ -7,6 +7,11 @@ import { useAuth } from '../../hooks/useAuth.js';
 import api from '../../services/api.js';
 import { io } from 'socket.io-client';
 import doodleBg from '../../../images/chatapplication doodle.png';
+import { usePullToRefresh } from '../../hooks/usePullToRefresh.js';
+import PullToRefreshIndicator from '../../components/mobile/PullToRefreshIndicator.jsx';
+import { useRef } from 'react';
+import useMobileView from '../../hooks/useMobileView.js';
+import MobileMessages from '../../components/mobile/pages/MobileMessages.jsx';
 
 function Messages({ isPopupMode }) {
   const { user } = useAuth();
@@ -14,11 +19,13 @@ function Messages({ isPopupMode }) {
   const [activeConversation, setActiveConversation] = useState(null);
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
-  
+
   const [friends, setFriends] = useState([]);
   const [requests, setRequests] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     if (user) {
@@ -49,9 +56,10 @@ function Messages({ isPopupMode }) {
     try {
       await api.post(`/conversations/${convId}/read`);
       // Update local unreadCount
-      setConversations(prev => prev.map(c => 
+      setConversations(prev => prev.map(c =>
         c._id === convId ? { ...c, unreadCount: 0 } : c
       ));
+      window.dispatchEvent(new CustomEvent('synapse:messages-read'));
     } catch (err) { console.error('Error marking as read', err); }
   };
 
@@ -129,18 +137,21 @@ function Messages({ isPopupMode }) {
     }
   };
 
+  const { isPulling, pullProgress, isRefreshing } = usePullToRefresh(fetchConversations, scrollRef);
+
+
   useEffect(() => {
     if (!socket) return;
-    
+
     const handleNewMessage = (msg) => {
       // If message belongs to active conversation, mark as read immediately
       if (activeConversation && msg.conversationId === activeConversation._id) {
         markAsRead(activeConversation._id);
       } else {
         // Increment unread count for the conversation
-        setConversations(prev => prev.map(c => 
-          c._id === msg.conversationId 
-            ? { ...c, unreadCount: (c.unreadCount || 0) + 1, lastMessage: msg, updatedAt: new Date() } 
+        setConversations(prev => prev.map(c =>
+          c._id === msg.conversationId
+            ? { ...c, unreadCount: (c.unreadCount || 0) + 1, lastMessage: msg, updatedAt: new Date() }
             : c
         ));
       }
@@ -158,16 +169,20 @@ function Messages({ isPopupMode }) {
   };
 
   const centerContent = activeConversation ? (
-    <ChatWindow 
+    <ChatWindow
       conversation={activeConversation}
       initialMessages={messages}
       socket={socket}
       currentUserId={user?._id || user?.id}
       currentUser={user}
+      onBack={() => {
+        const sidebarToggle = document.querySelector('.md\\:hidden button');
+        if (sidebarToggle) sidebarToggle.click();
+      }}
     />
   ) : (
     <div className="flex-1 flex flex-col items-center justify-center text-text-tertiary bg-surface-base p-8 text-center relative overflow-hidden">
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none z-0 opacity-[0.15] dark:opacity-[0.08]"
         style={{
           backgroundImage: `url('${doodleBg}')`,
@@ -187,9 +202,34 @@ function Messages({ isPopupMode }) {
     </div>
   );
 
+  const isMobile = useMobileView();
+
+  if (isMobile) {
+    return (
+      <MobileMessages
+        user={user}
+        conversations={conversations}
+        activeConversation={activeConversation}
+        setActiveConversation={setActiveConversation}
+        messages={messages}
+        socket={socket}
+        friends={friends}
+        requests={requests}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchResults={searchResults}
+        onAddFriend={handleAddFriend}
+        onAcceptFriend={handleAccept}
+        onRejectFriend={handleReject}
+        onUnfriend={handleUnfriend}
+        onStartDM={handleStartDM}
+      />
+    );
+  }
+
   const content = (
     <Card className="h-[calc(100vh-2.5rem)] sm:h-[calc(100vh-4rem)] p-0 overflow-hidden shadow-sm border-surface-border flex flex-col">
-      <MessagingLayout 
+      <MessagingLayout
         conversations={conversations}
         activeConversationId={activeConversation?._id}
         onSelectConversation={setActiveConversation}
@@ -205,6 +245,7 @@ function Messages({ isPopupMode }) {
         onStartDM={handleStartDM}
         currentUserId={user?._id || user?.id}
         centerContent={centerContent}
+        leftPanelScrollRef={scrollRef}
       />
     </Card>
   );
@@ -215,6 +256,7 @@ function Messages({ isPopupMode }) {
 
   return (
     <ProtectedPage>
+      <PullToRefreshIndicator isPulling={isPulling} pullProgress={pullProgress} isRefreshing={isRefreshing} />
       {content}
     </ProtectedPage>
   );

@@ -16,19 +16,27 @@ const useVoiceCall = (socket, currentUserId) => {
   const pendingOfferRef = useRef(null);
   const pendingCandidatesRef = useRef([]);
   const [remoteStream, setRemoteStream] = useState(null);
+  
+  const timeoutRef = useRef(null);
+  const stateRef = useRef({ activeConvId, isCaller, callType, callStatus, remoteUserId });
+  
+  useEffect(() => {
+    stateRef.current = { activeConvId, isCaller, callType, callStatus, remoteUserId };
+  });
 
   useEffect(() => {
     if (!socket) return;
 
     const handleIncoming = (data) => {
       if (String(data.recipientId) !== String(currentUserId)) return;
-      const { callerId, callerInfo, type } = data;
-      if (callStatus !== 'idle') return; 
+      const { callerId, callerInfo, type, conversationId } = data;
+      if (stateRef.current.callStatus !== 'idle') return; 
       setCallStatus('receiving');
       setRemoteUserId(callerId);
       setCallerInfo(callerInfo);
       setCallType(type || 'voice');
       setMicError(false);
+      setActiveConvId(conversationId);
     };
 
     const handleOffer = async (data) => {
@@ -46,9 +54,18 @@ const useVoiceCall = (socket, currentUserId) => {
     const handleAnswer = async (data) => {
       if (String(data.recipientId) !== String(currentUserId)) return;
       const { answer } = data;
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
       if (peerRef.current) {
         try {
           await peerRef.current.setRemoteDescription(new RTCSessionDescription(answer));
+          for (const candidate of pendingCandidatesRef.current) {
+            try {
+              await peerRef.current.addIceCandidate(new RTCIceCandidate(candidate));
+            } catch (e) {
+              console.error('Error adding delayed ICE candidate (caller)', e);
+            }
+          }
+          pendingCandidatesRef.current = [];
         } catch (e) { console.error('Error setting remote desc (answer)', e); }
       }
     };
@@ -56,7 +73,7 @@ const useVoiceCall = (socket, currentUserId) => {
     const handleIceCandidate = async (data) => {
       if (String(data.recipientId) !== String(currentUserId)) return;
       const { candidate } = data;
-      if (peerRef.current) {
+      if (peerRef.current && peerRef.current.remoteDescription !== null) {
         try {
           await peerRef.current.addIceCandidate(new RTCIceCandidate(candidate));
         } catch (e) {
@@ -69,8 +86,24 @@ const useVoiceCall = (socket, currentUserId) => {
 
     const handleEnded = (data) => {
       if (String(data.recipientId) !== String(currentUserId)) return;
-      logCallHistory(activeConvId, isCaller, callType, callStatus);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      const s = stateRef.current;
+      logCallHistory(s.activeConvId, s.isCaller, s.callType, s.callStatus);
       cleanup();
+    };
+
+    const handleReject = (data) => {
+      if (String(data.rejectedBy) !== String(stateRef.current.remoteUserId)) return;
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      cleanup();
+      setCallStatus('rejected');
+    };
+
+    const handleBusy = (data) => {
+      if (String(data.recipientId) !== String(currentUserId)) return;
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      cleanup();
+      setCallStatus('rejected');
     };
 
     socket.on('call:incoming:global', handleIncoming);
@@ -78,15 +111,20 @@ const useVoiceCall = (socket, currentUserId) => {
     socket.on('call:answer:global', handleAnswer);
     socket.on('call:ice-candidate:global', handleIceCandidate);
     socket.on('call:ended:global', handleEnded);
+    socket.on('call:reject:global', handleReject);
+    socket.on('call:busy:global', handleBusy);
 
     return () => {
+      cleanup();
       socket.off('call:incoming:global', handleIncoming);
       socket.off('call:offer:global', handleOffer);
       socket.off('call:answer:global', handleAnswer);
       socket.off('call:ice-candidate:global', handleIceCandidate);
       socket.off('call:ended:global', handleEnded);
+      socket.off('call:reject:global', handleReject);
+      socket.off('call:busy:global', handleBusy);
     };
-  }, [socket, callStatus]);
+  }, [socket, currentUserId]);
 
   const fetchTurnCredentials = async () => {
     try {
@@ -111,9 +149,6 @@ const useVoiceCall = (socket, currentUserId) => {
       setCallStatus('connected');
       if (event.streams && event.streams[0]) {
         setRemoteStream(event.streams[0]);
-        if (mediaRef.current) {
-          mediaRef.current.srcObject = event.streams[0];
-        }
       }
     };
 
@@ -141,6 +176,15 @@ const useVoiceCall = (socket, currentUserId) => {
 
       // We send OUR callerData to the recipient
       socket.emit('call:initiate', { recipientId, callerInfo: callerData, type, conversationId });
+
+      timeoutRef.current = setTimeout(() => {
+        if (stateRef.current.callStatus === 'calling' || stateRef.current.callStatus === 'idle') {
+          socket.emit('call:end', { recipientId });
+          logCallHistory(conversationId, true, type, 'missed');
+          cleanup();
+          setCallStatus('timeout');
+        }
+      }, 30000);
 
       const pc = createPeerConnection(turnConfig, recipientId);
       peerRef.current = pc;
@@ -203,8 +247,15 @@ const useVoiceCall = (socket, currentUserId) => {
     cleanup();
   };
 
+  const rejectCall = () => {
+    if (socket && stateRef.current.remoteUserId) {
+      socket.emit('call:reject', { callerId: stateRef.current.remoteUserId });
+    }
+    cleanup();
+  };
+
   const logCallHistory = async (convId, callerFlag, typeVal, statusVal) => {
-    if (callerFlag && convId) {
+    if (convId) {
       try {
         await api.post(`/conversations/${convId}/messages`, {
           content: statusVal === 'connected' ? `${typeVal === 'video' ? '📹 Video' : '📞 Voice'} Call ended` : `Missed ${typeVal === 'video' ? '📹 Video' : '📞 Voice'} Call`,
@@ -225,6 +276,10 @@ const useVoiceCall = (socket, currentUserId) => {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
     }
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     setCallStatus('idle');
     setRemoteUserId(null);
     setCallerInfo(null);
@@ -243,6 +298,7 @@ const useVoiceCall = (socket, currentUserId) => {
     initiateCall,
     acceptCall,
     endCall,
+    rejectCall,
     mediaRef,
     micError,
     streamRef,

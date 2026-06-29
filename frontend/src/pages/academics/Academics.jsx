@@ -4,6 +4,8 @@ import api from '../../services/api';
 import SemesterList from './SemesterList.jsx';
 import SemesterWorkspace from './SemesterWorkspace.jsx';
 import MigrationModal from './MigrationModal.jsx';
+import useMobileView from '../../hooks/useMobileView.js';
+import MobileAcademics from '../../components/mobile/pages/MobileAcademics.jsx';
 
 function Academics() {
   const [activeSemesterId, setActiveSemesterId] = useState(null);
@@ -29,6 +31,17 @@ function Academics() {
   useEffect(() => {
     checkMigration();
   }, []);
+
+  const isMobile = useMobileView();
+
+  if (isMobile) {
+    return (
+      <MobileAcademics 
+        activeSemesterId={activeSemesterId}
+        setActiveSemesterId={setActiveSemesterId}
+      />
+    );
+  }
 
   if (loading) {
     return (

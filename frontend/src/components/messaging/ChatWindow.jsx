@@ -4,8 +4,9 @@ import ChatInput from './ChatInput';
 import { Button } from '../ui/button';
 import api from '../../services/api';
 import doodleBg from '../../../images/chatapplication doodle.png';
+import { ArrowLeft } from 'lucide-react';
 
-const ChatWindow = ({ conversation, initialMessages, socket, currentUserId, currentUser }) => {
+const ChatWindow = ({ conversation, initialMessages, socket, currentUserId, currentUser, onBack }) => {
   const [messages, setMessages] = useState(initialMessages || []);
   const [typingUsers, setTypingUsers] = useState(new Set());
   const [replyTo, setReplyTo] = useState(null);
@@ -324,7 +325,18 @@ const ChatWindow = ({ conversation, initialMessages, socket, currentUserId, curr
       <div className="flex flex-col flex-grow h-full min-w-0 relative z-10">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-white/70 dark:bg-black/70 backdrop-blur-xl border-b border-surface-border z-30 shrink-0 shadow-sm cursor-pointer hover:bg-surface-sunken transition-colors" onClick={() => setShowProfile(!showProfile)}>
-          <div className="flex items-center">
+          <div className="flex items-center min-w-0">
+            {onBack && (
+              <button 
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  onBack(); 
+                }} 
+                className="mr-3 p-2 -ml-2 bg-surface-sunken hover:bg-surface-raised rounded-full md:hidden text-text-secondary shrink-0"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+            )}
             <img src={getConvAvatar()} alt="" className="w-10 h-10 rounded-full object-cover object-center shrink-0 border border-surface-border" />
             <div className="ml-3 min-w-0">
               <h2 className="text-sm font-bold text-text-primary truncate">{getConvName()}</h2>

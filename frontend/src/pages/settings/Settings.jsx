@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   User, Lock, Bell, Moon, Sun, 
   AlertTriangle, Upload, Trash2, Edit2, Save, X, ArrowLeft, Sparkles, Monitor, Smartphone
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth.js';
 import AIPersonalizationSettings from './AIPersonalizationSettings';
+import PushNotificationSettings from '../../components/settings/PushNotificationSettings';
 import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
@@ -19,7 +20,8 @@ const Settings = () => {
   const navigate = useNavigate();
   const { user, updateUser } = useAuth();
   
-  const [activeTab, setActiveTab] = useState('profile');
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState(location.state?.activeTab || 'profile');
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -188,7 +190,7 @@ const Settings = () => {
 
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar Tabs */}
-          <div className="w-full md:w-64 flex-shrink-0">
+          <div className="hidden md:block w-full md:w-64 flex-shrink-0">
             <Card className="p-0 rounded-xl shadow-sm overflow-hidden flex flex-col">
               {tabs.map(tab => (
                 <button
@@ -324,6 +326,7 @@ const Settings = () => {
                     </div>
                   ))}
                 </div>
+                <PushNotificationSettings />
               </div>
             )}
 

@@ -138,8 +138,35 @@ const getUnreadCount = async (req, res) => {
   }
 };
 
+const getUnreadMessagesCount = async (req, res) => {
+  try {
+    const userId = req.user.id || req.user._id;
+
+    const convos = await Conversation.find({ participants: userId }).select('_id');
+    const convoIds = convos.map(c => c._id);
+    const unreadDMs = await Message.countDocuments({
+      conversationId: { $in: convoIds },
+      senderId: { $ne: userId },
+      seenBy: { $ne: userId }
+    });
+
+    const groups = await StudyGroup.find({ 'members.userId': userId }).select('_id');
+    const groupIds = groups.map(g => g._id);
+    const unreadGroups = await GroupMessage.countDocuments({
+      groupId: { $in: groupIds },
+      senderId: { $ne: userId },
+      readBy: { $ne: userId }
+    });
+
+    res.json({ count: unreadDMs + unreadGroups });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   updateProfile,
   searchUsers,
-  getUnreadCount
+  getUnreadCount,
+  getUnreadMessagesCount
 };

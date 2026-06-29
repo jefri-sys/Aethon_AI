@@ -15,6 +15,8 @@ import { Plus, X, Trash, BookOpen, Clock, Gift, GraduationCap, User, AlertCircle
 import { Button } from "../../components/ui/button.jsx";
 import { Card } from "../../components/ui/card.jsx";
 import { Input } from "../../components/ui/input.jsx";
+import useMobileView from "../../hooks/useMobileView.js";
+import MobileCalendar from "../../components/mobile/pages/MobileCalendar.jsx";
 
 const localizer = dateFnsLocalizer({
   format,
@@ -207,6 +209,11 @@ function Calendar() {
     if (source === "planner") return "From Study Planner";
     return "Custom Event";
   };
+
+  const isMobile = useMobileView();
+  if (isMobile) {
+    return <MobileCalendar />;
+  }
 
   return (
     <ProtectedPage>

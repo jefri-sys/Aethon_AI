@@ -268,7 +268,7 @@ export default function NotebookView() {
 
   return (
     <ProtectedPage>
-      <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-100px)]">
+      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[calc(100vh-100px)]">
         
         {/* LEFT PANEL */}
         <div className="w-full lg:w-1/3 flex flex-col gap-6">
@@ -340,7 +340,7 @@ export default function NotebookView() {
         </div>
 
         {/* RIGHT PANEL - TABS & CONTENT */}
-        <div className="w-full lg:w-2/3 flex flex-col bg-surface-raised rounded-2xl border border-surface-border shadow-sm overflow-hidden h-full">
+        <div className="w-full lg:w-2/3 flex flex-col bg-surface-raised rounded-2xl border border-surface-border shadow-sm overflow-hidden h-[600px] lg:h-full">
           <div className="flex items-center border-b border-surface-border px-4 pt-2 bg-surface-base">
             <button
               onClick={() => setActiveTab('chat')}

@@ -36,8 +36,28 @@ import NotificationsList from './pages/notifications/NotificationsList.jsx';
 import ChatWidget from './components/ChatWidget.jsx';
 import CallOverlay from './components/messaging/CallOverlay.jsx';
 import SmartSidebar from './components/SmartSidebar.jsx';
+import InstallPrompt from './components/pwa/InstallPrompt.jsx';
+import OfflineBanner from './components/pwa/OfflineBanner.jsx';
+import UpdateAvailableToast from './components/pwa/UpdateAvailableToast.jsx';
+import BottomNavBar from './components/mobile/BottomNavBar.jsx';
+import AppSplash from './components/mobile/AppSplash.jsx';
 
 import Landing from './pages/landing/Landing.jsx';
+
+// Mobile PWA Routes
+import MobileProfile from './components/mobile/pages/MobileProfile.jsx';
+import MobileNotifications from './components/mobile/pages/MobileNotifications.jsx';
+import MobileNotes from './components/mobile/pages/MobileNotes.jsx';
+import MobileNotebook from './components/mobile/pages/MobileNotebook.jsx';
+import MobileFinance from './components/mobile/pages/MobileFinance.jsx';
+import MobileHabits from './components/mobile/pages/MobileHabits.jsx';
+import MobileCareerVault from './components/mobile/pages/MobileCareerVault.jsx';
+import MobileResourceExplorer from './components/mobile/pages/MobileResourceExplorer.jsx';
+import MobileSettings from './components/mobile/pages/MobileSettings.jsx';
+import MobileSubjectDetail from './components/mobile/pages/MobileSubjectDetail.jsx';
+import MobileAIChat from './components/mobile/pages/MobileAIChat.jsx';
+import MobileAIPersonalization from './components/mobile/pages/MobileAIPersonalization.jsx';
+
 
 class ErrorBoundary extends React.Component {
   constructor(props) { super(props); this.state = { hasError: false, error: null }; }
@@ -226,19 +246,43 @@ function AppContent() {
           }
         />
 
+        {/* Mobile Dedicated Routes */}
+        <Route path="/profile" element={<ProtectedRoute><MobileProfile /></ProtectedRoute>} />
+        <Route path="/notes-mobile" element={<ProtectedRoute><MobileNotes /></ProtectedRoute>} />
+        <Route path="/ai-settings-mobile" element={<ProtectedRoute><MobileAIPersonalization /></ProtectedRoute>} />
+        <Route path="/notifications-mobile" element={<ProtectedRoute><MobileNotifications /></ProtectedRoute>} />
+        <Route path="/notebook-mobile" element={<ProtectedRoute><MobileNotebook /></ProtectedRoute>} />
+        <Route path="/finance-mobile" element={<ProtectedRoute><MobileFinance /></ProtectedRoute>} />
+        <Route path="/habits-mobile" element={<ProtectedRoute><MobileHabits /></ProtectedRoute>} />
+        <Route path="/career-mobile" element={<ProtectedRoute><MobileCareerVault /></ProtectedRoute>} />
+        <Route path="/resources-mobile" element={<ProtectedRoute><MobileResourceExplorer /></ProtectedRoute>} />
+        <Route path="/settings-mobile" element={<ProtectedRoute><MobileSettings /></ProtectedRoute>} />
+        <Route path="/ai-mobile" element={<ProtectedRoute><MobileAIChat /></ProtectedRoute>} />
+        <Route path="/academics/subjects/:id" element={<ProtectedRoute><MobileSubjectDetail /></ProtectedRoute>} />
+
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       
       {showWidgets && (
         <>
-          <SmartSidebar />
+          <div className="hidden sm:block">
+            <SmartSidebar />
+          </div>
           <ChatWidget />
         </>
       )}
+      {user && <BottomNavBar />}
       <CallOverlay />
+      <AppSplash />
+      <InstallPrompt />
+      <OfflineBanner />
+      <UpdateAvailableToast />
     </>
   );
 }
+
+
 
 function App() {
   return (

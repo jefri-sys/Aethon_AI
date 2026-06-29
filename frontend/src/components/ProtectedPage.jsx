@@ -55,7 +55,7 @@ function ProtectedPage({ title, description, headerAction, children }) {
       <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col md:flex-row">
         
         {/* Arc/Linear-inspired Sidebar */}
-        <aside className="border-b border-black/[0.06] dark:border-white/10 bg-[#F7F7F7] dark:bg-[#1A1A1A] p-4 md:w-[260px] md:border-b-0 md:border-r flex flex-col shrink-0 transition-colors">
+        <aside className="border-b border-black/[0.06] dark:border-white/10 bg-[#F7F7F7] dark:bg-[#1A1A1A] p-4 md:w-[260px] md:border-b-0 md:border-r hidden md:flex flex-col shrink-0 transition-colors">
           <Link to="/settings" className="mb-7 px-2 py-2 flex items-center gap-3 group hover:bg-black/[0.04] dark:hover:bg-white/5 rounded-xl transition-colors cursor-pointer">
             {user?.avatar ? (
               <img src={user.avatar} alt="Avatar" className="w-9 h-9 rounded-lg object-cover shadow-sm border border-black/10 dark:border-white/10 shrink-0" />

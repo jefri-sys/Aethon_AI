@@ -8,7 +8,8 @@ const {
   resetData,
   deleteAccount, 
   searchUsers,
-  getUnreadCount
+  getUnreadCount,
+  getUnreadMessagesCount
 } = require('../controllers/usersController');
 const { verifyToken } = require('../middleware/auth');
 
@@ -17,6 +18,7 @@ const router = express.Router();
 router.get('/search', verifyToken, searchUsers);
 router.get('/profile', verifyToken, getProfile);
 router.get('/unread-count', verifyToken, getUnreadCount);
+router.get('/unread-messages-count', verifyToken, getUnreadMessagesCount);
 router.patch('/profile', verifyToken, updateProfile);
 router.patch('/password', verifyToken, updatePassword);
 router.patch('/budget', verifyToken, updateBudget);

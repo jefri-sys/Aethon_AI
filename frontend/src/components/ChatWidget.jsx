@@ -3,6 +3,7 @@ import { Brain, X, Send, RotateCcw, Sparkles } from 'lucide-react';
 import { motion, useDragControls, AnimatePresence } from 'framer-motion';
 import { Button } from './ui/button';
 import api from '../services/api';
+import useMobileView from '../hooks/useMobileView.js';
 
 const QUICK_PROMPTS = [
   "How am I doing?",
@@ -14,13 +15,21 @@ const QUICK_PROMPTS = [
 const DEFAULT_DIMENSIONS = { width: 380, height: 600 };
 
 function ChatWidget() {
+  const isMobile = useMobileView();
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [dimensions, setDimensions] = useState(DEFAULT_DIMENSIONS);
   const dragControls = useDragControls();
-  const [conversationHistory, setConversationHistory] = useState([]);
+  const [conversationHistory, setConversationHistory] = useState(() => {
+    const saved = localStorage.getItem('synapse_chat_history');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem('synapse_chat_history', JSON.stringify(conversationHistory));
+  }, [conversationHistory]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -117,7 +126,8 @@ function ChatWidget() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="fixed right-8 bottom-8 z-[100]"
+            className={`fixed z-[100] ${!isMobile ? 'right-8 bottom-8' : ''}`}
+            style={isMobile ? { bottom: 'calc(80px + env(safe-area-inset-bottom) + 16px)', right: '16px' } : undefined}
           >
             <Button
               variant="primary"
@@ -147,8 +157,12 @@ function ChatWidget() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            style={{ width: dimensions.width, height: dimensions.height }}
-            className="fixed right-6 bottom-6 z-50 bg-[#FDFBFB] dark:bg-[#1E1E1E] rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-[#E8E8E8] dark:border-white/10 flex flex-col origin-bottom-right overflow-hidden"
+            style={{ 
+              width: isMobile ? 'calc(100vw - 32px)' : dimensions.width, 
+              height: isMobile ? '60vh' : dimensions.height,
+              ...(isMobile ? { bottom: 'calc(80px + env(safe-area-inset-bottom) + 16px)', right: '16px' } : {})
+            }}
+            className={`fixed z-50 bg-[#FDFBFB] dark:bg-[#1E1E1E] rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-[#E8E8E8] dark:border-white/10 flex flex-col origin-bottom-right overflow-hidden ${!isMobile ? 'right-6 bottom-6' : ''}`}
           >
             {/* Left Edge Resize Handle */}
             <div 

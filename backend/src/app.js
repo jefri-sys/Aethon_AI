@@ -26,6 +26,7 @@ const resourcesRoutes = require('./routes/resources');
 const customPdfPlanRoutes = require('./routes/customPdfPlan');
 const settingsRoutes = require('./routes/settings');
 const careerVaultRoutes = require('./routes/careerVaultRoutes');
+const pushRoutes = require('./routes/push');
 
 const app = express();
 
@@ -34,8 +35,30 @@ app.use(helmet({
   contentSecurityPolicy: false,
   crossOriginResourcePolicy: false
 }));
+const configuredOrigins = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
+  : ['http://localhost:5173'];
+
+const localOrigins = [
+  'http://localhost:5173', 
+  'http://localhost:4173', 
+  'http://127.0.0.1:5173', 
+  'http://127.0.0.1:4173'
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    
+    const isProduction = process.env.NODE_ENV === 'production';
+    const allowedOrigins = isProduction ? configuredOrigins : [...configuredOrigins, ...localOrigins];
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(morgan('dev'));
@@ -69,6 +92,7 @@ app.use('/api/calls', callsRoutes);
 app.use('/api/resources', resourcesRoutes);
 app.use('/api/custom-pdf-plan', customPdfPlanRoutes);
 app.use('/api/career-vault', careerVaultRoutes);
+app.use('/api/push', pushRoutes);
 
 app.get('/health', (req, res) => {
   res.status(200).json({

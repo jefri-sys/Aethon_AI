@@ -15,6 +15,10 @@ import { AIAccent } from '../../components/ui/ai-accent.jsx';
 import { Card } from '../../components/ui/card.jsx';
 import { Badge } from '../../components/ui/badge.jsx';
 import NotificationBell from '../../components/NotificationBell.jsx';
+import { usePullToRefresh } from '../../hooks/usePullToRefresh.js';
+import PullToRefreshIndicator from '../../components/mobile/PullToRefreshIndicator.jsx';
+import useMobileView from '../../hooks/useMobileView.js';
+import MobileDashboard from '../../components/mobile/pages/MobileDashboard.jsx';
 
 function TodayDashboard() {
   const { user } = useAuth();
@@ -39,8 +43,7 @@ function TodayDashboard() {
     return "Good evening";
   };
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
+  const fetchDashboardData = async () => {
       try {
         api
           .get("/ai/briefing")
@@ -86,6 +89,7 @@ function TodayDashboard() {
           notifRes,
           allTasksRes,
           examsRes,
+          calendarEventsRes,
         ] = await Promise.allSettled([
           api.get("/tasks/today"),
           api.get("/academics/cgpa"),
@@ -96,6 +100,7 @@ function TodayDashboard() {
           activeSemId
             ? api.get(`/semesters/${activeSemId}/exams`)
             : Promise.resolve({ data: { success: true, exams: [] } }),
+          api.get("/calendar/events"),
         ]);
 
         const todayTasks =
@@ -126,6 +131,10 @@ function TodayDashboard() {
         const exams =
           examsRes.status === "fulfilled" && examsRes.value?.data?.success
             ? examsRes.value.data.exams
+            : [];
+        const customEvents =
+          calendarEventsRes.status === "fulfilled" && calendarEventsRes.value?.data?.success
+            ? calendarEventsRes.value.data.events
             : [];
 
         const now = new Date();
@@ -183,6 +192,27 @@ function TodayDashboard() {
           }
         });
 
+        customEvents
+          .filter(ce => ce.source === 'custom')
+          .forEach((ce) => {
+          if (ce.date) {
+            const d = new Date(ce.date);
+            const eventDate = new Date(
+              d.getFullYear(),
+              d.getMonth(),
+              d.getDate(),
+            );
+            if (eventDate >= startOfToday && eventDate <= next7Days) {
+              upcoming.push({
+                type: ce.category || "event",
+                title: ce.title,
+                date: eventDate,
+                id: ce._id || ce.id,
+              });
+            }
+          }
+        });
+
         upcoming.sort((a, b) => a.date - b.date);
 
         setData((prev) => ({
@@ -201,8 +231,11 @@ function TodayDashboard() {
       }
     };
 
+  useEffect(() => {
     fetchDashboardData();
   }, []);
+
+  const { isPulling, pullProgress, isRefreshing } = usePullToRefresh(fetchDashboardData);
 
   const toggleTaskStatus = async (taskId, currentStatus) => {
     try {
@@ -233,9 +266,24 @@ function TodayDashboard() {
   };
 
   const unreadCount = data.notifications.filter((n) => !n.read).length;
+  const isMobile = useMobileView();
+  
+  if (isMobile) {
+    return (
+      <MobileDashboard 
+        user={user}
+        data={data}
+        loading={loading}
+        briefingLoading={briefingLoading}
+        briefingLimitHit={briefingLimitHit}
+        toggleTaskStatus={toggleTaskStatus}
+      />
+    );
+  }
 
   return (
     <ProtectedPage>
+      <PullToRefreshIndicator isPulling={isPulling} pullProgress={pullProgress} isRefreshing={isRefreshing} />
       <div className="flex items-start justify-between mb-8 pb-4 border-b border-surface-border/50">
         <div>
           <h1 className="text-3xl font-bold text-text-primary font-display flex items-center gap-2 tracking-tight">

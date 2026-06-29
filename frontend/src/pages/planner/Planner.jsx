@@ -8,6 +8,8 @@ import {
 import FocusMode from './FocusMode.jsx';
 import CustomPdfPlanModal from '../../components/planner/CustomPdfPlanModal.jsx';
 import { useAuth } from '../../hooks/useAuth.js';
+import useMobileView from '../../hooks/useMobileView.js';
+import MobilePlanner from '../../components/mobile/pages/MobilePlanner.jsx';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 
@@ -295,7 +297,225 @@ function Planner() {
  }
  };
 
- return (
+
+
+  const isMobile = useMobileView();
+
+  const generateModal = showModal && (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <Card className="w-full max-w-lg p-6 max-h-[90vh] flex flex-col shadow-xl border-none">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-bold text-text-primary">Select Syllabus Documents</h3>
+          <button onClick={() => setShowModal(false)} className="text-text-tertiary hover:text-text-secondary transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        <p className="text-sm text-text-secondary mb-4">
+          Select the PDF files you have attached to your subjects in the Dashboard. The AI will use these to build an accurate, module-wise plan.
+        </p>
+
+        <div className="flex-1 overflow-y-auto min-h-0 mb-4 pr-1">
+          <div className="border border-surface-border rounded-xl p-3 bg-surface-raised min-h-[200px]">
+            {loadingSubjects ? (
+              <div className="flex justify-center items-center h-full min-h-[150px]"><Clock className="w-6 h-6 animate-spin text-brand-primary" /></div>
+            ) : subjects.length === 0 ? (
+              <div className="text-center text-text-secondary py-12 text-sm px-4">
+                No subjects found. Please create subjects in your Dashboard first.
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {subjects.map(subject => (
+                  <div key={subject._id} className="bg-surface-base border border-surface-border rounded-xl overflow-hidden shadow-sm">
+                    <button 
+                      onClick={() => handleSubjectClick(subject._id)}
+                      className="w-full flex items-center justify-between p-4 bg-surface-base hover:bg-surface-raised transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        {expandedSubject === subject._id ? <ChevronDown className="w-5 h-5 text-text-tertiary" /> : <ChevronRight className="w-5 h-5 text-text-tertiary" />}
+                        <span className="font-semibold text-text-primary">{subject.name}</span>
+                      </div>
+                      <span className="text-xs text-text-secondary bg-surface-raised px-2 py-1 rounded-md">{subject.code}</span>
+                    </button>
+                    
+                    {expandedSubject === subject._id && (
+                      <div className="border-t border-surface-border bg-surface-raised p-4">
+                        {folderStack.length > 0 && (
+                          <button 
+                            onClick={handleBack}
+                            className="flex items-center gap-2 text-sm text-brand-primary hover:text-text-primary mb-4 font-medium"
+                          >
+                            <ArrowLeft className="w-4 h-4" /> Back to {folderStack[folderStack.length - 1].name || 'Root'}
+                          </button>
+                        )}
+                        
+                        {loadingContents ? (
+                          <div className="flex justify-center py-6"><Clock className="w-5 h-5 animate-spin text-brand-primary" /></div>
+                        ) : (
+                          <div className="space-y-2">
+                            {contents.folders?.length === 0 && contents.files?.length === 0 && (
+                              <div className="text-sm text-text-secondary py-4 text-center bg-surface-base rounded-lg border border-surface-border">This folder is empty.</div>
+                            )}
+                            
+                            {contents.folders?.map(folder => (
+                              <button 
+                                key={folder._id}
+                                onClick={() => handleFolderClick(folder._id, folder.name)}
+                                className="w-full flex items-center gap-3 p-3 bg-surface-base border border-surface-border rounded-lg hover:border-brand-primary-subtle hover:bg-brand-primary-subtle transition-all text-left"
+                              >
+                                <FolderIcon className="w-5 h-5 text-brand-primary fill-indigo-100" />
+                                <span className="text-sm font-medium text-text-primary">{folder.name}</span>
+                              </button>
+                            ))}
+
+                            {contents.files?.map(file => (
+                              <label key={file._id} className="flex items-start gap-3 p-3 bg-surface-base border border-surface-border rounded-lg hover:border-brand-primary-subtle hover:shadow-sm cursor-pointer transition-all">
+                                <input 
+                                  type="checkbox" 
+                                  className="mt-1 w-4 h-4 text-brand-primary rounded border-surface-border focus:ring-brand-primary cursor-pointer"
+                                  checked={selectedNotebookIds.includes(file._id)}
+                                  onChange={(e) => {
+                                    if (e.target.checked) {
+                                      setSelectedNotebookIds([...selectedNotebookIds, file._id]);
+                                    } else {
+                                      setSelectedNotebookIds(selectedNotebookIds.filter(id => id !== file._id));
+                                    }
+                                  }}
+                                />
+                                <FileText className="w-5 h-5 text-text-tertiary shrink-0 mt-0.5" />
+                                <div className="flex-1 min-w-0">
+                                  <div className="text-sm font-medium text-text-primary truncate">{file.originalName}</div>
+                                  <div className="text-xs text-text-secondary mt-0.5 uppercase">{(file.fileSize / 1024 / 1024).toFixed(2)} MB • {file.fileType.split('/')[1] || 'FILE'}</div>
+                                </div>
+                              </label>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {selectedNotebookIds.length > 0 && (
+            <div className="border border-surface-border rounded-xl p-4 bg-surface-base shadow-sm mt-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <h4 className="text-sm font-semibold text-text-primary mb-3">Planner Settings</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-text-primary mb-1">Daily Study Hours: {dailyHours}h</label>
+                  <input 
+                    type="range" 
+                    min="1" max="16" step="1"
+                    value={dailyHours} 
+                    onChange={(e) => setDailyHours(Number(e.target.value))}
+                    className="w-full accent-indigo-600"
+                  />
+                  <div className="flex justify-between text-xs text-text-tertiary px-1 mt-1">
+                    <span>1h</span><span>16h</span>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-text-primary mb-1.5">Rest Days (No Study)</label>
+                  <div className="flex flex-wrap gap-1.5">
+                    {weekDays.map(day => (
+                      <button
+                        key={day}
+                        onClick={() => toggleDayOff(day)}
+                        className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors border ${daysOff.includes(day) ? 'bg-brand-primary-subtle text-brand-primary border-brand-primary-subtle' : 'bg-surface-raised text-text-secondary border-surface-border hover:bg-surface-raised'}`}
+                      >
+                        {day}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-text-primary mb-1">Target Exam Date (Override)</label>
+                  <input 
+                    type="date" 
+                    value={targetDate}
+                    onChange={(e) => setTargetDate(e.target.value)}
+                    className="w-full text-sm border border-surface-border rounded-lg p-2 focus:ring-brand-primary focus:border-brand-primary bg-surface-raised"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-text-primary mb-1">Available Days (Override)</label>
+                  <input 
+                    type="number" 
+                    min="1"
+                    placeholder="e.g. 14"
+                    value={availableDays}
+                    onChange={(e) => setAvailableDays(e.target.value)}
+                    className="w-full text-sm border border-surface-border rounded-lg p-2 focus:ring-brand-primary focus:border-brand-primary bg-surface-raised"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-medium text-text-primary mb-1">Self Assessment (Optional)</label>
+                  <textarea 
+                    value={knowledgeText}
+                    onChange={(e) => setKnowledgeText(e.target.value)}
+                    placeholder="E.g., I find pointers in C++ very hard, but arrays are easy."
+                    className="w-full text-sm border border-surface-border rounded-lg p-2 focus:ring-brand-primary focus:border-brand-primary bg-surface-raised"
+                    rows="2"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="flex justify-end gap-3 pt-2 border-t border-surface-border">
+          <Button 
+            onClick={() => setShowModal(false)}
+            variant="outline"
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={generatePlan}
+            disabled={selectedNotebookIds.length === 0 || generating}
+            variant="primary"
+          >
+            Confirm & Generate
+          </Button>
+        </div>
+      </Card>
+    </div>
+  );
+
+  const pdfModal = (
+    <CustomPdfPlanModal 
+      open={customPlanOpen} 
+      onClose={() => setCustomPlanOpen(false)} 
+      onPlanCreated={() => {
+        fetchTasks();
+        fetchPlans();
+      }} 
+    />
+  );
+
+  if (isMobile) {
+    return (
+      <>
+        <MobilePlanner 
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tasks={tasks}
+          handleOpenModal={handleOpenModal}
+          setCustomPlanOpen={setCustomPlanOpen}
+          togglePin={togglePin}
+          coverTopic={coverTopic}
+          updateStatus={updateStatus}
+          deleteAllTasks={deleteAllTasks}
+        />
+        {generateModal}
+        {pdfModal}
+      </>
+    );
+  }
+
+  return (
  <ProtectedPage
  title="Planner"
  description="Plan study sessions, deadlines, routines, and weekly academic goals."
