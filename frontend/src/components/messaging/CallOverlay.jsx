@@ -152,7 +152,7 @@ const CallOverlayContent = ({ callStatus, callType, remoteUserId, callerInfo, ac
         ${callStatus === 'idle' ? 'scale-95 translate-y-4 opacity-0 pointer-events-none' : 'opacity-100 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] scale-100 translate-y-0'}
       `}>
  
- {callType === 'voice' && <audio ref={mediaRef} autoPlay className="hidden" />}
+ {callType === 'voice' && <audio ref={mediaRef} autoPlay playsInline className="hidden" />}
 
  {isVideoConnected && (
  <div className="relative w-full h-full bg-black">
