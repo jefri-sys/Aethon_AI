@@ -222,10 +222,15 @@ export default function MobileMessages({
       return;
     }
     const currentUserId = user?._id || user?.id;
-    const otherUser = activeConversation.participants?.find(p => String(p._id || p) !== String(currentUserId));
+    const currentConv = localConversations.find(c => String(c._id) === String(activeConversation._id)) || activeConversation;
+    const otherUser = currentConv.participants?.find(p => String(p._id || p) !== String(currentUserId));
     if (!otherUser) return;
 
     try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("Your device or browser doesn't support calls, or it requires a secure HTTPS connection.");
+        return;
+      }
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: type === 'video' });
       window.dispatchEvent(new CustomEvent('synapse:call', {
         detail: {
