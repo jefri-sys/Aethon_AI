@@ -12,6 +12,9 @@ import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
+
+const Settings = () => {
+  const navigate = useNavigate();
   const { user, updateUser } = useAuth();
   
   const location = useLocation();
