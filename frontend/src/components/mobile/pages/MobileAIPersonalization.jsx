@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ArrowLeft, Save, AlertTriangle, RotateCcw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com';
 
 const SCOPES = [
   { id: 'global', label: 'Global', helper: 'General style, tone, and language. Applies to all personal AI features.' },

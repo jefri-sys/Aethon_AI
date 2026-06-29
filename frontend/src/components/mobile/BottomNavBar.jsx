@@ -26,7 +26,7 @@ export default function BottomNavBar() {
   }, [location.pathname]);
 
   useEffect(() => {
-    const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000', {
+    const socket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
       withCredentials: true
     });
 

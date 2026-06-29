@@ -56,7 +56,7 @@ const sendEmail = async ({ to, subject, text, html }) => {
 };
 
 const sendVerificationEmail = async (user, rawToken) => {
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const frontendUrl = process.env.FRONTEND_URL || 'https://synapsecloud.vercel.app';
   const verificationLink = `${frontendUrl}/verify-email?token=${rawToken}`;
 
   await sendEmail({
@@ -73,7 +73,7 @@ const sendVerificationEmail = async (user, rawToken) => {
 };
 
 const sendResetPasswordEmail = async (user, rawToken) => {
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const frontendUrl = process.env.FRONTEND_URL || 'https://synapsecloud.vercel.app';
   const resetLink = `${frontendUrl}/reset-password?token=${rawToken}`;
 
   await sendEmail({

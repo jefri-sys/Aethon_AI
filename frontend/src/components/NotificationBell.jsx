@@ -15,7 +15,7 @@ const NotificationBell = () => {
  const fetchNotifications = async () => {
  try {
  // Assuming frontend proxy handles /api/ requests or axios interceptor sets base URL
- const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/notifications?limit=5`, {
+ const response = await axios.get(`${import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com'}/api/notifications?limit=5`, {
  withCredentials: true,
  });
  if (response.data.success) {
@@ -45,7 +45,7 @@ const NotificationBell = () => {
 
  const markAllAsRead = async () => {
  try {
- await axios.patch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/notifications/read-all`, {}, { withCredentials: true });
+ await axios.patch(`${import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com'}/api/notifications/read-all`, {}, { withCredentials: true });
  setUnreadCount(0);
  setNotifications(notifications.map(n => ({ ...n, read: true })));
  } catch (error) {

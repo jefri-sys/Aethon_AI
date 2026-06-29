@@ -79,7 +79,7 @@ const VoiceRecorder = ({ conversationId, replyTo, onUploadSuccess, uploadUrl }) 
       if (replyTo) formData.append('replyTo', replyTo);
 
       const token = localStorage.getItem('token') || '';
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const baseUrl = import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com';
       const endpoint = uploadUrl ? `${baseUrl}/api${uploadUrl}` : `${baseUrl}/api/conversations/${conversationId}/messages/media`;
 
       const response = await fetch(endpoint, {

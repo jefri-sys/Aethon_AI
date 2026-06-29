@@ -13,7 +13,7 @@ import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com';
 axios.defaults.withCredentials = true;
 
 const Settings = () => {

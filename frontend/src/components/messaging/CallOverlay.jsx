@@ -271,7 +271,7 @@ const CallOverlay = () => {
  useEffect(() => {
  if (user) {
  const token = localStorage.getItem('token');
- const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000', {
+ const newSocket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
  auth: { token },
  withCredentials: true
  });

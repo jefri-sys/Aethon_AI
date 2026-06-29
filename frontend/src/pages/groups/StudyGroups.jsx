@@ -78,7 +78,7 @@ const StudyGroups = () => {
     const token = localStorage.getItem('token');
     if (!token) return;
     
-    const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000', {
+    const socket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
       auth: { token },
       withCredentials: true
     });

@@ -4,7 +4,7 @@ import { ArrowLeft, User, Key, Bell, Palette, Sparkles, ChevronRight, LogOut, Al
 import { useAuth } from '../../../hooks/useAuth';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com';
 axios.defaults.withCredentials = true;
 
 export default function MobileSettings() {
