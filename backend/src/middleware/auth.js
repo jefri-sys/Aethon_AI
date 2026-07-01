@@ -4,7 +4,7 @@ const verifyToken = (req, res, next) => {
   const bearerToken = req.headers.authorization?.startsWith('Bearer ')
     ? req.headers.authorization.split(' ')[1]
     : null;
-  const token = req.cookies.token || bearerToken || req.query.token;
+  const token = bearerToken || req.query.token || req.cookies.token;
 
   if (!token) {
     return res.status(401).json({
