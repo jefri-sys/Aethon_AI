@@ -285,7 +285,7 @@ const Landing = () => {
         <div className="features-grid">
           <Card 
             icon={<BrainCircuit size={24} color="#38BDF8" />} 
-            title="AI Knowledge Engine" 
+            title="AI Notebook" 
             desc="Upload your documents and watch as Synapse instantly extracts key concepts, generates smart flashcards, and builds custom quizzes."
           />
           <Card 
