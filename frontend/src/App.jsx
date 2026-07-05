@@ -43,6 +43,7 @@ import BottomNavBar from './components/mobile/BottomNavBar.jsx';
 import AppSplash from './components/mobile/AppSplash.jsx';
 
 import Landing from './pages/landing/Landing.jsx';
+import ExplorePlatform from './pages/landing/ExplorePlatform.jsx';
 
 // Mobile PWA Routes
 import MobileProfile from './components/mobile/pages/MobileProfile.jsx';
@@ -87,6 +88,7 @@ function AppContent() {
     <>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/explore" element={<ExplorePlatform />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify-email" element={<VerifyEmail />} />

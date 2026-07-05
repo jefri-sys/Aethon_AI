@@ -1,0 +1,838 @@
+Synapse — AI-Powered Integrated Academic and Student 
+Management Platform  
+SYNAPSE  
+AI-Powered Integrated Academic and Student Management Platform  
+Complete Project Description — All Features  
+Next.js 14  |  MongoDB + Mongoose  |  Claude AI (Anthropic)  |  Socket.io  |  Full Stack  
+Project Overview  
+Synapse is a full -stack AI -powered web application built on Next.js 14 that serves as a 
+complete student life operating system for Indian college students — specifically those 
+pursuing MCA, BCA, B.Tech, and B.Com programs. It completely replaces the fragmented 
+ecosystem of 8 to 10 separate applications a typical college student uses today — Google 
+Calendar for scheduling, Excel for marks, random expense trackers, ChatGPT for studying, 
+and LinkedIn for placements — by bringing every essential academic and life management 
+function under one intelligent, interconnected platform.  
+The core identity of Synapse is simple: it is the student management app your college 
+should have built — smarter, more complete, and actually useful outside the classroom. 
+Where college -provided portals cover only marks and attendance, Synapse extends into 
+every dimension of student life: financial management, habit building, AI -powered study 
+assistance, collaborative study groups, and a central AI assistant that connects it all. The AI 
+layer does not exist as a gimmick — it earns its place by doing things that no individual app 
+can do alone, such as connecting marks data with study hours and habit patterns to identify 
+exactly what is hurting a student's CGPA.  
+Technology Stack  
+Stack Layer  Technology  
+Frontend  Next.js 14, React 18, Tailwind CSS, 
+Recharts, Lucide React  
+Backend  Next.js API Routes, Node.js 20 LTS  
+Database  MongoDB with Mongoose ORM (hosted on 
+MongoDB Atlas)  
+AI Claude API (Anthropic) — claude -sonnet -4-
+20250514 model  
+Authentication  JWT (JSON Web Tokens) + Bcryptjs 
+(password hashing)  
+Real -Time  Socket.io WebSockets for study group chat, 
+polling for notifications  
+File Processing  pdf-parse (PDF text extraction), Mammoth 
+(Word document extraction)  
+Email  Nodemailer with Gmail SMTP or Resend for 
+transactional emails  Scheduling  Node -cron for background jobs (recurring 
+expenses, weekly reports)  
+Deployment  Vercel (frontend + backend)  
+User Architecture  
+Synapse is built for a single primary user role — the College Student. Unlike multi -role 
+enterprise systems, the platform is entirely student -facing. Every feature is designed around 
+the perspective, needs, and daily routine of an individual student. The AI assistant acts as a 
+second layer that operates across all modules simultaneously, giving the student a unified 
+intelligence layer without requiring them to manually connect their own data across 
+features.  
+Capability  Available  
+Register with college, course, and semester 
+details  Yes 
+Track marks, CGPA, and attendance per 
+subject  Yes 
+Generate AI -powered day -by-day study 
+schedules  Yes 
+Upload notes and chat with AI grounded in 
+their content  Yes 
+Log and track expenses against a monthly 
+budget  Yes 
+Build and maintain daily habits with streak 
+tracking  Yes 
+Chat with study group members from the 
+same college  Yes 
+Receive a weekly AI -generated report card 
+every Sunday  Yes 
+Ask the central AI assistant questions about 
+their own data  Yes 
+Export monthly expense data as CSV  Yes 
+Feature Descriptions  
+1. Authentication with Email Verification  
+What it actually does:  
+When a student opens Synapse for the first time they see a login page. They click Register 
+and fill in their name, email, password, college name, course, and current semester. On 
+submission the account is created in the database with a verified status of false. A secure 
+random verification token is generated immediately and a verification email is dispatched 
+to the registered address via Nodemailer. The email contains a single -use verification link 
+that embeds the token as a URL param eter.  
+• Until the email is verified, the account exists but cannot access any feature. A persistent 
+banner on the dashboard shows the unverified state and provides a Resend Verification 
+Email button.  
+• When the student clicks the link, the backend validates the token against the stored hash. If it matches and has not expired, the verified field is set to true and the student is 
+redirected to the onboarding flow.  
+• Verification links expire after 24 hours. Requesting a new link invalidates the previous one 
+— only one valid token exists per account at any time.  
+• Forgot password flow sends a time -limited reset link to the student's email. Token valid 
+for 1 hour only. New password hashed with Bcryptjs before storage.  
+• Five consecutive wrong password attempts temporarily lock the account for 15 minutes.  
+• JWT token issued on successful login, stored in an httpOnly cookie to prevent XSS -based 
+token theft. Token expiry is 1 day standard, 30 days with Remember Me.  
+• Every protected route validates the JWT through middleware — expired, missing, or 
+tampered tokens return a 401 and redirect to login.  
+Why it matters:  
+Every feature in Synapse depends on knowing exactly who is logged in. Without verified 
+email, notification delivery breaks silently — a student who mistyped their email would 
+receive no study reminders, no budget warnings, and no weekly reports, with no indication 
+of why. Verification at registration catches this immediately before any data is entered.  
+2. Student Profile and Onboarding  
+What it actually does:  
+First -time users after email verification are guided through a structured onboarding flow 
+before reaching the main dashboard. Each step is optional but strongly encouraged. The 
+profile stores the foundational data that personalises every AI response and every 
+calculation in the system.  
+• Step 1 — Set target CGPA. This is used by the Academic Tracker to calculate how many 
+marks are needed in upcoming exams.  
+• Step 2 — Set monthly budget. This initialises the Finance Tracker with the student's total 
+spending limit.  
+• Step 3 — Add first subjects with credit hours and exam dates. This populates the 
+Academic Tracker and feeds the Study Planner's AI schedule generator.  
+• Step 4 — Create first three habits. Default suggestions include Sleep 7 hours, Study 4 
+hours, Drink 8 glasses of water.  
+• Profile stores name, email, college name, course, semester, year, target CGPA, monthly 
+budget, profile photo, and university type (which affects CGPA calculation formula).  
+• All profile fields are editable at any time from Settings.  
+Why it matters:  
+The onboarding flow exists because Synapse is only as useful as the data inside it. A student 
+who skips onboarding gets a generic dashboard. A student who completes it gets an AI 
+morning briefing that references their actual exam dates, a Finance Tracker initialised to 
+their real budget, and a Study Planner that already knows their subjects. The three -minute 
+onboarding unlocks the full value of the platform immediately.  3. Today Dashboard  
+What it actually does:  
+The Today Dashboard is the home screen — the first thing a student sees every time they 
+open Synapse. It is designed to answer one question in under 10 seconds: what do I need to 
+focus on today? Every element on this screen is dynamic and personalised to the specific 
+student's data.  
+• Personalised greeting with the student's name and time of day — Good morning, Good 
+afternoon, or Good evening.  
+• AI-generated morning briefing — appears once per day on first login. Generated by the 
+Central AI Assistant using the student's current marks, upcoming exam dates, budget 
+remaining, and habit completion history. Reads like a message from a personal advisor.  
+• Today's study tasks pulled from the Study Planner — what the AI schedule says the 
+student should be studying today.  
+• Upcoming deadlines panel — assignments, projects, and exams due in the next 7 days, 
+sorted by date.  
+• Quick stats row — current CGPA, budget remaining this month, current habit streak, and 
+days until next exam.  
+• Quick action buttons — Add Mark, Log Expense, Add Task — allowing the student to 
+update any module in one tap without navigating away from the dashboard.  
+• Recent notifications — last 3 unread notifications shown inline.  
+Why it matters:  
+The Today Dashboard is the most important screen in the product. If it feels useful and 
+relevant every single day, the student returns. If it feels empty or generic, they uninstall 
+within a week. Because it pulls live data from every module — academics, finance, habits, 
+planner — it becomes more valuable the more the student uses Synapse, creating a 
+compounding engagement loop.  
+4. Academic Tracker  
+What it actually does:  
+The Academic Tracker is the replacement for the college -provided marks portal — rebuilt 
+to be accurate, visual, and actually useful. Students add their subjects, enter marks as they 
+receive them throughout the semester, and the system calculates their academic standing 
+automatically.  
+• Add subjects with name, credit hours, and exam date. Subjects feed the Study Planner's AI 
+schedule and the CGPA calculator.  
+• Enter marks for each subject across four exam types — Internal, Assignment, Practical, 
+and Final. Each entry records the marks scored out of maximum marks.  
+• Grade per subject auto -calculated based on the university grading formula selected during 
+profile setup.  
+• Overall CGPA calculated automatically from all subjects using their credit weights. Updates 
+in real time as new marks are entered.  
+• Attendance tracking per subject — mark Present or Absent for each class. Attendance 
+percentage calculated continuously. Warning displayed prominently when any subject drops below 75%.  
+• Color -coded performance indicators — red for scores below 40 percent, yellow for 40 to 
+60 percent, green for above 60 percent.  
+• Subject -wise performance chart showing marks trend across exam types using Recharts.  
+• Semester history view — past semester CGPA and subject -wise grades stored and 
+accessible for reference.  
+Why it matters:  
+CGPA calculation is something every Indian college student obsesses over throughout the 
+semester, currently doing it manually in Excel or on paper after every internal exam. 
+Attendance warnings at 75 percent are the difference between a student being allowed to 
+sit their final exam and being debarred. The Academic Tracker makes both of these 
+automatic, accurate, and visible at a glance.  
+5. CGPA What -If Calculator  
+What it actually does:  
+A dedicated interactive tool that answers the single most common question every college 
+student has before final exams: if I score X marks in my finals, what will my CGPA be? The 
+calculator uses the student's current internal, assignment, and practical marks and projects 
+the final CGPA based on a hypothetical final exam score.  
+• Student selects a subject and moves a slider to set a hypothetical final exam score.  
+• CGPA recalculates instantly and updates on screen — no page reload required.  
+• Works across multiple subjects simultaneously — student can adjust sliders for all their 
+finals and see the cumulative CGPA impact.  
+• Also shows the minimum marks needed in finals to achieve the target CGPA set during 
+profile setup.  
+• No AI involved — pure mathematical calculation using the university formula. Fast, 
+accurate, reliable.  
+Why it matters:  
+No other student app in India provides this as an interactive visual tool. Students currently 
+calculate this manually — a process that involves finding the grading formula, multiplying 
+credits, summing grade points, and dividing by total credits — for every possible score 
+scenario. The What -If Calculator eliminates all of that. It is the feature most likely to be 
+shared between students.  
+6. AI Explains My Marks  
+What it actually does:  
+A uniquely powerful feature that connects the student's marks data with AI analysis to 
+produce specific, actionable academic advice. The student triggers this from the Academic 
+Tracker and the AI analyses their complete marks profile — not just the numbers, but the 
+pattern of where they are strong and where they are weakest.  
+• AI identifies the subject and exam type contributing most to the CGPA shortfall relative to 
+the target.  
+• Calculates exactly how many marks improvement in each subject would move the CGPA and by how much.  
+• Generates a prioritised improvement plan — which subject to focus on first, why, and for 
+how long.  
+• Connects to the Study Planner — can push a suggested study plan directly from the AI 
+analysis into the planner.  
+• Written in plain, direct language. Not generic study advice — specific to this student's 
+exact numbers.  
+Why it matters:  
+This is the feature that makes Synapse an AI -powered platform rather than just a marks 
+tracker with a chatbot attached. The analysis is only possible because all the data — marks, 
+credit weights, target CGPA, exam dates — lives in one place. No other student tool can do 
+this because no other tool has all the data simultaneously.  
+7. AI Study Planner  
+What it actually does:  
+The Study Planner solves the most common pre -exam panic for college students: having 6 
+subjects, 3 weeks, and no idea how to distribute the time. The student inputs their exam 
+dates and the AI generates a complete, day -by-day study schedule automatically — what to 
+study, which subject, for how long, and in what order.  
+• Student inputs exam dates per subject. The AI calculates available study days and 
+distributes subjects based on credit weight, current marks performance, and proximity of 
+each exam.  
+• Generated schedule appears as a weekly calendar view. Each day shows which subject to 
+study and for how many hours.  
+• Topic list per subject — student can mark individual topics as covered or pending. 
+Covered topics are excluded from future schedule recalculations.  
+• If a student misses a scheduled task, the AI detects the incomplete day and regenerates the 
+remaining schedule to redistribute the missed content without losing the exam deadline.  
+• Deadline tracker for assignments, projects, and submissions — separate from the exam 
+schedule. Each deadline has a priority flag — High, Medium, or Low.  
+• Manual task addition — student can add custom study tasks outside the AI -generated 
+schedule.  
+• Weekly study hours chart showing actual hours logged via Focus Mode versus the planned 
+target.  
+Why it matters:  
+Planning is the single biggest pain point for students before exams. The problem is not 
+motivation — it is the cognitive load of optimally distributing six subjects across three 
+weeks while accounting for difficulty, credit weight, and current understanding. This is a 
+scheduling problem that takes students hours to do manually and they almost always do it 
+wrong. The AI solves it in seconds and self -corrects when the student falls behind.  8. Focus Mode — Pomodoro Study Timer  
+What it actually does:  
+Focus Mode is a distraction -free study session tool built on the Pomodoro technique — 25 
+minutes of focused study followed by a 5 -minute break. The student selects a subject, starts 
+the timer, and the session is automatically logged against that subject in their study history.  
+• Student selects which subject they are studying and starts the timer.  
+• 25 -minute countdown runs on screen with a clear visual indicator.  
+• After each 25 -minute session, a 5 -minute break timer starts automatically.  
+• After four consecutive sessions, a longer 15 -minute break is suggested.  
+• Study hours are logged automatically after each completed session — no manual entry 
+required.  
+• Total study hours per day and per week tracked and displayed in a bar chart.  
+• Logged hours feed into the AI's weekly report card calculation and inform the Central AI 
+Assistant's cross -module analysis.  
+Why it matters:  
+Students consistently overestimate how much they study and underestimate how much 
+time they waste. Focus Mode creates an honest, automatic record of actual study time. The 
+Pomodoro technique is one of the most well -researched productivity methods — breaking 
+study into focused intervals with mandatory breaks prevents mental fatigue and sustains 
+concentration over longer periods. Automatic logging removes the burden of tracking, 
+which is the main reason manual time tracking habits fail.  
+9. AI Notebook — NotebookLM -Style Study Tool  
+What it actually does:  
+The AI Notebook is the most technically sophisticated and academically powerful feature in 
+Synapse. It turns a student's passive lecture notes into an active, interactive study tool. The 
+student creates a notebook per subject, uploads their notes as a PDF or Word document, 
+and immediately gets an AI chat interface that can answer any question strictly from the 
+content of those notes.  
+• Student creates a notebook and assigns it to a subject. Multiple notebooks per subject are 
+supported . 
+• Upload notes as PDF or Word document. Text is extracted automatically — PDF text using 
+pdf-parse, Word document text using Mammoth.  
+• Extracted text is stored in the database against that notebook. No third -party vector 
+database required — context stuffing sends the relevant extracted text directly to the 
+Claude API with each question.  
+• Chat interface on the right side of the notebook view. Student types any question. The AI 
+answers strictly from the uploaded notes content — not from general internet k nowledge. 
+This ensures the AI explains the student's own teacher's notes, not a textbook version that 
+may differ from what was taught.  
+• Generate Summary — one-click generation of a structured summary of the entire 
+notebook content.  
+• Generate Quiz — AI generates 10 multiple choice questions based on the notes content. Student answers each question and AI evaluates and explains the correct answers.  
+• Explain Simply — student highlights any concept from the notes and asks for a simpler 
+explanation. AI re -explains it in plain language.  
+• Chat history maintained per notebook across sessions.  
+• Supported formats — PDF and DOCX. File size limit — 10MB per file.  
+Why it matters:  
+Students have notes but most of them do not use their notes effectively. Re -reading is the 
+least effective study technique. Active recall — asking questions and trying to retrieve 
+information — is the most effective. The AI Notebook converts passive notes into an active 
+question -and-answer session. The strict grounding in the student's own notes is critical: it 
+means the AI explains what the student's specific teacher taught, using the same 
+terminology, examples, and structure — not a generic internet answer that may use 
+different notation or cover topics not in the syllabus.  
+10. Finance Tracker with AI Spending Analysis  
+What it actually does:  
+The Finance Tracker is a complete personal budget management system designed 
+specifically for Indian college students living on a fixed monthly allowance from their 
+parents. Most students have no visibility into where their money goes until it is already 
+gone. Synapse makes budget management visual, proactive, and effortless.  
+• Monthly budget setup divided across six categories — Food, Transport, Books, 
+Entertainment, Hostel, and Miscellaneous. Each category has its own allocated amount.  
+• Quick expense logging — amount, category, optional note, and date. Accessible from the 
+Quick Capture floating button on any page — completed in under 5 seconds.  
+• Remaining budget per category displayed as a visual progress bar. Student sees at a glance 
+how much of each category is left.  
+• Warning notification when any single category reaches 80 percent of its allocation.  
+• Warning notification when the total monthly budget reaches 90 percent spent.  
+• Daily expense list — all expenses for the current day shown in chronological order.  
+• Monthly spending breakdown as a pie chart by category and a bar chart comparing 
+categories.  
+• Recurring expenses — hostel fee, mess bill, subscriptions — set once and auto -logged on 
+the 1st of each month via a cron job. Student never forgets to account for fixed costs.  
+• AI spending analysis — natural language insight into spending patterns. Example: You 
+have spent 68 percent of your food budget in the first 12 days of the month. At this rate you 
+will exhaust food money by the 18th. Consider reducing canteen visits this week.  
+• Export all expenses for the current month as a CSV file — for reconciling with bank 
+statements or showing parents.  
+Why it matters:  
+Most Indian college students live on a fixed monthly amount transferred by parents. 
+Overspending means an awkward phone call home. The Finance Tracker makes this 
+manageable — not by restricting spending, but by making the student continuously aware of where they stand. The 80 percent category warning is the feature that matters most in 
+practice: it fires early enough that the student can adjust behaviour before the month runs 
+out. 
+11. Habit Tracker with AI Pattern Detection  
+What it actually does:  
+The Habit Tracker helps students build the small daily disciplines that compound into 
+academic performance and personal wellbeing. It reduces habit tracking to a single tap per 
+day and provides enough data for the AI to identify patterns the student could never see 
+themselves.  
+• Create up to 6 personal habits. Default suggestions — Sleep 7 hours, Study 4 hours, Drink 
+8 glasses of water, Exercise 30 minutes. Student can replace or add custom habits with any 
+name and daily target.  
+• One -tap daily check -in per habit. Student marks whether they met the target for each habit 
+today.  
+• Streak counter per habit — number of consecutive days the habit was completed. Best 
+streak record stored separately.  
+• GitHub contribution -style weekly grid — each day is colored based on completion status 
+across all habits. Provides a visual pattern of consistency over time.  
+• Monthly completion percentage per habit — percentage of days in the month the habit 
+was completed.  
+• AI pattern detection runs across habit data and academic performance data.  
+• Habit completion reminder notification — sent at a configurable time each evening if the 
+daily check -in has not been completed.  
+• Streak alert notification — if the student is about to break a current streak, a reminder 
+fires before midnight.  
+Why it matters:  
+The value of a habit tracker is not in the tracking itself — it is in the visibility. Students 
+know abstractly that sleeping well helps them study better, but they have never seen their 
+own data proving it specifically. The AI pattern detection feature closes this gap. When a 
+student sees that they personally study 1.4 hours more on days they sleep well, it changes 
+behaviour in a way that abstract advice never does.  
+12. Central AI Assistant  
+What it actually does:  
+The Central AI Assistant is the brain of Synapse. It is the feature that transforms a collection 
+of useful tools into an integrated operating system. The AI has read access to every piece of 
+data the student has entered — marks, expenses, habits, study schedule, exam dates, logged 
+study hours — and uses this unified context to provide insights that no individual feature 
+can generate alone.  
+• Always -visible chat panel accessible from every page in the application. Student can ask 
+anything about their student  life without navigating to a specific module.  
+• Personalised morning briefing generated daily on first login.  • Cross -module insight generation — the AI actively makes connections between data 
+across modules.  
+• Quick prompt suggestions always visible.  
+• Streaming responses — AI reply text appears word by word as it is generated, creating a 
+natural conversational feel.  
+• Conversation history maintained within each session. Clear chat button for a fresh start.  
+• Context -aware — the AI knows which module the student is currently viewing and tailors 
+suggestions accordingly.  
+• The AI never invents data. Every insight it provides is grounded in the student's actual 
+records stored in the Synapse database.  
+Why it matters:  
+Individual features are useful in isolation. A marks tracker tells you your CGPA. A habit 
+tracker shows your streaks. A finance tracker shows your balance. But none of these 
+features, individually, can tell you that your CGPA dropped this semester because your 
+study hours fell in the same weeks your sleep habit completion rate dropped below 50 
+percent, and both of those things happened in the weeks after your hostel fee wiped out 
+your budget and caused you financial stress. Only an AI with access to all of the data 
+simultaneously can make that connection.  
+13. Weekly AI Report Card  
+What it actually does:  
+Every Sunday, Synapse automatically generates a personalised weekly report for the 
+student. The report is created by a scheduled cron job that collects the past seven days of 
+data across all modules and sends it to the Claude API for analysis. The result is a 
+structured, honest summary of how the student's week went and what to focus on in the 
+week ahead.  
+• Generated automatically every Sunday at a configurable time.  
+• Study summary — total study hours logged, subjects covered.  
+• Academic update — any marks entered this week, current CGPA trend.  
+• Finance summary — total spent this week, categories most used.  
+• Habit completion rates — percentage completion per habit across the seven days.  
+• AI narrative — a written paragraph that synthesises all of the above. Identifies what went 
+well, what did not, and gives three specific, actionable recommendations for the coming 
+week.  
+• Student is notified when the report is ready. Report accessible from the Today Dashboard 
+and from a dedicated Reports section.  
+Why it matters:  
+Most students never reflect on their own week. The week ends and the next one begins 
+without any structured review of what worked and what did not. The Weekly Report Card 
+automates this process entirely. Receiving a specific, data -driven summary every Sunday — 
+one that references your actual study hours, your actual spending, and your actual habit completion — creates a habit of self -awareness that most productivity systems require 
+deliberate manual effort to build.  
+14. Study Groups — Real -Time Collaborative Chat  
+What it actually does:  
+Study Groups bring a social and collaborative layer to Synapse without the complexity of 
+building a full messaging application. Students from the same college and course can 
+discover each other on the platform, form study groups, and communicate in real time 
+through a focused text chat interface.  
+• Students are discoverable to others from the same college and course.  
+• Create a new study group with a name and optional description, or join an existing group 
+from the same college.  
+• Real -time text chat within each group powered by Socket.io WebSockets. Messages appear 
+on all members' screens instantly without page refresh.  
+• Share a notebook summary from the AI Notebook directly into the group chat — enabling 
+collaborative study from shared notes.  
+• Group members list visible in the sidebar of each group.  
+• Message history stored persistently in the database — students can scroll back through 
+previous discussions.  
+Why it matters:  
+Students already study in groups — they coordinate over WhatsApp, share notes over 
+email, and discuss exam content in person. Study Groups brings this collaboration inside 
+Synapse and connects it to the academic features already there. Sharing a notebook 
+summary directly into a group chat — so the whole group can discuss the AI -generated 
+summary of shared notes — is a capability that exists nowhere else. Scoping the feature to 
+text -only is a deliberate product decision, not a limitation.  
+15. Quick Capture — Universal Floating Action Button  
+What it actually does:  
+Quick Capture is a floating action button present on every single page of Synapse. It exists to 
+solve one problem: friction. The single biggest reason students stop using tracking tools is 
+that logging anything requires too many taps and too much navigation. Quick Capture 
+reduces any common action to under 5 seconds from anywhere in the app.  
+• Floating button visible at all times in the bottom right corner of every page.  
+• Single tap opens a small modal with three quick actions — Log Expense, Add Task, Quick 
+Note.  
+• Log Expense — enter amount, select category, optional note. Done. Returns to whatever 
+page the student was on.  
+• Add Task — enter task title, select due date, assign priority. Added to the Study Planner 
+task list.  
+• Quick Note — freeform text note saved to a scratchpad accessible from the Today 
+Dashboard.  Why it matters:  
+Friction is the enemy of habit formation. If logging an expense requires opening the Finance 
+Tracker, navigating to the expense entry form, filling in four fields, and saving — students 
+will do it once and forget about it within a week. Quick Capture removes every one of those 
+steps. The student has a thought — I just spent 80 rupees on chai — and captures it 
+immediately in the moment, without losing their place in whatever they were doing.  
+16. Notifications System  
+What it actually does:  
+The Notifications system ensures that Synapse reaches out to the student proactively, 
+rather than waiting for the student to remember to check in. Notifications are generated by 
+the backend based on specific triggers across all modules and delivered via a bell icon with 
+an unread count badge in the navigation bar.  
+• Bell icon with live unread count badge. Clicking opens a dropdown showing the five most 
+recent notifications.  
+• Full Notifications page shows complete history with mark as read, mark all as read, and 
+delete options.  
+• Notification preferences — student can turn on or off each notification type from Settings, 
+and configure reminder times.  
+• Implemented via polling — the frontend checks for new notifications every 30 seconds.  
+• Alert triggers: Exam alert, Assignment due alert, Budget warning, Attendance warning, 
+Habit reminder, Streak alert, AI briefing ready, Weekly report ready, Study group message.  
+Why it matters:  
+The platform needs to come to the student, not wait for the student to come to the platform. 
+A student who has not checked Synapse in two days should receive a notification that their 
+DSA exam is tomorrow and their study plan shows 4 topics uncovered. That notification 
+creates urgency and action. Without proactive notifications, Synapse is only useful to 
+students who remember to open it regularly — a much smaller group than those who 
+simply need a timely reminder.  
+17. Settings  
+What it actually does:  
+The Settings page gives students full control over their Synapse account and preferences. 
+Student situations change throughout the academic year — new semester, new subjects, 
+new budget, new goals — and Settings ensures the platform stays accurate to the student's 
+current reality.  
+• Edit profile — name, college, course, semester, target CGPA, profile photo.  
+• Change password — requires current password, new password, and confirmation. Hashed 
+with Bcryptjs before storage.  
+• Monthly bud get management — update total monthly budget and per -category allocations 
+at any time.  
+• Subject management — add, edit, or delete subjects.  
+• Notification preferences — toggle each notification type on or off independently.  • Theme — light or dark mode. Preference stored and applied on next login.  
+• Account deletion — permanently deletes all student data.  
+Why it matters:  
+A student who changes course, moves to a new semester, or adjusts their monthly budget 
+needs to be able to update Synapse to reflect that reality. Outdated data produces irrelevant 
+AI insights and incorrect CGPA calculations. Settings is not a peripheral feature — it is the 
+mechanism that keeps every other feature accurate over the full duration of a student's 
+college life.  
+18. AI Learning Resource Explorer  
+What it actually does:  
+The AI Learning Resource Explorer helps students discover high -quality, up -to-date 
+learning materials for any academic subject, programming language, framework, 
+technology, or skill they wish to learn. The student enters a topic — Learn React, Machine 
+Learning, Data Structures, DBMS Normalization — and Synapse performs a live web search, 
+retrieves results from trusted educational sources, filters and passes them to the AI, and 
+returns a structured learning roadmap rather than a raw list of links.  
+• Student enters any topic in a search bar. No category selection required.  
+• Live web search retrieves results from official documentation sites, tutorial platforms, 
+learning blogs, online courses, coding practice platforms, and YouTube educational 
+channels.  
+• Retrieved results are filtered to remove irrelevant, duplicate, or low -quality content 
+before being sent to the AI.  
+• AI organises resources into a structured learning roadmap.  
+• Integrates with the AI Notebook — student can save a resource to a notebook directly 
+from the explorer.  
+• Integrates with the Study Planner — student can add a resource -linked study task directly 
+from the explorer result.  
+Why it matters:  
+The AI Learning Resource Explorer directly solves the most common research problem 
+every college student faces: opening 15 browser tabs trying to find a good starting point for 
+a new topic, not knowing which sources are reliable, and ending up with a disorganised 
+collection of bookmarks. The explorer collapses that entire process into a single query and 
+returns a structured roadmap.  
+19. Smart Task Prioritisation  
+What it actually does:  
+Smart Task Prioritisation transforms the Study Planner's task list from a simple 
+chronological list into an intelligent, dynamically ranked priority system. Instead of 
+displaying tasks in the order they were created or scheduled, Synapse analyses multiple 
+factors simultaneously and surfaces the tasks that need the student's attention most 
+urgently at the top of the list.  
+• Factors analysed include due date proximity, subject credit weight, upcoming exam dates for the associated subject, current marks performance in that subject, and attendance 
+status.  
+• Tasks are re -ranked automatically whenever any relevant data changes.  
+• Visual priority indicators show why a task has been elevated.  
+• Student can override the AI ranking for any individual task and pin it to a specific position.  
+• Integrates with the Today Dashboard — the top three prioritised tasks from the smart list 
+appear on the dashboard's Today section.  
+Why it matters:  
+A task list sorted by creation date treats a low -stakes optional reading the same as an 
+assignment due tomorrow in a subject the student is failing. Smart Task Prioritisation 
+applies the same logic a good academic advisor would use — urgency, importance, and 
+current performance context — automatically and continuously. Students stop having to 
+manually reorder and reprioritise their task lists every morning.  
+20. Study Analytics Dashboard  
+What it actually does:  
+The Study Analytics Dashboard converts the raw data stored across all of Synapse's 
+modules into meaningful visual insights. Rather than requiring the student to navigate 
+between the Academic Tracker, Study Planner, and Habit Tracker separately to understand 
+their overall performance, the Analytics Dashboard aggregates everything into one visual 
+summary with AI -generated explanations.  
+• Subject performance cards — current marks, grade, and attendance per subject displayed 
+side by side for quick comparison.  
+• Strongest and weakest subject identification — AI highlights the two subjects where the 
+student is performing best and worst, with specific reasons.  
+• Study hours trend chart — weekly study hours logged via Focus Mode plotted over the 
+past 8 weeks.  
+• Task completion rate — percentage of scheduled study tasks completed versus missed 
+over the past month.  
+• Attendance trend — attendance percentage per subject plotted over time. Subjects 
+approaching the 75 percent threshold highlighted in amber.  
+• AI narrative panel — a written paragraph that explains the charts in plain language. Not 
+just numbers — the AI tells the student what the pattern means and what to do about it.  
+Why it matters:  
+Numbers without context are noise. A student who sees their CGPA is 7.1 does not 
+automatically know whether that is trending up or down, which subject is dragging it, or 
+what the connection is between their study hours and their marks. The Study Analytics 
+Dashboard provides that context visually and explains it in plain language. It turns Synapse 
+from a data collection platform into a platform that actively helps the student understand 
+their own academic situation.  21. Resource Recommendation Engine Based on Weak Areas  
+What it actually does:  
+The Resource Recommendation Engine works in close conjunction with the AI Notebook's 
+quiz feature and the Central AI Assistant. After analysing quiz attempts, notebook chat 
+interactions, and question -answer patterns, the system identifies topics where a student 
+consistently struggles and automatically recommends targeted learning materials — both 
+from the student's own uploaded notes and from external educational sources.  
+• After each AI Notebook quiz session, incorrect answers are recorded against specific 
+topics within that subject.  
+• After three or more incorrect answers on the same topic across multiple quiz sessions, the 
+system flags that topic as a weak area for that student.  
+• Recommendation panel appears inside the relevant notebook — shows the flagged weak 
+topics and links to specific sections of the student's own notes that cover those topics.  
+• External resource recommendations fetched via the AI Learning Resource Explorer 
+pipeline — targeted specifically at the weak topic, not the entire subject.  
+• Weak area summary accessible from the Study Analytics Dashboard — all flagged topics 
+across all subjects listed in one place.  
+• Recommendations update dynamically.  
+• Student can manually flag any topic as a weak area.  
+Why it matters:  
+Generic study advice — study more, revise regularly — fails because it is not specific. The 
+Resource Recommendation Engine is specific by design. It identifies exactly which topics 
+the student is struggling with based on their own quiz performance in their own notes, and 
+it recommends exactly the resources needed to address those specific gaps.  
+22. Exam Readiness Score  
+What it actually does:  
+The Exam Readiness Score gives every student a single, clear numerical indicator showing 
+how prepared they are for an upcoming examination. Rather than leaving students to guess 
+their preparation level based on a vague feeling of having studied enough, Synapse 
+calculates a composite score from multiple data sources and explains exactly what is driving 
+it up or down.  
+• Score calculated from five factors — attendance percentage for the subject (weighted 
+20%), quiz performance in the sub ject's notebook (25%), study task completion rate for the 
+subject (20%), study hours logged for the subject via Focus Mode (20%), and notes 
+coverage (topics marked as covered in the planner) (15%).  
+• Score displayed as a percentage from 0 to 100 with a color indicator — red below 40, 
+amber 40 to 70, green above 70.  
+• Score card appears for each subject on the Academic Tracker page and on the Today 
+Dashboard for subjects with exams in the next 14 days.  
+• Breakdown panel shows the contribution of each factor to the total score — student can 
+see exactly why the score is what it is.  • AI recommendation list below each score — specific actions the student can take to 
+improve their readiness.  
+Why it matters:  
+The most common exam week experience for Indian college students is a mixture of panic 
+and uncertainty — they do not know how prepared they actually are, so they either over -
+study things they already know or under -study things they have missed. The Exam 
+Readiness Score replaces that uncertainty with a clear, data -driven indicator.  
+23. Semester Performance Predictor  
+What it actually does:  
+The Semester Performance Predictor uses the student's current academic data to estimate 
+their expected final CGPA or SGPA for the semester. It acts as an academic planning tool — 
+not a guarantee — that helps students understand the consequences of their current 
+trajectory and motivates informed action before final examinations.  
+• Prediction calculated from current internal marks, assignment scores, practical marks, 
+attendance records, and historical performance trends from previous semesters if available.  
+• Displayed as a predicted CGPA range — for example, Based on your current performance, 
+your expected CGPA is between 6.8 and 7.3.  
+• Scenario modelling — student can adjust hypothetical final exam scores using sliders 
+(similar to the CGPA What -If Calculator) and see how the predicted range shifts.  
+• Subject -level breakdown — shows which subjects are helping the prediction and which 
+are dragging it down.  
+• AI explanation narrative — written summary of what the prediction means and which two 
+or three actions would have the greatest positive impact on the final result.  
+Why it matters:  
+Students routinely underestimate how much their internal marks, practicals, and 
+assignments contribute to their final CGPA. Many assume the final exam is everything and 
+neglect continuous assessment components until it is too late to recover. The Semester 
+Performance Predictor makes the impact of every mark visible throughout the semester, 
+not just at the end.  
+24. Universal Academic Calendar  
+What it actually does:  
+The Universal Academic Calendar is a smart, interactive calendar that aggregates all exams, 
+deadlines, and personal events in one unified view.  
+• Displays a "Next 7 Days" quick -view to immediately highlight impending exams and 
+deadlines.  
+• Pulls data automatically from the Study Planner and Academic Tracker.  
+• Allows students to add custom personal events with categories, priorities, and custom 
+reminders.  
+• Supports month and week views using a modern, color -coded interface to differentiate 
+between exams, deadlines, study tasks, and personal events.  Why it matters:  
+A unified calendar is crucial for time management. By combining academic obligations with 
+personal events, students get a complete picture of their schedule, preventing double -
+booking and ensuring they allocate sufficient time for upcoming exams and high -priority 
+study tasks.  
+25. Peer Networking & Direct Messaging  
+What it actually does:  
+A dedicated messaging and networking module that expands on study groups by allowing 
+direct 1 -on-1 communication between students.  
+• Students can search for peers, send friend requests, and manage their network.  
+• Real -time text messaging with read receipts and online status indicators powered by 
+WebSockets.  
+• Fully integrated with the Synapse notification system to alert users of new messages and 
+friend requests.  
+• Provides a distraction -free, academic -focused alternative to mainstream social media 
+apps.  
+Why it matters:  
+While study groups facilitate class -wide discussion, a significant amount of academic 
+collaboration happens one -on-one. This feature keeps peer -to-peer communication within 
+the Synapse ecosystem, eliminating the need to switch to distracting external messaging 
+apps while studying.  
+26. Career Vault Security — Independent Password Access Gate  
+What it actually does:  
+The Career Vault is protected by an independent, secondary password system separate 
+from the student's main account password.  
+• Requires setting up a dedicated vault PIN/password upon first accessing the career 
+module.  
+• Uses secure bcrypt hashing for vault password validation, ensuring maximum security.  
+• Includes a time -based auto -lock mechanism and a secure password reset flow using email 
+verification.  
+Why it matters:  
+Career documents —such as resumes, offer letters, and ID cards —contain highly sensitive 
+personal information. Even if a student leaves their Synapse dashboard open on a shared 
+college computer, the Career Vault remains independently locked, preventing unauthorized 
+access to their most private data.  
+27. Career Timeline  
+What it actually does:  
+A visually engaging, chronological representation of a student's career progress, skills 
+acquisition, and professional milestones.  
+• Automatically logs major milestones like completing a difficult subject, consistent habit streaks, or uploading a new resume version.  
+• Students can manually add achievements, certifications, internships, and project 
+completions.  
+• Acts as a visual portfolio that tracks the evolution of a student from freshman year to 
+graduation.  
+Why it matters:  
+College is a journey of continuous growth, but students often lose track of their own 
+progress. The Career Timeline serves as a motivational record and a practical reference tool 
+when it comes time to summarize their achievements for job applications or interviews.  
+28. Resume Intelligence (AI Hiring Manager Simulation)  
+What it actually does:  
+A powerful AI tool that simulates how a real recruiter or ATS (Applicant Tracking System) 
+would evaluate a student's resume against a specific job description.  
+• Student inputs a target job description and the AI parses it to extract key required skills 
+and keywords.  
+• The system cross -references the student's resume with the job description to identify 
+missing keywords and skill gaps.  
+• Provides a detailed ATS match score and actionable feedback on how to rewrite specific 
+bullet points.  
+• Highlights formatting errors or structural issues that might cause an ATS rejection.  
+Why it matters:  
+Most student resumes are rejected by automated ATS filters before a human ever sees them. 
+By simulating this evaluation process and highlighting exact skill gaps, Resume Intelligence 
+gives students a massive unfair advantage in the job market, ensuring their resume is 
+perfectly tailored for every application.  
+29. AI Resume Builder  
+What it actually does:  
+An intelligent, template -driven resume generation tool that turns raw student data into 
+professional, ATS -friendly PDF resumes.  
+• Pulls existing data from the student's profile, academic tracker, and career timeline.  
+• Offers multiple professional templates tailored for different industries (e.g., tech, finance, 
+research).  
+• Uses AI to help rewrite bullet points for maximum impact, utilizing strong action verbs 
+and quantifiable metrics.  
+• Generates a highly polished PDF document ready for immediate download and 
+submission.  
+Why it matters:  
+Formatting a resume in Word or Canva is frustrating and often leads to ATS -incompatible 
+designs. The AI Resume Builder removes the friction of design and formatting, allowing the student to focus on content while the AI ensures the final document is professional, 
+perfectly structured, and machine -readable.  
+Complete Feature Summary  
+# Feature Category  
+1 Authentication with Email Verification 
+(Core)  
+2 Student Profile and Onboarding Flow 
+(Core)  
+3 Today Dashboard with AI Morning Briefing 
+(Core)  
+4 Academic Tracker — Marks, CGPA, 
+Attendance (Academic)  
+5 CGPA What -If Calculator (Academic)  
+6 AI Explains My Marks (Academic + AI)  
+7 AI Study Planner with Schedule Generation 
+(Academic + AI)  
+8 Focus Mode — Pomodoro Study Timer 
+(Academic)  
+9 AI Notebook — NotebookLM -Style Study 
+Tool (AI)  
+10 Finance Tracker with AI Spending Analysis 
+(Finance)  
+11 Habit Tracker with AI Pattern Detection 
+(Habits)  
+12 Central AI Assistant — Cross -Module 
+Intelligence (AI)  
+13 Weekly AI Report Card (Sunday Auto -
+Generation) (AI)  
+14 Study Groups — Real -Time Collaborative 
+Chat (Social)  
+15 Quick Capture — Universal Floating Action 
+Button (UX)  
+16 Notifications System with Preferences 
+(Core)  
+17 Settings — Profile, Budget, Subjects, Theme 
+(Core)  
+18 AI Learning Resource Explorer (AI)  
+19 Smart Task Prioritisation (AI + Planning)  
+20 Study Analytics Dashboard (Analytics)  
+21 Resource Recommendation Engine — 
+Weak Areas (AI)  
+22 Exam Readiness Score (AI + Academic)  
+23 Semester Performance Predictor (AI + 
+Academic)  
+24 Universal Academic Calendar (Academic + 
+Planning)  
+25 Peer Networking & Direct Messaging (Social)  
+26 Career Vault Security — Independent 
+Password Access Gate (Security)  
+27 Career Timeline (Career)  
+28 Resume Intelligence (AI + Career)  
+29 AI Resume Builder (AI + Career)  
+Database Schema Overview  
+Synapse uses MongoDB as the primary NoSQL database accessed through Mongoose ORM. 
+The schema is designed around the central User model, which all other models reference. 
+This ensures complete data isolation between students — one student's marks, expenses, 
+habits, and notebooks are never accessible to another.  
+Model  Purpose  Key Relations  
+User  Central student account — 
+all data anchors here  One -to-many with all 
+models below  
+Subject  Academic subjects with 
+credits and exam dates  Belongs to User  
+Mark  Individual mark entries by 
+subject and exam type  Belongs to User and Subject  
+Attendance  Daily attendance records 
+per subject  Belongs to User and Subject  
+StudyTask  Planned study tasks from AI 
+planner and manual entry  Belongs to User  
+Notebook  AI Notebook — stores 
+extracted text content  Belongs to User  
+NotebookChat  Chat conversation history 
+per notebook  Belongs to Notebook  
+Expense  Individual expense entries 
+with category and amount  Belongs to User  
+Budget  Monthly budget allocations 
+per category  One -to-one with User  
+Habit  Habit definitions with name 
+and daily target  Belongs to User  
+HabitLog  Daily habit check -in records  Belongs to User and Habit  
+StudyChat  Central AI Assistant 
+conversation history  Belongs to User  
+StudyGroup  Group definitions with 
+name and college filter  Many -to-many with User  
+GroupMessage  Individual chat messages 
+within a group  Belongs to StudyGroup and 
+User  
+Notification  All notifications with read 
+status  Belongs to User  
+Briefing  Daily AI morning briefing 
+content  Belongs to User  
+WeeklyReport  Sunday AI report card 
+content  Belongs to User  
+Message  Direct 1 -on-1 messages for Belongs to User peer networking  (sender/receiver)  
+CareerDocument  Secure vault career 
+documents  Belongs to User  
+Resume  Resumes generated via AI 
+Builder  Belongs to User  
+CustomEvent  Calendar custom events  Belongs to User  
+Deployment Architecture  
+Layer  Technology  Purpose  
+Frontend + Backend  Vercel  Next.js 14 app — frontend 
+pages and API routes 
+deployed together  
+Database  MongoDB Atlas  Managed MongoDB cluster 
+— persistent, auto -backed -
+up 
+Email  Gmail SMTP via Nodemailer 
+or Resend  Transactional emails — 
+verification, password reset, 
+notifications  
+Version Control CI/CD  GitHub  Source code repository and 
+deployment trigger for 
+Vercel  
+Environment  .env files  All secrets — JWT secret, 
+Claude API key, DB URL, 
+email credentials  
+Platform Philosophy  
+Synapse is built on one principle: a student should never need to leave the platform to 
+manage their academic life. Every tool a college student reaches for — the marks calculator, 
+the budget spreadsheet, the ChatGPT tab, the calendar app, the WhatsApp study group — 
+exists inside Synapse, connected by an AI that understands the complete picture.  
+The soul of the platform is three things working perfectly together: know your academics, 
+manage your money, and stay consistent with your habits. Everything else — the AI 
+notebook, the study groups, the weekly report — exists to support and enrich those three 
+foundations.  
+Synapse is not the platform that tracks everything. It is the platform that tells you what 
+matters today.  
