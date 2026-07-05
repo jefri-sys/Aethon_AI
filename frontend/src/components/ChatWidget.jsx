@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Brain, X, Send, RotateCcw, Sparkles, LocateFixed } from 'lucide-react';
 import { motion, useDragControls, AnimatePresence, useMotionValue } from 'framer-motion';
 import { Button } from './ui/button';
+import synapseLogo from '../assets/logo.png';
 import api from '../services/api';
 import useMobileView from '../hooks/useMobileView.js';
 
@@ -171,7 +172,7 @@ function ChatWidget() {
               aria-label="Open AI Assistant"
             >
               <div className="relative flex items-center justify-center">
-                <Brain className="w-7 h-7 transition-transform duration-300 group-hover:scale-110" />
+                <img src={synapseLogo} alt="Synapse" className="w-7 h-7 transition-transform duration-300 group-hover:scale-110" />
                 <Sparkles className="w-3.5 h-3.5 absolute -top-1 -right-1.5 text-white animate-pulse" />
               </div>
             </Button>
@@ -238,7 +239,7 @@ function ChatWidget() {
         >
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#F5F5F5] dark:bg-[#2A2A2A] flex items-center justify-center border border-[#E8E8E8] dark:border-white/10">
-              <Brain className="w-4 h-4 text-[#212121] dark:text-[#ECECEC]" />
+              <img src={synapseLogo} alt="Synapse" style={{ width: '16px', height: '16px' }} />
             </div>
             <div>
               <h2 className="font-semibold text-[15px] text-[#212121] dark:text-[#ECECEC] tracking-tight leading-none">Synapse AI</h2>
@@ -297,7 +298,7 @@ function ChatWidget() {
                 ) : (
                   <div className="max-w-[90%] text-[#212121] dark:text-[#ECECEC] text-[14px] leading-relaxed flex gap-3.5">
                     <div className="w-7 h-7 rounded-full bg-white dark:bg-[#2A2A2A] border border-[#E8E8E8] dark:border-white/10 shadow-sm flex items-center justify-center shrink-0 mt-0.5">
-                      <Brain className="w-3.5 h-3.5 text-[#212121] dark:text-[#ECECEC]" />
+                      <img src={synapseLogo} alt="Synapse" style={{ width: '14px', height: '14px' }} />
                     </div>
                     <div className="pt-1 whitespace-pre-wrap text-[#333333] dark:text-[#D4D4D4] leading-[1.6]">
                       {msg.content}
@@ -312,7 +313,7 @@ function ChatWidget() {
             <div className="flex justify-start">
               <div className="max-w-[90%] text-[#212121] dark:text-[#ECECEC] text-[14px] flex gap-3.5">
                 <div className="w-7 h-7 rounded-full bg-white dark:bg-[#2A2A2A] border border-[#E8E8E8] dark:border-white/10 shadow-sm flex items-center justify-center shrink-0 mt-0.5">
-                  <Brain className="w-3.5 h-3.5 text-[#212121] dark:text-[#ECECEC]" />
+                  <img src={synapseLogo} alt="Synapse" style={{ width: '14px', height: '14px' }} />
                 </div>
                 <div className="pt-2.5 flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#888888] dark:bg-[#A3A3A3] animate-[bounce_1.4s_infinite_ease-in-out]"></div>

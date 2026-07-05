@@ -4,6 +4,7 @@ import {
   Brain, ArrowLeft, LayoutDashboard, BrainCircuit, Calendar, 
   BookOpen, Target, Briefcase, Shield, LineChart, Users, Bell, Globe
 } from 'lucide-react';
+import synapseLogo from '../../assets/logo.png';
 import './ExplorePlatform.css';
 
 const SynapseNetworkAnimation = () => {
@@ -197,7 +198,7 @@ const ExplorePlatform = () => {
       <SynapseNetworkAnimation />
       <nav className="explore-nav">
         <div className="landing-logo" style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
-          <Brain className="logo-icon" size={28} />
+          <img src={synapseLogo} alt="Synapse" className="logo-icon" style={{ width: '38px', height: '38px' }} />
           <span>Synapse</span>
         </div>
         <button onClick={() => navigate('/')} className="btn-secondary" style={{ border: 'none', background: 'transparent' }}>

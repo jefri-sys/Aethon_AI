@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth.js';
 import './Landing.css';
 import { Brain, ArrowRight, BrainCircuit, Calendar, BookOpen, Target, Briefcase, FileText, LayoutDashboard, MessageSquare, LineChart, Globe } from 'lucide-react';
 import brainNetworkImg from '../../assets/brain_network.png';
+import synapseLogo from '../../assets/logo.png';
 import WatchDemoSection from './components/WatchDemoSection.jsx';
 import { WorkspaceAnimation } from './components/WorkspaceAnimation.jsx';
 import './components/WatchDemoModal.css';
@@ -199,7 +200,7 @@ const Landing = () => {
       <SynapseNetworkAnimation />
       <nav className="landing-nav">
         <div className="landing-logo">
-          <Brain className="logo-icon" size={28} />
+          <img src={synapseLogo} alt="Synapse" className="logo-icon" style={{ width: '38px', height: '38px' }} />
           <span>Synapse</span>
         </div>
         <div className="landing-nav-links">
