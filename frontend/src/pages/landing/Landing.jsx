@@ -20,13 +20,6 @@ const AethonNetworkAnimation = () => {
     let animationFrameId;
     let particles = [];
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', resize);
-    resize();
-
     const colors = {
       node: 'rgba(148, 163, 184, 0.3)',
       line: 'rgba(56, 189, 248, 0.1)', 
@@ -43,8 +36,10 @@ const AethonNetworkAnimation = () => {
       update() {
         this.x += this.vx;
         this.y += this.vy;
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        if (this.x < 0) { this.x = 0; this.vx *= -1; }
+        else if (this.x > canvas.width) { this.x = canvas.width; this.vx *= -1; }
+        if (this.y < 0) { this.y = 0; this.vy *= -1; }
+        else if (this.y > canvas.height) { this.y = canvas.height; this.vy *= -1; }
       }
       draw() {
         ctx.beginPath();
@@ -54,12 +49,23 @@ const AethonNetworkAnimation = () => {
       }
     }
 
-    const numParticles = Math.floor((canvas.width * canvas.height) / 10000);
-    const connectionDistance = 160;
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      const numParticles = Math.floor((canvas.width * canvas.height) / 5000);
+      if (particles.length < numParticles) {
+        for (let i = particles.length; i < numParticles; i++) {
+          particles.push(new Particle());
+        }
+      } else if (particles.length > numParticles) {
+        particles.splice(numParticles);
+      }
+    };
+    window.addEventListener('resize', resize);
+    resize();
 
-    for (let i = 0; i < numParticles; i++) {
-      particles.push(new Particle());
-    }
+    const connectionDistance = 160;
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
