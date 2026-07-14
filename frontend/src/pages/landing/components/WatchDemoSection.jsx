@@ -15,7 +15,7 @@ const WatchDemoSection = ({ onWatchDemoClick }) => {
           <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
             <h2 className="demo-heading">Stop Switching<br/>Between Apps</h2>
             <p className="demo-subtitle">
-              Students waste time moving between disconnected tools every day. Synapse brings everything into one unified, AI-powered workspace across all your devices.
+              Students waste time moving between disconnected tools every day. Aethon brings everything into one unified, AI-powered workspace across all your devices.
             </p>
             <ul className="demo-list">
               <li><FileText size={16}/> Notes</li>
@@ -32,7 +32,7 @@ const WatchDemoSection = ({ onWatchDemoClick }) => {
                 Watch Demo
               </button>
               <button className="btn-secondary" onClick={() => navigate('/register')}>
-                Launch Synapse
+                Launch Aethon
               </button>
             </div>
           </div>

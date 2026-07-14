@@ -71,7 +71,7 @@ function TodayDashboard() {
         let activeSemId = null;
         if (semestersRes.data?.success) {
           const workingSemId = localStorage.getItem(
-            "synapse_working_semester_id",
+            "aethon_working_semester_id",
           );
           if (workingSemId) {
             const workingSem = semestersRes.data.semesters.find(

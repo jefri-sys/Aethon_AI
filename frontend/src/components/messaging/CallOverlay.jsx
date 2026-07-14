@@ -281,8 +281,8 @@ const CallOverlay = () => {
 
  useEffect(() => {
  if (user) {
- const token = localStorage.getItem('synapse_token');
- const newSocket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
+ const token = localStorage.getItem('aethon_token');
+ const newSocket = io(import.meta.env.VITE_API_URL || 'https://aethon-ai-4dcd.onrender.com', {
  auth: { token },
  withCredentials: true
  });
@@ -306,8 +306,8 @@ const CallOverlay = () => {
  );
  }
  };
- window.addEventListener('synapse:call', handleCallEvent);
- return () => window.removeEventListener('synapse:call', handleCallEvent);
+ window.addEventListener('aethon:call', handleCallEvent);
+ return () => window.removeEventListener('aethon:call', handleCallEvent);
  }, [callProps, user]);
 
  if (!user || !socket) return null;

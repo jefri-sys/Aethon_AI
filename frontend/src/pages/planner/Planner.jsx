@@ -85,7 +85,7 @@ function Planner() {
  const semRes = await api.get('/semesters');
  let currentSem = null;
  if (semRes.data.success) {
- const workingSemId = localStorage.getItem('synapse_working_semester_id');
+ const workingSemId = localStorage.getItem('aethon_working_semester_id');
  if (workingSemId) {
  currentSem = semRes.data.semesters.find(s => s._id === workingSemId);
  }

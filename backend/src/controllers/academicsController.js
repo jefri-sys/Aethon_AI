@@ -578,7 +578,7 @@ Make sure to map the subjects logically across the week.`;
              console.error("JSON Parse Error:", parseErr);
              return res.status(400).json({
                 success: false,
-                message: "Synapse AI returned invalid JSON.",
+                message: "Aethon AI returned invalid JSON.",
                 debug: contentText
              });
           }
@@ -586,7 +586,7 @@ Make sure to map the subjects logically across the week.`;
           console.log("Regex could not find JSON object in Gemini response.");
           return res.status(400).json({
              success: false,
-             message: "Synapse AI couldn't find a timetable format.",
+             message: "Aethon AI couldn't find a timetable format.",
              debug: contentText
           });
         }

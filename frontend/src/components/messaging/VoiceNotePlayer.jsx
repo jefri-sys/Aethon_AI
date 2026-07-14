@@ -74,7 +74,7 @@ const VoiceNotePlayer = ({ audioUrl, sender, isOwnMessage }) => {
     // Calculate total width and center the drawing if needed, but we match it to samples
     const totalBars = audioData.length;
     
-    // The played portion color: WhatsApp green or Synapse blue
+    // The played portion color: WhatsApp green or Aethon blue
     const playedColor = isOwnMessage ? '#ffffff' : '#4f46e5'; 
     const unplayedColor = isOwnMessage ? 'rgba(255,255,255,0.4)' : '#d1d5db'; // Grey
     

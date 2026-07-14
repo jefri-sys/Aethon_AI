@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Brain, X, Send, RotateCcw, Sparkles, LocateFixed } from 'lucide-react';
 import { motion, useDragControls, AnimatePresence, useMotionValue } from 'framer-motion';
 import { Button } from './ui/button';
-import synapseLogo from '../assets/logo.png';
+import aethonLogo from '../assets/logo.png';
 import api from '../services/api';
 import useMobileView from '../hooks/useMobileView.js';
 
@@ -24,14 +24,14 @@ function ChatWidget() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const [conversationHistory, setConversationHistory] = useState(() => {
-    const saved = localStorage.getItem('synapse_chat_history');
+    const saved = localStorage.getItem('aethon_chat_history');
     return saved ? JSON.parse(saved) : [];
   });
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    localStorage.setItem('synapse_chat_history', JSON.stringify(conversationHistory));
+    localStorage.setItem('aethon_chat_history', JSON.stringify(conversationHistory));
   }, [conversationHistory]);
 
   useEffect(() => {
@@ -172,7 +172,7 @@ function ChatWidget() {
               aria-label="Open AI Assistant"
             >
               <div className="relative flex items-center justify-center">
-                <img src={synapseLogo} alt="Synapse" className="w-7 h-7 transition-transform duration-300 group-hover:scale-110" />
+                <img src={aethonLogo} alt="Aethon" className="w-7 h-7 transition-transform duration-300 group-hover:scale-110" />
                 <Sparkles className="w-3.5 h-3.5 absolute -top-1 -right-1.5 text-white animate-pulse" />
               </div>
             </Button>
@@ -239,10 +239,10 @@ function ChatWidget() {
         >
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#F5F5F5] dark:bg-[#2A2A2A] flex items-center justify-center border border-[#E8E8E8] dark:border-white/10">
-              <img src={synapseLogo} alt="Synapse" style={{ width: '16px', height: '16px' }} />
+              <img src={aethonLogo} alt="Aethon" style={{ width: '16px', height: '16px' }} />
             </div>
             <div>
-              <h2 className="font-semibold text-[15px] text-[#212121] dark:text-[#ECECEC] tracking-tight leading-none">Synapse AI</h2>
+              <h2 className="font-semibold text-[15px] text-[#212121] dark:text-[#ECECEC] tracking-tight leading-none">Aethon AI</h2>
               <span className="text-[11px] text-[#888888] dark:text-[#A3A3A3] font-medium mt-1 block">Contextually Aware</span>
             </div>
           </div>
@@ -298,7 +298,7 @@ function ChatWidget() {
                 ) : (
                   <div className="max-w-[90%] text-[#212121] dark:text-[#ECECEC] text-[14px] leading-relaxed flex gap-3.5">
                     <div className="w-7 h-7 rounded-full bg-white dark:bg-[#2A2A2A] border border-[#E8E8E8] dark:border-white/10 shadow-sm flex items-center justify-center shrink-0 mt-0.5">
-                      <img src={synapseLogo} alt="Synapse" style={{ width: '14px', height: '14px' }} />
+                      <img src={aethonLogo} alt="Aethon" style={{ width: '14px', height: '14px' }} />
                     </div>
                     <div className="pt-1 whitespace-pre-wrap text-[#333333] dark:text-[#D4D4D4] leading-[1.6]">
                       {msg.content}
@@ -313,7 +313,7 @@ function ChatWidget() {
             <div className="flex justify-start">
               <div className="max-w-[90%] text-[#212121] dark:text-[#ECECEC] text-[14px] flex gap-3.5">
                 <div className="w-7 h-7 rounded-full bg-white dark:bg-[#2A2A2A] border border-[#E8E8E8] dark:border-white/10 shadow-sm flex items-center justify-center shrink-0 mt-0.5">
-                  <img src={synapseLogo} alt="Synapse" style={{ width: '14px', height: '14px' }} />
+                  <img src={aethonLogo} alt="Aethon" style={{ width: '14px', height: '14px' }} />
                 </div>
                 <div className="pt-2.5 flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#888888] dark:bg-[#A3A3A3] animate-[bounce_1.4s_infinite_ease-in-out]"></div>
@@ -341,7 +341,7 @@ function ChatWidget() {
                   handleSend(message);
                 }
               }}
-              placeholder="Ask Synapse AI..."
+              placeholder="Ask Aethon AI..."
               className="flex-1 max-h-32 min-h-[38px] bg-transparent outline-none border-none resize-none focus:ring-0 py-2 pl-3 pr-2 text-[14px] text-[#212121] dark:text-[#ECECEC] placeholder:text-[#999999] dark:placeholder:text-[#666666] leading-relaxed"
               rows={1}
             />
@@ -354,7 +354,7 @@ function ChatWidget() {
             </button>
           </form>
           <div className="text-center mt-3">
-            <span className="text-[11px] text-[#A3A3A3] dark:text-[#777777] font-medium tracking-wide">Synapse AI can make mistakes. Verify important information.</span>
+            <span className="text-[11px] text-[#A3A3A3] dark:text-[#777777] font-medium tracking-wide">Aethon AI can make mistakes. Verify important information.</span>
           </div>
         </div>
       </motion.div>

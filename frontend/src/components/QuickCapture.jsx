@@ -125,10 +125,10 @@ export default function QuickCapture({ isOpen: controlledIsOpen, onClose, isPopu
   const handleNote = (e) => {
     e.preventDefault();
     if (!scratchpad.trim()) return;
-    const existing = JSON.parse(localStorage.getItem('synapse_notes') || '[]');
+    const existing = JSON.parse(localStorage.getItem('aethon_notes') || '[]');
     existing.push({ text: scratchpad, date: new Date().toISOString() });
-    localStorage.setItem('synapse_notes', JSON.stringify(existing));
-    window.dispatchEvent(new Event('synapse_notes_updated'));
+    localStorage.setItem('aethon_notes', JSON.stringify(existing));
+    window.dispatchEvent(new Event('aethon_notes_updated'));
     showToast();
   };
 

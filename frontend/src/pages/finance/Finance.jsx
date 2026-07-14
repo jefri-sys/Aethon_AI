@@ -17,8 +17,8 @@ function Finance() {
 
   useEffect(() => {
     fetchData();
-    window.addEventListener('synapse_expense_added', fetchData);
-    return () => window.removeEventListener('synapse_expense_added', fetchData);
+    window.addEventListener('aethon_expense_added', fetchData);
+    return () => window.removeEventListener('aethon_expense_added', fetchData);
   }, []);
 
   const fetchData = async () => {

@@ -22,10 +22,10 @@ export default function UpdateAvailableToast() {
 
   useEffect(() => {
     if (offlineReady) {
-      const hasSeen = localStorage.getItem('synapse_offline_ready_seen');
+      const hasSeen = localStorage.getItem('aethon_offline_ready_seen');
       if (!hasSeen) {
         setShowOfflineReadyToast(true);
-        localStorage.setItem('synapse_offline_ready_seen', 'true');
+        localStorage.setItem('aethon_offline_ready_seen', 'true');
         const timer = setTimeout(() => {
           setShowOfflineReadyToast(false);
           setOfflineReady(false);
@@ -42,7 +42,7 @@ export default function UpdateAvailableToast() {
       {needRefresh && (
         <Card className="flex items-center gap-3 p-4 shadow-xl pointer-events-auto bg-surface-raised border-surface-border">
           <div className="flex-1 text-sm text-text-primary">
-            A new version of Synapse is available
+            A new version of Aethon is available
           </div>
           <Button size="sm" onClick={() => updateServiceWorker(true)} className="bg-brand-primary text-white border-0 hover:bg-brand-primary-hover">
             Refresh
@@ -57,7 +57,7 @@ export default function UpdateAvailableToast() {
         <Card className="flex items-center gap-3 p-4 shadow-xl pointer-events-auto bg-surface-raised border-surface-border">
           <CheckCircle className="w-5 h-5" style={{ color: 'var(--status-success, #1A9E6B)' }} />
           <div className="flex-1 text-sm text-text-primary">
-            Synapse is ready to work offline
+            Aethon is ready to work offline
           </div>
         </Card>
       )}

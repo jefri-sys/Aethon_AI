@@ -153,14 +153,14 @@ function Onboarding() {
 
   // STRICT THEME LOGIC: No prefers-color-scheme, no inherited dark class.
   const [theme, setTheme] = useState(() => {
-    const stored = localStorage.getItem('synapse-onboarding-theme');
+    const stored = localStorage.getItem('aethon-onboarding-theme');
     return stored === 'dark' ? 'dark' : 'light';
   });
 
   const toggleTheme = () => {
     setTheme(current => {
       const newTheme = current === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('synapse-onboarding-theme', newTheme);
+      localStorage.setItem('aethon-onboarding-theme', newTheme);
       return newTheme;
     });
   };
@@ -308,7 +308,7 @@ function Onboarding() {
 
       {/* Top Nav */}
       <nav className="fixed top-0 w-full flex justify-between items-center px-6 md:px-16 py-6 z-50 transition-colors duration-500 pointer-events-none">
-        <div className="text-2xl font-bold tracking-tighter text-[var(--text-primary)] pointer-events-auto drop-shadow-md">Synapse</div>
+        <div className="text-2xl font-bold tracking-tighter text-[var(--text-primary)] pointer-events-auto drop-shadow-md">Aethon</div>
         <div className="flex items-center gap-4 pointer-events-auto drop-shadow-md">
           <button onClick={toggleTheme} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition p-2">
             {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -601,7 +601,7 @@ function Onboarding() {
             <motion.div key="scene5" variants={sceneVariants} initial="initial" animate="animate" exit="exit" className="absolute inset-0 flex flex-col items-center justify-center px-4">
               <div className="text-center max-w-xl mb-12">
                 <h2 className="font-display text-4xl font-semibold tracking-tighter text-[var(--text-primary)] mb-4">Your notes, but you can ask them questions</h2>
-                <p className="text-lg text-[var(--text-secondary)] leading-relaxed">Upload a lecture PDF. Synapse explains it back the way your professor taught it — not a generic internet answer.</p>
+                <p className="text-lg text-[var(--text-secondary)] leading-relaxed">Upload a lecture PDF. Aethon explains it back the way your professor taught it — not a generic internet answer.</p>
               </div>
               <div className="syn-card w-full max-w-[360px] p-6 rounded-3xl flex flex-col gap-4">
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="flex items-center gap-3 p-3 rounded-xl bg-[var(--input-bg)]">
@@ -672,7 +672,7 @@ function Onboarding() {
             <motion.div key="scene7" variants={sceneVariants} initial="initial" animate="animate" exit="exit" className="absolute inset-0 flex flex-col items-center justify-center px-4">
               <div className="text-center max-w-xl mb-8">
                 <h2 className="font-display text-4xl font-semibold tracking-tighter text-[var(--text-primary)] mb-4">A resume that gets past ATS</h2>
-                <p className="text-lg text-[var(--text-secondary)] leading-relaxed">Synapse analyzes your academic work and projects to auto-generate a tailored, high-converting resume.</p>
+                <p className="text-lg text-[var(--text-secondary)] leading-relaxed">Aethon analyzes your academic work and projects to auto-generate a tailored, high-converting resume.</p>
               </div>
 
               <div className="relative w-full max-w-[360px] h-[280px] flex items-center justify-center">
@@ -883,7 +883,7 @@ function Onboarding() {
             <motion.div key="scene8" variants={sceneVariants} initial="initial" animate="animate" exit="exit" className="absolute inset-0 flex flex-col items-center pt-24 pb-32 px-4 overflow-y-auto custom-scrollbar">
               <div className="w-full max-w-4xl flex flex-col items-center mt-auto mb-auto">
                 <div className="text-center mb-10 shrink-0">
-                  <h1 className="font-display text-5xl font-semibold tracking-tighter mb-3 text-[var(--text-primary)]">This is Synapse</h1>
+                  <h1 className="font-display text-5xl font-semibold tracking-tighter mb-3 text-[var(--text-primary)]">This is Aethon</h1>
                   <p className="text-lg text-[var(--text-secondary)]">Your intelligence, augmented.</p>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6 w-full shrink-0">
@@ -917,7 +917,7 @@ function Onboarding() {
                   <button onClick={completeOnboarding} className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 bg-[var(--primary-color)] text-[var(--primary-content)] rounded-full font-semibold text-xl overflow-hidden transition-transform hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(5,102,217,0.3)]">
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out rounded-full" />
                     <Sparkles className="w-6 h-6 relative z-10" />
-                    <span className="relative z-10">Launch Synapse</span>
+                    <span className="relative z-10">Launch Aethon</span>
                     <ArrowRight className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </motion.div>

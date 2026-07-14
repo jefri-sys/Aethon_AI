@@ -45,7 +45,7 @@ export const CinematicDeviceDemo = () => {
               {/* Scene 1: Boot & Dashboard */}
               <div className="laptop-content layer-boot">
                 <div className="boot-logo">◎</div>
-                <div className="boot-text">Synapse</div>
+                <div className="boot-text">Aethon</div>
                 <div className="boot-subtext">Student Operating System</div>
               </div>
 
@@ -252,7 +252,7 @@ export const CinematicDeviceDemo = () => {
               <div className="phone-notch"></div>
               
               <div className="phone-notification">
-                <span className="pn-title">Synapse</span>
+                <span className="pn-title">Aethon</span>
                 <span className="pn-desc">Study Session in 15m</span>
               </div>
 

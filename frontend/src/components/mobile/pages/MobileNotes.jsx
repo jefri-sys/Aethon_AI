@@ -8,7 +8,7 @@ export default function MobileNotes() {
   const [newNote, setNewNote] = useState('');
 
   useEffect(() => {
-    const saved = localStorage.getItem('synapse_quick_notes');
+    const saved = localStorage.getItem('aethon_quick_notes');
     if (saved) {
       setNotes(JSON.parse(saved));
     }
@@ -16,7 +16,7 @@ export default function MobileNotes() {
 
   const saveNotes = (updatedNotes) => {
     setNotes(updatedNotes);
-    localStorage.setItem('synapse_quick_notes', JSON.stringify(updatedNotes));
+    localStorage.setItem('aethon_quick_notes', JSON.stringify(updatedNotes));
   };
 
   const handleAddNote = () => {

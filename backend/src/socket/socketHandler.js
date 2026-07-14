@@ -10,7 +10,7 @@ let io;
 const init = (server) => {
   io = new Server(server, {
     cors: {
-      origin: process.env.FRONTEND_URL || 'https://synapsecloud.vercel.app',
+      origin: process.env.FRONTEND_URL || 'https://aethoncloud.vercel.app',
       credentials: true
     }
   });

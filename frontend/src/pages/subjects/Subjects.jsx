@@ -19,15 +19,15 @@ function Subjects() {
  const [scratchpadNotes, setScratchpadNotes] = useState([]);
  const [activeSemester, setActiveSemester] = useState(null);
  const [workingSemId, setWorkingSemId] = useState(
- localStorage.getItem("synapse_working_semester_id") || null,
+ localStorage.getItem("aethon_working_semester_id") || null,
  );
 
  const handleSetWorkingSemester = (semId) => {
  if (semId) {
- localStorage.setItem("synapse_working_semester_id", semId);
+ localStorage.setItem("aethon_working_semester_id", semId);
  setWorkingSemId(semId);
  } else {
- localStorage.removeItem("synapse_working_semester_id");
+ localStorage.removeItem("aethon_working_semester_id");
  setWorkingSemId(null);
  }
  // Also trigger custom event if other tabs are open
@@ -36,20 +36,20 @@ function Subjects() {
 
  useEffect(() => {
  const loadNotes = () => {
- const saved = JSON.parse(localStorage.getItem("synapse_notes") || "[]");
+ const saved = JSON.parse(localStorage.getItem("aethon_notes") || "[]");
  setScratchpadNotes(saved);
  };
  loadNotes();
- window.addEventListener("synapse_notes_updated", loadNotes);
- return () => window.removeEventListener("synapse_notes_updated", loadNotes);
+ window.addEventListener("aethon_notes_updated", loadNotes);
+ return () => window.removeEventListener("aethon_notes_updated", loadNotes);
  }, []);
 
  const deleteNote = (index) => {
  const newNotes = [...scratchpadNotes];
  newNotes.splice(index, 1);
- localStorage.setItem("synapse_notes", JSON.stringify(newNotes));
+ localStorage.setItem("aethon_notes", JSON.stringify(newNotes));
  setScratchpadNotes(newNotes);
- window.dispatchEvent(new Event("synapse_notes_updated"));
+ window.dispatchEvent(new Event("aethon_notes_updated"));
  };
 
  useEffect(() => {

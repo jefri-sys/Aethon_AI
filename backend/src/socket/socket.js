@@ -207,7 +207,7 @@ const initSocket = (server) => {
               group.lastEventPlanAt = new Date();
               await group.save();
 
-              const sysGenerate = 'You are an expert college event planning assistant for Synapse, a student platform. Generate a concise, structured event plan based on the discussion below. Include: Event Overview, Key Dates & Deadlines, Venue Considerations, Roles & Responsibilities, Checklist of action items, and Estimated Budget Range if inferable. Use markdown formatting. Keep it practical and student-friendly.';
+              const sysGenerate = 'You are an expert college event planning assistant for Aethon, a student platform. Generate a concise, structured event plan based on the discussion below. Include: Event Overview, Key Dates & Deadlines, Venue Considerations, Roles & Responsibilities, Checklist of action items, and Estimated Budget Range if inferable. Use markdown formatting. Keep it practical and student-friendly.';
               const userGenerate = `Group subject/context: ${group.course || group.name}\nRecent discussion:\n${historyText}`;
 
               const planText = await askGroq(sysGenerate, userGenerate, 1024);

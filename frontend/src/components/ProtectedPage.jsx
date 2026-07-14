@@ -68,7 +68,7 @@ function ProtectedPage({ title, description, headerAction, children }) {
             )}
             <div className="flex-1 min-w-0">
               <p className="text-[14.5px] font-bold tracking-tight text-[#111111] dark:text-[#ECECEC] leading-none truncate group-hover:opacity-80 transition-opacity">
-                {user?.name || 'Synapse User'}
+                {user?.name || 'Aethon User'}
               </p>
               <p className="text-[12px] font-medium text-[#666666] dark:text-[#A3A3A3] mt-1.5 truncate">
                 {user?.email || 'Student'}

@@ -46,12 +46,12 @@ export const WorkspaceAnimation = () => {
               <div className="film-layer layer-s1">
                 <div className="browser-bar">
                   <div className="traffic-lights"><span></span><span></span><span></span></div>
-                  <div className="search-bar">www.synapse.com</div>
+                  <div className="search-bar">www.aethon.com</div>
                 </div>
                 <div className="browser-content">
                   <div className="boot-seq">
                     <div className="b-logo">◎</div>
-                    <div className="b-title">SYNAPSE</div>
+                    <div className="b-title">AETHON</div>
                     <div className="b-sub">Student Operating System</div>
                     <div className="b-neural-glow"></div>
                   </div>
@@ -319,7 +319,7 @@ export const WorkspaceAnimation = () => {
                     One Workspace.<br/>Every Student Tool.<br/>Powered by AI.
                   </div>
                   <div className="fo-btn">Get Started Free →</div>
-                  <div className="fo-logo">◎ Synapse</div>
+                  <div className="fo-logo">◎ Aethon</div>
                 </div>
               </div>
 
@@ -340,7 +340,7 @@ export const WorkspaceAnimation = () => {
               <div className="phone-lockscreen">
                 <div className="pl-time">09:41</div>
                 <div className="pl-notif">
-                  <span className="pln-title">Synapse</span>
+                  <span className="pln-title">Aethon</span>
                   <span className="pln-txt">Operating Systems<br/>12 New Messages<br/>Rohan shared AI Summary</span>
                 </div>
               </div>

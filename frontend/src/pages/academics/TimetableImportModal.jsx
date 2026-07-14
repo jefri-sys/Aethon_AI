@@ -137,7 +137,7 @@ const TimetableImportModal = ({ semesterId, subjects, onClose, onSuccess }) => {
           {!previewData ? (
             <form onSubmit={handleUpload} className="space-y-6">
               <p className="text-[14.5px] leading-relaxed text-[#666666] dark:text-[#A3A3A3]">
-                Upload your college timetable PDF. Synapse AI will analyze the document, extract the schedule, and seamlessly integrate it into your calendar.
+                Upload your college timetable PDF. Aethon AI will analyze the document, extract the schedule, and seamlessly integrate it into your calendar.
               </p>
               
               <div className="relative border border-dashed border-black/15 dark:border-white/15 bg-[#FAFAFA] dark:bg-[#111111]/50 hover:bg-[#F3F4F6] dark:hover:bg-white/5 rounded-2xl p-10 text-center transition-all group">
@@ -176,7 +176,7 @@ const TimetableImportModal = ({ semesterId, subjects, onClose, onSuccess }) => {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <p className="text-[14px] text-[#666666] dark:text-[#A3A3A3]">
-                  Synapse AI extracted these classes. Map them to your subjects to proceed.
+                  Aethon AI extracted these classes. Map them to your subjects to proceed.
                 </p>
                 <span className="text-[12px] font-medium px-2 py-1 bg-black/[0.04] dark:bg-white/10 text-[#111111] dark:text-white rounded-lg">
                   {previewData.length} Slots Found

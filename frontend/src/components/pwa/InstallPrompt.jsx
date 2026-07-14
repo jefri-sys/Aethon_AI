@@ -18,7 +18,7 @@ export default function InstallPrompt() {
       e.preventDefault();
       setDeferredPrompt(e);
 
-      const dismissedState = localStorage.getItem('synapse_install_prompt_dismissed');
+      const dismissedState = localStorage.getItem('aethon_install_prompt_dismissed');
       if (dismissedState) {
         const { timestamp } = JSON.parse(dismissedState);
         const daysSinceDismiss = (Date.now() - timestamp) / (1000 * 60 * 60 * 24);
@@ -33,7 +33,7 @@ export default function InstallPrompt() {
 
     // iOS Safari logic
     if (isIosDevice && !isStandalone) {
-      const iosDismissedState = localStorage.getItem('synapse_ios_install_prompt_dismissed');
+      const iosDismissedState = localStorage.getItem('aethon_ios_install_prompt_dismissed');
       if (iosDismissedState) {
         const { timestamp } = JSON.parse(iosDismissedState);
         const daysSinceDismiss = (Date.now() - timestamp) / (1000 * 60 * 60 * 24);
@@ -66,9 +66,9 @@ export default function InstallPrompt() {
     setShowPrompt(false);
     const stateToSave = JSON.stringify({ timestamp: Date.now() });
     if (isIOS) {
-      localStorage.setItem('synapse_ios_install_prompt_dismissed', stateToSave);
+      localStorage.setItem('aethon_ios_install_prompt_dismissed', stateToSave);
     } else {
-      localStorage.setItem('synapse_install_prompt_dismissed', stateToSave);
+      localStorage.setItem('aethon_install_prompt_dismissed', stateToSave);
     }
   };
 
@@ -87,7 +87,7 @@ export default function InstallPrompt() {
         ) : (
           <>
             <div className="flex-1 text-[15px] font-medium text-slate-200 leading-snug z-10">
-              Install <strong className="text-white">Synapse</strong> for the full experience
+              Install <strong className="text-white">Aethon</strong> for the full experience
             </div>
             <button 
               onClick={handleInstallClick} 

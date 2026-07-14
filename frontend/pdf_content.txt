@@ -1,20 +1,20 @@
-Synapse — AI-Powered Integrated Academic and Student 
+Aethon — AI-Powered Integrated Academic and Student 
 Management Platform  
-SYNAPSE  
+AETHON  
 AI-Powered Integrated Academic and Student Management Platform  
 Complete Project Description — All Features  
 Next.js 14  |  MongoDB + Mongoose  |  Claude AI (Anthropic)  |  Socket.io  |  Full Stack  
 Project Overview  
-Synapse is a full -stack AI -powered web application built on Next.js 14 that serves as a 
+Aethon is a full -stack AI -powered web application built on Next.js 14 that serves as a 
 complete student life operating system for Indian college students — specifically those 
 pursuing MCA, BCA, B.Tech, and B.Com programs. It completely replaces the fragmented 
 ecosystem of 8 to 10 separate applications a typical college student uses today — Google 
 Calendar for scheduling, Excel for marks, random expense trackers, ChatGPT for studying, 
 and LinkedIn for placements — by bringing every essential academic and life management 
 function under one intelligent, interconnected platform.  
-The core identity of Synapse is simple: it is the student management app your college 
+The core identity of Aethon is simple: it is the student management app your college 
 should have built — smarter, more complete, and actually useful outside the classroom. 
-Where college -provided portals cover only marks and attendance, Synapse extends into 
+Where college -provided portals cover only marks and attendance, Aethon extends into 
 every dimension of student life: financial management, habit building, AI -powered study 
 assistance, collaborative study groups, and a central AI assistant that connects it all. The AI 
 layer does not exist as a gimmick — it earns its place by doing things that no individual app 
@@ -40,7 +40,7 @@ transactional emails  Scheduling  Node -cron for background jobs (recurring
 expenses, weekly reports)  
 Deployment  Vercel (frontend + backend)  
 User Architecture  
-Synapse is built for a single primary user role — the College Student. Unlike multi -role 
+Aethon is built for a single primary user role — the College Student. Unlike multi -role 
 enterprise systems, the platform is entirely student -facing. Every feature is designed around 
 the perspective, needs, and daily routine of an individual student. The AI assistant acts as a 
 second layer that operates across all modules simultaneously, giving the student a unified 
@@ -69,7 +69,7 @@ Export monthly expense data as CSV  Yes
 Feature Descriptions  
 1. Authentication with Email Verification  
 What it actually does:  
-When a student opens Synapse for the first time they see a login page. They click Register 
+When a student opens Aethon for the first time they see a login page. They click Register 
 and fill in their name, email, password, college name, course, and current semester. On 
 submission the account is created in the database with a verified status of false. A secure 
 random verification token is generated immediately and a verification email is dispatched 
@@ -90,7 +90,7 @@ token theft. Token expiry is 1 day standard, 30 days with Remember Me.
 • Every protected route validates the JWT through middleware — expired, missing, or 
 tampered tokens return a 401 and redirect to login.  
 Why it matters:  
-Every feature in Synapse depends on knowing exactly who is logged in. Without verified 
+Every feature in Aethon depends on knowing exactly who is logged in. Without verified 
 email, notification delivery breaks silently — a student who mistyped their email would 
 receive no study reminders, no budget warnings, and no weekly reports, with no indication 
 of why. Verification at registration catches this immediately before any data is entered.  
@@ -112,14 +112,14 @@ hours, Drink 8 glasses of water.
 budget, profile photo, and university type (which affects CGPA calculation formula).  
 • All profile fields are editable at any time from Settings.  
 Why it matters:  
-The onboarding flow exists because Synapse is only as useful as the data inside it. A student 
+The onboarding flow exists because Aethon is only as useful as the data inside it. A student 
 who skips onboarding gets a generic dashboard. A student who completes it gets an AI 
 morning briefing that references their actual exam dates, a Finance Tracker initialised to 
 their real budget, and a Study Planner that already knows their subjects. The three -minute 
 onboarding unlocks the full value of the platform immediately.  3. Today Dashboard  
 What it actually does:  
 The Today Dashboard is the home screen — the first thing a student sees every time they 
-open Synapse. It is designed to answer one question in under 10 seconds: what do I need to 
+open Aethon. It is designed to answer one question in under 10 seconds: what do I need to 
 focus on today? Every element on this screen is dynamic and personalised to the specific 
 student's data.  
 • Personalised greeting with the student's name and time of day — Good morning, Good 
@@ -140,7 +140,7 @@ Why it matters:
 The Today Dashboard is the most important screen in the product. If it feels useful and 
 relevant every single day, the student returns. If it feels empty or generic, they uninstall 
 within a week. Because it pulls live data from every module — academics, finance, habits, 
-planner — it becomes more valuable the more the student uses Synapse, creating a 
+planner — it becomes more valuable the more the student uses Aethon, creating a 
 compounding engagement loop.  
 4. Academic Tracker  
 What it actually does:  
@@ -205,7 +205,7 @@ analysis into the planner.
 • Written in plain, direct language. Not generic study advice — specific to this student's 
 exact numbers.  
 Why it matters:  
-This is the feature that makes Synapse an AI -powered platform rather than just a marks 
+This is the feature that makes Aethon an AI -powered platform rather than just a marks 
 tracker with a chatbot attached. The analysis is only possible because all the data — marks, 
 credit weights, target CGPA, exam dates — lives in one place. No other student tool can do 
 this because no other tool has all the data simultaneously.  
@@ -259,7 +259,7 @@ which is the main reason manual time tracking habits fail.
 9. AI Notebook — NotebookLM -Style Study Tool  
 What it actually does:  
 The AI Notebook is the most technically sophisticated and academically powerful feature in 
-Synapse. It turns a student's passive lecture notes into an active, interactive study tool. The 
+Aethon. It turns a student's passive lecture notes into an active, interactive study tool. The 
 student creates a notebook per subject, uploads their notes as a PDF or Word document, 
 and immediately gets an AI chat interface that can answer any question strictly from the 
 content of those notes.  
@@ -294,7 +294,7 @@ What it actually does:
 The Finance Tracker is a complete personal budget management system designed 
 specifically for Indian college students living on a fixed monthly allowance from their 
 parents. Most students have no visibility into where their money goes until it is already 
-gone. Synapse makes budget management visual, proactive, and effortless.  
+gone. Aethon makes budget management visual, proactive, and effortless.  
 • Monthly budget setup divided across six categories — Food, Transport, Books, 
 Entertainment, Hostel, and Miscellaneous. Each category has its own allocated amount.  
 • Quick expense logging — amount, category, optional note, and date. Accessible from the 
@@ -349,7 +349,7 @@ student sees that they personally study 1.4 hours more on days they sleep well, 
 behaviour in a way that abstract advice never does.  
 12. Central AI Assistant  
 What it actually does:  
-The Central AI Assistant is the brain of Synapse. It is the feature that transforms a collection 
+The Central AI Assistant is the brain of Aethon. It is the feature that transforms a collection 
 of useful tools into an integrated operating system. The AI has read access to every piece of 
 data the student has entered — marks, expenses, habits, study schedule, exam dates, logged 
 study hours — and uses this unified context to provide insights that no individual feature 
@@ -365,7 +365,7 @@ natural conversational feel.
 • Context -aware — the AI knows which module the student is currently viewing and tailors 
 suggestions accordingly.  
 • The AI never invents data. Every insight it provides is grounded in the student's actual 
-records stored in the Synapse database.  
+records stored in the Aethon database.  
 Why it matters:  
 Individual features are useful in isolation. A marks tracker tells you your CGPA. A habit 
 tracker shows your streaks. A finance tracker shows your balance. But none of these 
@@ -376,7 +376,7 @@ your budget and caused you financial stress. Only an AI with access to all of th
 simultaneously can make that connection.  
 13. Weekly AI Report Card  
 What it actually does:  
-Every Sunday, Synapse automatically generates a personalised weekly report for the 
+Every Sunday, Aethon automatically generates a personalised weekly report for the 
 student. The report is created by a scheduled cron job that collects the past seven days of 
 data across all modules and sends it to the Claude API for analysis. The result is a 
 structured, honest summary of how the student's week went and what to focus on in the 
@@ -399,7 +399,7 @@ one that references your actual study hours, your actual spending, and your actu
 deliberate manual effort to build.  
 14. Study Groups — Real -Time Collaborative Chat  
 What it actually does:  
-Study Groups bring a social and collaborative layer to Synapse without the complexity of 
+Study Groups bring a social and collaborative layer to Aethon without the complexity of 
 building a full messaging application. Students from the same college and course can 
 discover each other on the platform, form study groups, and communicate in real time 
 through a focused text chat interface.  
@@ -416,13 +416,13 @@ previous discussions.
 Why it matters:  
 Students already study in groups — they coordinate over WhatsApp, share notes over 
 email, and discuss exam content in person. Study Groups brings this collaboration inside 
-Synapse and connects it to the academic features already there. Sharing a notebook 
+Aethon and connects it to the academic features already there. Sharing a notebook 
 summary directly into a group chat — so the whole group can discuss the AI -generated 
 summary of shared notes — is a capability that exists nowhere else. Scoping the feature to 
 text -only is a deliberate product decision, not a limitation.  
 15. Quick Capture — Universal Floating Action Button  
 What it actually does:  
-Quick Capture is a floating action button present on every single page of Synapse. It exists to 
+Quick Capture is a floating action button present on every single page of Aethon. It exists to 
 solve one problem: friction. The single biggest reason students stop using tracking tools is 
 that logging anything requires too many taps and too much navigation. Quick Capture 
 reduces any common action to under 5 seconds from anywhere in the app.  
@@ -442,7 +442,7 @@ steps. The student has a thought — I just spent 80 rupees on chai — and capt
 immediately in the moment, without losing their place in whatever they were doing.  
 16. Notifications System  
 What it actually does:  
-The Notifications system ensures that Synapse reaches out to the student proactively, 
+The Notifications system ensures that Aethon reaches out to the student proactively, 
 rather than waiting for the student to remember to check in. Notifications are generated by 
 the backend based on specific triggers across all modules and delivered via a bell icon with 
 an unread count badge in the navigation bar.  
@@ -457,14 +457,14 @@ and configure reminder times.
 Habit reminder, Streak alert, AI briefing ready, Weekly report ready, Study group message.  
 Why it matters:  
 The platform needs to come to the student, not wait for the student to come to the platform. 
-A student who has not checked Synapse in two days should receive a notification that their 
+A student who has not checked Aethon in two days should receive a notification that their 
 DSA exam is tomorrow and their study plan shows 4 topics uncovered. That notification 
-creates urgency and action. Without proactive notifications, Synapse is only useful to 
+creates urgency and action. Without proactive notifications, Aethon is only useful to 
 students who remember to open it regularly — a much smaller group than those who 
 simply need a timely reminder.  
 17. Settings  
 What it actually does:  
-The Settings page gives students full control over their Synapse account and preferences. 
+The Settings page gives students full control over their Aethon account and preferences. 
 Student situations change throughout the academic year — new semester, new subjects, 
 new budget, new goals — and Settings ensures the platform stays accurate to the student's 
 current reality.  
@@ -478,7 +478,7 @@ at any time.
 • Account deletion — permanently deletes all student data.  
 Why it matters:  
 A student who changes course, moves to a new semester, or adjusts their monthly budget 
-needs to be able to update Synapse to reflect that reality. Outdated data produces irrelevant 
+needs to be able to update Aethon to reflect that reality. Outdated data produces irrelevant 
 AI insights and incorrect CGPA calculations. Settings is not a peripheral feature — it is the 
 mechanism that keeps every other feature accurate over the full duration of a student's 
 college life.  
@@ -487,7 +487,7 @@ What it actually does:
 The AI Learning Resource Explorer helps students discover high -quality, up -to-date 
 learning materials for any academic subject, programming language, framework, 
 technology, or skill they wish to learn. The student enters a topic — Learn React, Machine 
-Learning, Data Structures, DBMS Normalization — and Synapse performs a live web search, 
+Learning, Data Structures, DBMS Normalization — and Aethon performs a live web search, 
 retrieves results from trusted educational sources, filters and passes them to the AI, and 
 returns a structured learning roadmap rather than a raw list of links.  
 • Student enters any topic in a search bar. No category selection required.  
@@ -511,7 +511,7 @@ returns a structured roadmap.
 What it actually does:  
 Smart Task Prioritisation transforms the Study Planner's task list from a simple 
 chronological list into an intelligent, dynamically ranked priority system. Instead of 
-displaying tasks in the order they were created or scheduled, Synapse analyses multiple 
+displaying tasks in the order they were created or scheduled, Aethon analyses multiple 
 factors simultaneously and surfaces the tasks that need the student's attention most 
 urgently at the top of the list.  
 • Factors analysed include due date proximity, subject credit weight, upcoming exam dates for the associated subject, current marks performance in that subject, and attendance 
@@ -529,7 +529,7 @@ current performance context — automatically and continuously. Students stop ha
 manually reorder and reprioritise their task lists every morning.  
 20. Study Analytics Dashboard  
 What it actually does:  
-The Study Analytics Dashboard converts the raw data stored across all of Synapse's 
+The Study Analytics Dashboard converts the raw data stored across all of Aethon's 
 modules into meaningful visual insights. Rather than requiring the student to navigate 
 between the Academic Tracker, Study Planner, and Habit Tracker separately to understand 
 their overall performance, the Analytics Dashboard aggregates everything into one visual 
@@ -550,7 +550,7 @@ Why it matters:
 Numbers without context are noise. A student who sees their CGPA is 7.1 does not 
 automatically know whether that is trending up or down, which subject is dragging it, or 
 what the connection is between their study hours and their marks. The Study Analytics 
-Dashboard provides that context visually and explains it in plain language. It turns Synapse 
+Dashboard provides that context visually and explains it in plain language. It turns Aethon 
 from a data collection platform into a platform that actively helps the student understand 
 their own academic situation.  21. Resource Recommendation Engine Based on Weak Areas  
 What it actually does:  
@@ -580,7 +580,7 @@ it recommends exactly the resources needed to address those specific gaps.
 What it actually does:  
 The Exam Readiness Score gives every student a single, clear numerical indicator showing 
 how prepared they are for an upcoming examination. Rather than leaving students to guess 
-their preparation level based on a vague feeling of having studied enough, Synapse 
+their preparation level based on a vague feeling of having studied enough, Aethon 
 calculates a composite score from multiple data sources and explains exactly what is driving 
 it up or down.  
 • Score calculated from five factors — attendance percentage for the subject (weighted 
@@ -643,14 +643,14 @@ direct 1 -on-1 communication between students.
 • Students can search for peers, send friend requests, and manage their network.  
 • Real -time text messaging with read receipts and online status indicators powered by 
 WebSockets.  
-• Fully integrated with the Synapse notification system to alert users of new messages and 
+• Fully integrated with the Aethon notification system to alert users of new messages and 
 friend requests.  
 • Provides a distraction -free, academic -focused alternative to mainstream social media 
 apps.  
 Why it matters:  
 While study groups facilitate class -wide discussion, a significant amount of academic 
 collaboration happens one -on-one. This feature keeps peer -to-peer communication within 
-the Synapse ecosystem, eliminating the need to switch to distracting external messaging 
+the Aethon ecosystem, eliminating the need to switch to distracting external messaging 
 apps while studying.  
 26. Career Vault Security — Independent Password Access Gate  
 What it actually does:  
@@ -663,7 +663,7 @@ module.
 verification.  
 Why it matters:  
 Career documents —such as resumes, offer letters, and ID cards —contain highly sensitive 
-personal information. Even if a student leaves their Synapse dashboard open on a shared 
+personal information. Even if a student leaves their Aethon dashboard open on a shared 
 college computer, the Career Vault remains independently locked, preventing unauthorized 
 access to their most private data.  
 27. Career Timeline  
@@ -761,7 +761,7 @@ Password Access Gate (Security)
 28 Resume Intelligence (AI + Career)  
 29 AI Resume Builder (AI + Career)  
 Database Schema Overview  
-Synapse uses MongoDB as the primary NoSQL database accessed through Mongoose ORM. 
+Aethon uses MongoDB as the primary NoSQL database accessed through Mongoose ORM. 
 The schema is designed around the central User model, which all other models reference. 
 This ensures complete data isolation between students — one student's marks, expenses, 
 habits, and notebooks are never accessible to another.  
@@ -826,13 +826,13 @@ Environment  .env files  All secrets — JWT secret,
 Claude API key, DB URL, 
 email credentials  
 Platform Philosophy  
-Synapse is built on one principle: a student should never need to leave the platform to 
+Aethon is built on one principle: a student should never need to leave the platform to 
 manage their academic life. Every tool a college student reaches for — the marks calculator, 
 the budget spreadsheet, the ChatGPT tab, the calendar app, the WhatsApp study group — 
-exists inside Synapse, connected by an AI that understands the complete picture.  
+exists inside Aethon, connected by an AI that understands the complete picture.  
 The soul of the platform is three things working perfectly together: know your academics, 
 manage your money, and stay consistent with your habits. Everything else — the AI 
 notebook, the study groups, the weekly report — exists to support and enrich those three 
 foundations.  
-Synapse is not the platform that tracks everything. It is the platform that tells you what 
+Aethon is not the platform that tracks everything. It is the platform that tells you what 
 matters today.  

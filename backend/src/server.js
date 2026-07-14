@@ -44,10 +44,10 @@ const startServer = async () => {
     }
 
     server.listen(PORT, () => {
-      console.log(`Synapse backend running on port ${PORT}`);
+      console.log(`Aethon backend running on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Failed to start Synapse backend:', error);
+    console.error('Failed to start Aethon backend:', error);
     process.exit(1);
   }
 };

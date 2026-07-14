@@ -4,13 +4,13 @@ import { useAuth } from '../../hooks/useAuth.js';
 import './Landing.css';
 import { Brain, ArrowRight, BrainCircuit, Calendar, BookOpen, Target, Briefcase, FileText, LayoutDashboard, MessageSquare, LineChart, Globe } from 'lucide-react';
 import brainNetworkImg from '../../assets/brain_network.png';
-import synapseLogo from '../../assets/logo.png';
+import aethonLogo from '../../assets/logo.png';
 import WatchDemoSection from './components/WatchDemoSection.jsx';
 import { WorkspaceAnimation } from './components/WorkspaceAnimation.jsx';
 import './components/WatchDemoModal.css';
 import { X } from 'lucide-react';
 
-const SynapseNetworkAnimation = () => {
+const AethonNetworkAnimation = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -197,11 +197,11 @@ const Landing = () => {
 
   return (
     <div className="landing-container">
-      <SynapseNetworkAnimation />
+      <AethonNetworkAnimation />
       <nav className="landing-nav">
         <div className="landing-logo">
-          <img src={synapseLogo} alt="Synapse" className="logo-icon" style={{ width: '38px', height: '38px' }} />
-          <span>Synapse</span>
+          <img src={aethonLogo} alt="Aethon" className="logo-icon" style={{ width: '38px', height: '38px' }} />
+          <span>Aethon</span>
         </div>
         <div className="landing-nav-links">
           <button onClick={() => setIsDemoModalOpen(true)} className="nav-link" style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}>Watch Demo</button>
@@ -286,7 +286,7 @@ const Landing = () => {
           <Card 
             icon={<BrainCircuit size={24} color="#38BDF8" />} 
             title="AI Notebook" 
-            desc="Upload your documents and watch as Synapse instantly extracts key concepts, generates smart flashcards, and builds custom quizzes."
+            desc="Upload your documents and watch as Aethon instantly extracts key concepts, generates smart flashcards, and builds custom quizzes."
           />
           <Card 
             icon={<Calendar size={24} color="#38BDF8" />} 
@@ -329,7 +329,7 @@ const Landing = () => {
         <div className="cta-content" ref={(el) => addToRefs(el)} style={{ opacity: 0, transform: 'translateY(30px)', transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)' }}>
           <h2 className="cta-title">Ready to <span className="text-gradient-accent">upgrade</span> your workflow?</h2>
           <p className="hero-subtitle" style={{ marginInline: 'auto' }}>
-            Join thousands of students who have transformed their academic journey with Synapse.
+            Join thousands of students who have transformed their academic journey with Aethon.
           </p>
           <div style={{ marginTop: '2.5rem' }}>
             {user ? (

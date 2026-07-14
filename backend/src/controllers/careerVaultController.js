@@ -37,7 +37,7 @@ const createTransporter = () => {
 const sendEmail = async ({ to, subject, text, html }) => {
   const transporter = createTransporter();
   await transporter.sendMail({
-    from: process.env.NODEMAILER_FROM || process.env.NODEMAILER_USER || 'noreply@synapse.local',
+    from: process.env.NODEMAILER_FROM || process.env.NODEMAILER_USER || 'noreply@aethon.local',
     to,
     subject,
     text,
@@ -46,7 +46,7 @@ const sendEmail = async ({ to, subject, text, html }) => {
 };
 
 const sendVaultResetEmail = async (user, rawToken) => {
-  const frontendUrl = process.env.FRONTEND_URL || 'https://synapsecloud.vercel.app';
+  const frontendUrl = process.env.FRONTEND_URL || 'https://aethoncloud.vercel.app';
   const resetLink = `${frontendUrl}/career/reset-vault-password?token=${rawToken}`;
 
   await sendEmail({
@@ -55,7 +55,7 @@ const sendVaultResetEmail = async (user, rawToken) => {
     text: `Hi ${user.name}, reset your Career Vault password: ${resetLink}`,
     html: `
       <p>Hi ${user.name},</p>
-      <p>Use the link below to reset your Career Vault password. This is specific to your Vault and will not change your main Synapse account password.</p>
+      <p>Use the link below to reset your Career Vault password. This is specific to your Vault and will not change your main Aethon account password.</p>
       <p><a href="${resetLink}">Reset Vault password</a></p>
       <p>This link expires in 1 hour.</p>
     `,

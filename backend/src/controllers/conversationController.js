@@ -398,7 +398,7 @@ exports.createMediaMessage = async (req, res) => {
 
     const mimetype = req.file.mimetype;
     let type = 'document';
-    let folderBase = conversation.type === 'dm' ? 'synapse/dm' : 'synapse/groups';
+    let folderBase = conversation.type === 'dm' ? 'aethon/dm' : 'aethon/groups';
     let folderEnd = 'docs';
 
     if (mimetype.startsWith('image/')) {

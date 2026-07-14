@@ -253,7 +253,7 @@ const ChatWindow = ({ conversation, initialMessages, socket, currentUserId, curr
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: type === 'video' });
-      window.dispatchEvent(new CustomEvent('synapse:call', {
+      window.dispatchEvent(new CustomEvent('aethon:call', {
         detail: {
           conversationId: conversation._id,
           recipientId: String(otherUser._id || otherUser),

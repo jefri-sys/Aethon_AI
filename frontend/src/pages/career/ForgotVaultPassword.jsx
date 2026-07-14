@@ -35,7 +35,7 @@ export default function ForgotVaultPassword() {
         <h2 className="text-2xl font-bold text-text-primary mb-2">Forgot Vault Password?</h2>
         <p className="text-text-secondary mb-8 leading-relaxed">
           This will send a secure link to your email to reset your Career Vault password. 
-          Your main Synapse account password will not be affected.
+          Your main Aethon account password will not be affected.
         </p>
 
         {success ? (

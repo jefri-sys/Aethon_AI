@@ -30,7 +30,7 @@ function Messages({ isPopupMode }) {
   useEffect(() => {
     if (user) {
       const token = localStorage.getItem('aethon_token');
-      const newSocket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
+      const newSocket = io(import.meta.env.VITE_API_URL || 'https://aethon-ai-4dcd.onrender.com', {
         auth: { token },
         withCredentials: true
       });

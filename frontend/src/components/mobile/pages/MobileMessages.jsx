@@ -74,7 +74,7 @@ export default function MobileMessages({
         });
         setTimeout(scrollToBottom, 100);
         socket.emit('messages:seen', { conversationId: activeConversation._id, messageIds: [msg._id] });
-        window.dispatchEvent(new CustomEvent('synapse:messages-read'));
+        window.dispatchEvent(new CustomEvent('aethon:messages-read'));
       }
 
       // 2. Update local conversation list for real-time sync
@@ -232,7 +232,7 @@ export default function MobileMessages({
         return;
       }
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: type === 'video' });
-      window.dispatchEvent(new CustomEvent('synapse:call', {
+      window.dispatchEvent(new CustomEvent('aethon:call', {
         detail: {
           conversationId: activeConversation._id,
           recipientId: String(otherUser._id || otherUser),

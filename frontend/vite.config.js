@@ -43,7 +43,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-auth-me-cache',
+              cacheName: 'aethon-auth-me-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -52,7 +52,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-subjects-cache',
+              cacheName: 'aethon-subjects-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -61,7 +61,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-cgpa-cache',
+              cacheName: 'aethon-cgpa-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -70,7 +70,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-attendance-cache',
+              cacheName: 'aethon-attendance-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -79,7 +79,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-marks-cache',
+              cacheName: 'aethon-marks-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -88,7 +88,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-semesters-cache',
+              cacheName: 'aethon-semesters-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -97,7 +97,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-expenses-summary-cache',
+              cacheName: 'aethon-expenses-summary-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -106,7 +106,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-habits-analytics-cache',
+              cacheName: 'aethon-habits-analytics-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -115,7 +115,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-tasks-cache',
+              cacheName: 'aethon-tasks-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -124,7 +124,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             method: 'GET',
             options: {
-              cacheName: 'synapse-notifications-cache',
+              cacheName: 'aethon-notifications-cache',
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
             }
           }

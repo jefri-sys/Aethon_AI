@@ -34,7 +34,7 @@ function Login() {
       setSubmitting(true);
       const { data } = await api.post('/auth/login', form);
       if (data.token) {
-        localStorage.setItem('synapse_token', data.token);
+        localStorage.setItem('aethon_token', data.token);
       }
       window.dispatchEvent(new CustomEvent('auth-success'));
       login(data.user);
@@ -53,7 +53,7 @@ function Login() {
   return (
     <AuthLayout
       title="Welcome back"
-      subtitle="Enter your credentials to access your Synapse workspace."
+      subtitle="Enter your credentials to access your Aethon workspace."
       footer={
         <>
           Don't have an account?{' '}

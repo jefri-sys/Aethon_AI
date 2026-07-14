@@ -57,7 +57,7 @@ export default function MobileSettings() {
     try {
       setLoading(true);
       await api.post(`/users/reset-data`, { password: confirmPassword });
-      alert('All Synapse data reset successfully.');
+      alert('All Aethon data reset successfully.');
       setShowResetModal(false);
       setConfirmPassword('');
     } catch (err) {
@@ -172,7 +172,7 @@ export default function MobileSettings() {
                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--mobile-danger-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <AlertTriangle size={18} color="var(--mobile-danger)" />
                 </div>
-                <span style={{ fontSize: '15px', fontWeight: 600, color: 'var(--mobile-text-primary)' }}>Reset Synapse Data</span>
+                <span style={{ fontSize: '15px', fontWeight: 600, color: 'var(--mobile-text-primary)' }}>Reset Aethon Data</span>
               </div>
               <ChevronRight size={20} color="var(--mobile-text-tertiary)" />
             </div>

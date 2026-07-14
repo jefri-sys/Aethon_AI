@@ -9,7 +9,7 @@ def extract_text(pdf_path):
         return text
 
 if __name__ == "__main__":
-    text = extract_text('_Synapse_Project_Description_Updated.pdf')
+    text = extract_text('_Aethon_Project_Description_Updated.pdf')
     with open('pdf_content.txt', 'w', encoding='utf-8') as out:
         out.write(text)
     print("Extraction complete")

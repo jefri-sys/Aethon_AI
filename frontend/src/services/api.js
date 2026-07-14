@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com'}/api`,
+  baseURL: `${import.meta.env.VITE_API_URL || 'https://aethon-ai-4dcd.onrender.com'}/api`,
   withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('synapse_token');
+  const token = localStorage.getItem('aethon_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

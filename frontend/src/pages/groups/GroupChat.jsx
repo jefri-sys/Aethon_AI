@@ -44,7 +44,7 @@ const GroupChat = ({ group, onLeave }) => {
  useEffect(() => {
  fetchMessages();
  
- const newSocket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
+ const newSocket = io(import.meta.env.VITE_API_URL || 'https://aethon-ai-4dcd.onrender.com', {
  withCredentials: true
  });
  
@@ -471,7 +471,7 @@ const GroupChat = ({ group, onLeave }) => {
  <div key={msg._id || idx} className="flex flex-col items-start mb-2">
  <div className="flex items-center ml-1 mb-1">
  <span className="flex items-center text-[10px] text-brand-primary-dark font-bold tracking-wide uppercase bg-brand-primary-subtle border border-brand-primary/20 px-2 py-0.5 rounded-full">
- <Zap className="w-3 h-3 mr-1 text-brand-primary fill-current" /> Synapse AI
+ <Zap className="w-3 h-3 mr-1 text-brand-primary fill-current" /> Aethon AI
  </span>
  <span className="ml-2 text-[9px] uppercase font-bold tracking-wider text-text-tertiary">
  • {badge}

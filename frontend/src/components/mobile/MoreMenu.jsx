@@ -31,7 +31,7 @@ export default function MoreMenu({ isOpen, onClose }) {
   };
 
   const tiles = [
-    { label: 'Synapse AI', path: '/ai-mobile', icon: Brain, bg: 'var(--mobile-primary-subtle)', color: 'var(--mobile-primary)' },
+    { label: 'Aethon AI', path: '/ai-mobile', icon: Brain, bg: 'var(--mobile-primary-subtle)', color: 'var(--mobile-primary)' },
     { label: 'Notes', path: '/notes-mobile', icon: Edit3, bg: 'var(--mobile-secondary-subtle)', color: 'var(--mobile-secondary)' },
     { label: 'Notebook', path: '/notebook-mobile', icon: BookOpen, bg: 'var(--mobile-secondary-subtle)', color: 'var(--mobile-secondary)' },
     { label: 'Finance', path: '/finance-mobile', icon: Wallet, bg: 'var(--mobile-success-subtle)', color: 'var(--mobile-success)' },

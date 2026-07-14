@@ -78,7 +78,7 @@ const chat = async (req, res) => {
 
     const context = await buildStudentContext(userId);
 
-    let systemPrompt = `You are Synapse AI, an academic assistant for Indian college students. 
+    let systemPrompt = `You are Aethon AI, an academic assistant for Indian college students. 
   Help with study planning, CGPA analysis, habits, and academic advice. Be concise and friendly.
   You have access to this student's real data:
   ${context}`;
@@ -259,7 +259,7 @@ Rules:
 - Do not make up data — only reference what is provided above
 `;
 
-    const result = await askGroq(briefingPrompt, "You are Synapse AI, a friendly personal advisor for students.");
+    const result = await askGroq(briefingPrompt, "You are Aethon AI, a friendly personal advisor for students.");
     
     if (!result.success) {
       return res.status(result.limitHit ? 429 : 500).json({

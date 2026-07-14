@@ -4,10 +4,10 @@ import {
   Brain, ArrowLeft, LayoutDashboard, BrainCircuit, Calendar, 
   BookOpen, Target, Briefcase, Shield, LineChart, Users, Bell, Globe
 } from 'lucide-react';
-import synapseLogo from '../../assets/logo.png';
+import aethonLogo from '../../assets/logo.png';
 import './ExplorePlatform.css';
 
-const SynapseNetworkAnimation = () => {
+const AethonNetworkAnimation = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -195,11 +195,11 @@ const ExplorePlatform = () => {
 
   return (
     <div className="explore-container">
-      <SynapseNetworkAnimation />
+      <AethonNetworkAnimation />
       <nav className="explore-nav">
         <div className="landing-logo" style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
-          <img src={synapseLogo} alt="Synapse" className="logo-icon" style={{ width: '38px', height: '38px' }} />
-          <span>Synapse</span>
+          <img src={aethonLogo} alt="Aethon" className="logo-icon" style={{ width: '38px', height: '38px' }} />
+          <span>Aethon</span>
         </div>
         <button onClick={() => navigate('/')} className="btn-secondary" style={{ border: 'none', background: 'transparent' }}>
           <ArrowLeft size={16} style={{ marginRight: '6px' }} />

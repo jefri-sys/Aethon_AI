@@ -653,7 +653,7 @@ exports.createMediaMessage = async (req, res) => {
     else if (mimetype.startsWith('video/')) { type = 'video'; folderEnd = 'videos'; }
     else if (mimetype.startsWith('audio/')) { type = 'audio'; folderEnd = 'audio'; }
 
-    const folder = `synapse/groups/${folderEnd}`;
+    const folder = `aethon/groups/${folderEnd}`;
     const url = await uploadToCloudinary(req.file.buffer, mimetype, folder);
 
     const newMsg = new GroupMessage({
@@ -721,7 +721,7 @@ exports.aiExamPlan = async (req, res) => {
     
     const historyText = recentMessages.reverse().map(m => `${m.senderId?.name || 'User'}: ${m.message}`).join('\n').substring(0, 2000);
 
-    const sysPrompt = 'You are an expert academic study planner for Synapse, a student platform in India. Create a practical, day-by-day exam preparation plan. Use markdown with clear sections. Be specific and actionable. Consider the Indian academic context (university exams, semester system).';
+    const sysPrompt = 'You are an expert academic study planner for Aethon, a student platform in India. Create a practical, day-by-day exam preparation plan. Use markdown with clear sections. Be specific and actionable. Consider the Indian academic context (university exams, semester system).';
     const userPrompt = `Subject/Group: ${group.course || group.name}\nExam Date: ${examDate}\nAdditional context: ${additionalContext || 'none provided'}\n\nRecent group discussion (use this to infer weak areas and topics being studied):\n${historyText}\n\nGenerate:\n1. Identified weak areas from the discussion\n2. Day-by-day study schedule from today until the exam date\n3. Recommended resources/topics per day\n4. Last-day revision checklist\n5. Exam day tips`;
 
     const planText = await askGroq(sysPrompt, userPrompt, 2048);
@@ -745,7 +745,7 @@ exports.aiAsk = async (req, res) => {
       return res.status(403).json({ error: 'Not authorized to send messages' });
     }
 
-    const sysPrompt = `You are a knowledgeable academic assistant inside Synapse, a student platform. Answer the question clearly and accurately. Use markdown formatting. If the question is outside academic scope, politely redirect. Keep answers concise but complete — aim for clarity over length.\nGroup context: ${group.course || group.name}`;
+    const sysPrompt = `You are a knowledgeable academic assistant inside Aethon, a student platform. Answer the question clearly and accurately. Use markdown formatting. If the question is outside academic scope, politely redirect. Keep answers concise but complete — aim for clarity over length.\nGroup context: ${group.course || group.name}`;
     
     const answerText = await askGroq(sysPrompt, question, 1024);
     const msg = await saveGroupBotMessage(getIO(), id, answerText, 'qa_answer');
@@ -772,7 +772,7 @@ exports.aiEvaluate = async (req, res) => {
 
     if (!qMsg || !aMsg) return res.status(404).json({ error: 'Messages not found' });
 
-    const sysPrompt = 'You are an academic evaluator inside Synapse, a student platform. Evaluate the student\'s answer to the given question. Be encouraging but honest. Structure your evaluation as:\n✅ What\'s correct\n⚠️ What\'s incomplete or partially correct\n❌ What\'s incorrect (if anything)\n💡 Suggested improvement or the complete correct answer\nUse markdown formatting.';
+    const sysPrompt = 'You are an academic evaluator inside Aethon, a student platform. Evaluate the student\'s answer to the given question. Be encouraging but honest. Structure your evaluation as:\n✅ What\'s correct\n⚠️ What\'s incomplete or partially correct\n❌ What\'s incorrect (if anything)\n💡 Suggested improvement or the complete correct answer\nUse markdown formatting.';
     const userPrompt = `Question: ${qMsg.message}\nStudent's Answer: ${aMsg.message}\nSubject context: ${group.course || group.name}`;
 
     const evalText = await askGroq(sysPrompt, userPrompt, 1024);

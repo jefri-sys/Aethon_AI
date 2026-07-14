@@ -47,7 +47,7 @@ const sendEmail = async ({ to, subject, text, html }) => {
     from:
       process.env.NODEMAILER_FROM ||
       process.env.NODEMAILER_USER ||
-      'noreply@synapse.local',
+      'noreply@aethon.local',
     to,
     subject,
     text,
@@ -56,16 +56,16 @@ const sendEmail = async ({ to, subject, text, html }) => {
 };
 
 const sendVerificationEmail = async (user, rawToken) => {
-  const frontendUrl = process.env.FRONTEND_URL || 'https://synapsecloud.vercel.app';
+  const frontendUrl = process.env.FRONTEND_URL || 'https://aethoncloud.vercel.app';
   const verificationLink = `${frontendUrl}/verify-email?token=${rawToken}`;
 
   await sendEmail({
     to: user.email,
-    subject: 'Verify your Synapse account',
-    text: `Hi ${user.name}, verify your Synapse account: ${verificationLink}`,
+    subject: 'Verify your Aethon account',
+    text: `Hi ${user.name}, verify your Aethon account: ${verificationLink}`,
     html: `
       <p>Hi ${user.name},</p>
-      <p>Please verify your Synapse account using the link below:</p>
+      <p>Please verify your Aethon account using the link below:</p>
       <p><a href="${verificationLink}">Verify email</a></p>
       <p>This link expires in 24 hours.</p>
     `,
@@ -73,16 +73,16 @@ const sendVerificationEmail = async (user, rawToken) => {
 };
 
 const sendResetPasswordEmail = async (user, rawToken) => {
-  const frontendUrl = process.env.FRONTEND_URL || 'https://synapsecloud.vercel.app';
+  const frontendUrl = process.env.FRONTEND_URL || 'https://aethoncloud.vercel.app';
   const resetLink = `${frontendUrl}/reset-password?token=${rawToken}`;
 
   await sendEmail({
     to: user.email,
-    subject: 'Reset your Synapse password',
-    text: `Hi ${user.name}, reset your Synapse password: ${resetLink}`,
+    subject: 'Reset your Aethon password',
+    text: `Hi ${user.name}, reset your Aethon password: ${resetLink}`,
     html: `
       <p>Hi ${user.name},</p>
-      <p>Use the link below to reset your Synapse password:</p>
+      <p>Use the link below to reset your Aethon password:</p>
       <p><a href="${resetLink}">Reset password</a></p>
       <p>This link expires in 1 hour.</p>
     `,

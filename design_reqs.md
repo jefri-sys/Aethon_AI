@@ -6,7 +6,7 @@ LIGHT MODE (default theme):
 - Surface raised/elevated (modals, active cards): #FFFDF9
 - Primary accent (CTAs, active nav, key actions): #FF7A59 (warm coral-orange)
 - Primary accent hover/pressed: #E8623F
-- Secondary accent (AI features, highlights, badges): #7C6FF0 (soft violet — links back to Synapse's indigo brand identity)
+- Secondary accent (AI features, highlights, badges): #7C6FF0 (soft violet — links back to Aethon's indigo brand identity)
 - Secondary accent subtle background: #ECE9FE
 - Success: #4CAF82
 - Success subtle background: #E3F5EB

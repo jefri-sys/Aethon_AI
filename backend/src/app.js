@@ -37,7 +37,7 @@ app.use(helmet({
 }));
 const configuredOrigins = process.env.FRONTEND_URL 
   ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
-  : ['https://synapsecloud.vercel.app', 'http://localhost:5173'];
+  : ['https://aethoncloud.vercel.app', 'http://localhost:5173'];
 
 const localOrigins = [
   'http://localhost:5173',
@@ -98,7 +98,7 @@ app.use('/api/push', pushRoutes);
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'ok',
-    service: 'synapse-backend'
+    service: 'aethon-backend'
   });
 });
 

@@ -85,7 +85,7 @@ function Register() {
   return (
     <AuthLayout
       title="Create your account"
-      subtitle="Start your Synapse workspace after verifying your email."
+      subtitle="Start your Aethon workspace after verifying your email."
       footer={
         <>
           Already have an account?{' '}

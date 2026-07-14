@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Brain, Send, RotateCcw, Sparkles, History } from 'lucide-react';
-import synapseLogo from '../../../assets/logo.png';
+import aethonLogo from '../../../assets/logo.png';
 import api from '../../../services/api';
 
 const QUICK_PROMPTS = [
@@ -17,7 +17,7 @@ export default function MobileAIChat() {
   const messagesEndRef = useRef(null);
 
   const handleResume = () => {
-    const saved = localStorage.getItem('synapse_chat_history');
+    const saved = localStorage.getItem('aethon_chat_history');
     if (saved) {
       setConversationHistory(JSON.parse(saved));
     }
@@ -25,7 +25,7 @@ export default function MobileAIChat() {
 
   useEffect(() => {
     if (conversationHistory.length > 0) {
-      localStorage.setItem('synapse_chat_history', JSON.stringify(conversationHistory));
+      localStorage.setItem('aethon_chat_history', JSON.stringify(conversationHistory));
     }
   }, [conversationHistory]);
 
@@ -83,10 +83,10 @@ export default function MobileAIChat() {
       <div className="flex items-center justify-between px-5 py-4 bg-white/70 dark:bg-[#1E1E1E]/80 backdrop-blur-md border-b border-[#E8E8E8] dark:border-white/10 shrink-0 z-10 shadow-sm">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-brand-primary-subtle flex items-center justify-center border border-brand-primary-subtle">
-            <img src={synapseLogo} alt="Synapse" style={{ width: '20px', height: '20px' }} />
+            <img src={aethonLogo} alt="Aethon" style={{ width: '20px', height: '20px' }} />
           </div>
           <div>
-            <h1 className="font-bold text-[18px] text-[#212121] dark:text-[#ECECEC] tracking-tight leading-none">Synapse AI</h1>
+            <h1 className="font-bold text-[18px] text-[#212121] dark:text-[#ECECEC] tracking-tight leading-none">Aethon AI</h1>
             <span className="text-[12px] text-[#888888] dark:text-[#A3A3A3] font-medium mt-1 block">Contextually Aware</span>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function MobileAIChat() {
               ) : (
                 <div className="max-w-[90%] text-[#212121] dark:text-[#ECECEC] text-[15px] leading-relaxed flex gap-3.5">
                   <div className="w-8 h-8 rounded-full bg-surface-raised border border-surface-border shadow-sm flex items-center justify-center shrink-0 mt-0.5">
-                    <img src={synapseLogo} alt="Synapse" style={{ width: '16px', height: '16px' }} />
+                    <img src={aethonLogo} alt="Aethon" style={{ width: '16px', height: '16px' }} />
                   </div>
                   <div className="pt-1 whitespace-pre-wrap text-[#333333] dark:text-[#D4D4D4] leading-[1.6]">
                     {msg.content}
@@ -149,7 +149,7 @@ export default function MobileAIChat() {
           <div className="flex justify-start">
             <div className="max-w-[90%] flex gap-3.5">
               <div className="w-8 h-8 rounded-full bg-surface-raised border border-surface-border shadow-sm flex items-center justify-center shrink-0 mt-0.5">
-                <img src={synapseLogo} alt="Synapse" style={{ width: '16px', height: '16px' }} />
+                <img src={aethonLogo} alt="Aethon" style={{ width: '16px', height: '16px' }} />
               </div>
               <div className="pt-3 flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-brand-primary animate-[bounce_1.4s_infinite_ease-in-out]"></div>
@@ -180,7 +180,7 @@ export default function MobileAIChat() {
                 handleSend(message);
               }
             }}
-            placeholder="Ask Synapse AI..."
+            placeholder="Ask Aethon AI..."
             className="flex-1 max-h-32 min-h-[44px] bg-transparent outline-none border-none resize-none focus:ring-0 py-2.5 pl-4 pr-2 text-[15px] text-text-primary placeholder:text-text-tertiary leading-relaxed"
             rows={1}
           />

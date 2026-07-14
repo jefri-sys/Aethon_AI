@@ -26,8 +26,8 @@ export default function BottomNavBar() {
   }, [location.pathname]);
 
   useEffect(() => {
-    const token = localStorage.getItem('synapse_token');
-    const socket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
+    const token = localStorage.getItem('aethon_token');
+    const socket = io(import.meta.env.VITE_API_URL || 'https://aethon-ai-4dcd.onrender.com', {
       auth: { token },
       withCredentials: true
     });
@@ -42,12 +42,12 @@ export default function BottomNavBar() {
     const handleMessagesRead = () => {
       fetchUnread();
     };
-    window.addEventListener('synapse:messages-read', handleMessagesRead);
+    window.addEventListener('aethon:messages-read', handleMessagesRead);
 
     return () => {
       socket.off('newMessage', handleNewActivity);
       socket.off('message:receive', handleNewActivity);
-      window.removeEventListener('synapse:messages-read', handleMessagesRead);
+      window.removeEventListener('aethon:messages-read', handleMessagesRead);
     };
   }, [location.pathname]);
   

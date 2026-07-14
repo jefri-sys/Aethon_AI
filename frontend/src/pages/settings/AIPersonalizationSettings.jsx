@@ -3,7 +3,7 @@ import api from '../../services/api';
 import { Save, AlertTriangle, RotateCcw } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com';
+const API_URL = import.meta.env.VITE_API_URL || 'https://aethon-ai-4dcd.onrender.com';
 
 const SCOPES = [
   { id: 'global', label: 'Global', helper: 'General style, tone, and language. Applies to all personal AI features.' },
