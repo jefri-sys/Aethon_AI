@@ -65,35 +65,7 @@ export default function BottomNavBar() {
         <NavItem to="/dashboard" icon={Home} label="Today" isActive={location.pathname === '/dashboard'} />
         <NavItem to="/academics" icon={BookOpen} label="Academics" isActive={location.pathname === '/academics'} />
         
-        <div className="flex flex-col items-center justify-center flex-1 h-full cursor-pointer">
-          <NavLink to="/planner" className="flex flex-col items-center justify-center w-full h-full">
-            {({ isActive }) => (
-              <>
-                <div 
-                  className="flex items-center justify-center rounded-[999px] transition-colors mb-[2px]"
-                  style={{
-                    width: '56px',
-                    height: '32px',
-                    backgroundColor: isActive ? 'rgba(255,122,89,0.15)' : 'transparent',
-                    color: isActive ? 'var(--mobile-primary)' : 'var(--mobile-text-tertiary)'
-                  }}
-                >
-                  <CalendarCheck size={28} />
-                </div>
-                <span 
-                  style={{ 
-                    fontSize: '11px', 
-                    fontWeight: 600, 
-                    letterSpacing: '0.02em',
-                    color: isActive ? 'var(--mobile-primary)' : 'var(--mobile-text-tertiary)'
-                  }}
-                >
-                  Planner
-                </span>
-              </>
-            )}
-          </NavLink>
-        </div>
+        <NavItem to="/planner" icon={CalendarCheck} label="Planner" isActive={location.pathname === '/planner'} />
 
         <NavItem 
           to="/messages" 
