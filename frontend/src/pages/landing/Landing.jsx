@@ -233,7 +233,7 @@ const Landing = () => {
 
       <section className="hero-section">
         <div className="hero-badge">
-          ✨ AI-Powered Student Workspace
+          AI-Powered Student Workspace - Guided by Intelligence. Driven by You.
         </div>
         <h1 className="hero-title">
           The Student Operating System.<br />
