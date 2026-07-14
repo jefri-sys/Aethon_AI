@@ -1,7 +1,7 @@
 {
-  "name": "synapse-backend",
+  "name": "aethon-backend",
   "version": "1.0.0",
-  "description": "Backend API for Synapse, an AI-powered academic and student management platform.",
+  "description": "Backend API for Aethon, an AI-powered academic and student management platform.",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

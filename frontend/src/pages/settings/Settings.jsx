@@ -135,7 +135,7 @@ const Settings = () => {
     e.preventDefault();
     try {
       await api.post(`/users/reset-data`, { password: confirmPassword });
-      showMessage('success', 'All Synapse data reset successfully.');
+      showMessage('success', 'All Aethon data reset successfully.');
       setShowResetModal(false);
       setConfirmPassword('');
     } catch (err) {
@@ -211,7 +211,7 @@ const Settings = () => {
                 className="flex items-center gap-3 px-6 py-4 text-left w-full justify-start rounded-none h-auto border-l-4 border-transparent"
               >
                 <AlertTriangle size={18} />
-                <span className="font-medium">Reset Synapse Data</span>
+                <span className="font-medium">Reset Aethon Data</span>
               </Button>
               <Button
                 variant="ghost"
@@ -358,7 +358,7 @@ const Settings = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <Card className="rounded-xl shadow-2xl w-full max-w-md p-6 animate-in fade-in zoom-in duration-200">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-status-warning flex items-center gap-2"><AlertTriangle /> Reset Synapse Data</h3>
+              <h3 className="text-xl font-bold text-status-warning flex items-center gap-2"><AlertTriangle /> Reset Aethon Data</h3>
               <button onClick={() => setShowResetModal(false)} className="text-text-tertiary hover:text-text-secondary"><X size={20} /></button>
             </div>
             <p className="text-text-secondary mb-6 text-sm">

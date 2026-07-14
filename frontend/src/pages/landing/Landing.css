@@ -242,7 +242,7 @@
   z-index: 10;
 }
 
-/* Synapse Network Background */
+/* Aethon Network Background */
 .synapse-network-svg {
   position: absolute;
   top: 60px; left: 0; width: 100%; height: calc(100% - 60px);

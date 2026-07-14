@@ -29,7 +29,7 @@ function Messages({ isPopupMode }) {
 
   useEffect(() => {
     if (user) {
-      const token = localStorage.getItem('synapse_token');
+      const token = localStorage.getItem('aethon_token');
       const newSocket = io(import.meta.env.VITE_API_URL || 'https://synapse-ai-4dcd.onrender.com', {
         auth: { token },
         withCredentials: true
@@ -58,7 +58,7 @@ function Messages({ isPopupMode }) {
       setConversations(prev => prev.map(c =>
         c._id === convId ? { ...c, unreadCount: 0 } : c
       ));
-      window.dispatchEvent(new CustomEvent('synapse:messages-read'));
+      window.dispatchEvent(new CustomEvent('aethon:messages-read'));
     } catch (err) { console.error('Error marking as read', err); }
   };
 

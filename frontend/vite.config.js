@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg'], // Adjusting to the existing favicon in public/
       manifest: {
-        name: 'Synapse',
-        short_name: 'Synapse',
+        name: 'Aethon',
+        short_name: 'Aethon',
         description: 'Your AI-powered student operating system',
         theme_color: '#5B5BD6',
         background_color: '#FFF8F0',
