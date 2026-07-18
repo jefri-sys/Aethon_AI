@@ -22,8 +22,9 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       // If we get a 401 Unauthorized, clear the token and reload to force login
       // (Unless it's the login route itself failing)
-      const isAuthRoute = error.config.url?.includes('/auth/login') || error.config.url?.includes('/auth/register');
-      if (!isAuthRoute) {
+      const isAuthRoute = error.config.url?.includes('/auth/login') || error.config.url?.includes('/auth/register') || error.config.url?.includes('/auth/me');
+      const isLoginPage = window.location.pathname === '/login';
+      if (!isAuthRoute && !isLoginPage) {
         localStorage.removeItem('aethon_token');
         localStorage.removeItem('aethon_user');
         window.location.href = '/login';
