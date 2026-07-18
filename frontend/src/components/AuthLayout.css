@@ -71,6 +71,16 @@
   color: var(--marketing-white);
 }
 
+/* Fix Chrome Autofill in Dark Mode */
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover, 
+.auth-input:-webkit-autofill:focus, 
+.auth-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
+  -webkit-text-fill-color: var(--marketing-white) !important;
+  caret-color: var(--marketing-white);
+}
+
 .auth-options {
   display: flex;
   align-items: center;
