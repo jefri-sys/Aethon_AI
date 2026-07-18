@@ -16,5 +16,21 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // If we get a 401 Unauthorized, clear the token and reload to force login
+      // (Unless it's the login route itself failing)
+      const isAuthRoute = error.config.url?.includes('/auth/login') || error.config.url?.includes('/auth/register');
+      if (!isAuthRoute) {
+        localStorage.removeItem('aethon_token');
+        localStorage.removeItem('aethon_user');
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;

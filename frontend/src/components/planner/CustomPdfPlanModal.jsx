@@ -70,9 +70,7 @@ const CustomPdfPlanModal = ({ open, onClose, onPlanCreated }) => {
  const formData = new FormData();
  files.forEach(f => formData.append('pdfs', f));
  
- const res = await api.post('/custom-pdf-plan/extract-topics', formData, {
- headers: { 'Content-Type': 'multipart/form-data' }
- });
+ const res = await api.post('/custom-pdf-plan/extract-topics', formData);
  
  setTopics(res.data.topics || []);
  setExtractedText(res.data.extractedText);
@@ -81,7 +79,7 @@ const CustomPdfPlanModal = ({ open, onClose, onPlanCreated }) => {
  setStep(2);
  } catch (err) {
  console.error(err);
- const backendError = err.response?.data?.error || err.message;
+ const backendError = err.response?.data?.error || err.response?.data?.message || err.message;
  setError(`Could not extract topics automatically: ${backendError}. You can add them manually.`);
  setTopics([]);
  setStep(2);
