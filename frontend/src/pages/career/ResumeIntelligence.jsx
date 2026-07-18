@@ -247,7 +247,7 @@ export default function ResumeIntelligence() {
               <select 
                 value={selectedResumeId} 
                 onChange={e => setSelectedResumeId(e.target.value)} 
-                className="w-full border border-surface-border rounded-md p-2 text-sm focus:ring-brand-primary bg-surface-base"
+                className="w-full border border-surface-border rounded-md p-2 text-sm focus:ring-brand-primary bg-surface-base text-text-primary"
               >
                 {resumes.map(r => (
                   <option key={r._id} value={r._id}>{r.title} {r.targetRole ? `(${r.targetRole.replace('_', ' ')})` : ''}</option>
@@ -260,7 +260,7 @@ export default function ResumeIntelligence() {
                 <select 
                   value={selectedJdId} 
                   onChange={e => setSelectedJdId(e.target.value)} 
-                  className="w-full border border-surface-border rounded-md p-2 text-sm focus:ring-brand-primary bg-surface-base"
+                  className="w-full border border-surface-border rounded-md p-2 text-sm focus:ring-brand-primary bg-surface-base text-text-primary"
                 >
                   {jobDescriptions.map(jd => (
                     <option key={jd._id} value={jd._id}>{jd.title} {jd.companyName ? `at ${jd.companyName}` : ''}</option>
@@ -284,13 +284,13 @@ export default function ResumeIntelligence() {
                   <button type="button" onClick={() => setShowAddJdForm(false)} className="text-text-tertiary hover:text-text-secondary"><X size={16}/></button>
                 )}
               </div>
-              <input type="text" placeholder="Job Title *" required value={newJdData.title} onChange={e => setNewJdData({...newJdData, title: e.target.value})} className="w-full border rounded p-2 text-sm" />
-              <input type="text" placeholder="Company Name" value={newJdData.companyName} onChange={e => setNewJdData({...newJdData, companyName: e.target.value})} className="w-full border rounded p-2 text-sm" />
+              <input type="text" placeholder="Job Title *" required value={newJdData.title} onChange={e => setNewJdData({...newJdData, title: e.target.value})} className="w-full border border-surface-border rounded p-2 text-sm bg-surface-base text-text-primary focus:ring-brand-primary" />
+              <input type="text" placeholder="Company Name" value={newJdData.companyName} onChange={e => setNewJdData({...newJdData, companyName: e.target.value})} className="w-full border border-surface-border rounded p-2 text-sm bg-surface-base text-text-primary focus:ring-brand-primary" />
               
               <div className="text-sm font-semibold text-text-secondary mt-2">Source (Choose One)</div>
-              <textarea placeholder="Paste job description text here..." value={newJdData.text} onChange={e => setNewJdData({...newJdData, text: e.target.value})} className="w-full border rounded p-2 text-sm" rows={4} disabled={!!newJdFile} />
+              <textarea placeholder="Paste job description text here..." value={newJdData.text} onChange={e => setNewJdData({...newJdData, text: e.target.value})} className="w-full border border-surface-border rounded p-2 text-sm bg-surface-base text-text-primary focus:ring-brand-primary" rows={4} disabled={!!newJdFile} />
               <div className="text-center text-xs text-text-tertiary font-bold uppercase">OR</div>
-              <input type="file" accept=".pdf,.doc,.docx" onChange={e => setNewJdFile(e.target.files[0])} disabled={!!newJdData.text} className="w-full text-sm border p-2 rounded bg-surface-base" />
+              <input type="file" accept=".pdf,.doc,.docx" onChange={e => setNewJdFile(e.target.files[0])} disabled={!!newJdData.text} className="w-full text-sm border border-surface-border p-2 rounded bg-surface-base text-text-primary focus:ring-brand-primary file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-surface-raised file:text-text-primary hover:file:bg-surface-border" />
               
               <div className="flex justify-end gap-2 mt-2">
                 {jobDescriptions.length > 0 && (
