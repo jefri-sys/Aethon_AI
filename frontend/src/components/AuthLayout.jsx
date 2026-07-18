@@ -10,14 +10,14 @@ import './AuthLayout.css';
 
 function AuthLayout({ title, subtitle, children, footer }) {
   return (
-    <div className="min-h-screen bg-[var(--marketing-bg-base)] flex items-center justify-center p-4 sm:p-8">
-      <Card className="w-full max-w-[1200px] min-h-[600px] bg-black/[0.96] relative overflow-hidden border-[var(--marketing-text-secondary)]/20 shadow-2xl rounded-2xl">
+    <div className="min-h-[100dvh] bg-[var(--marketing-bg-base)] flex flex-col p-4 sm:p-8 overflow-y-auto">
+      <Card className="w-full max-w-[1200px] md:min-h-[600px] bg-black/[0.96] relative overflow-hidden border-[var(--marketing-text-secondary)]/20 shadow-2xl rounded-2xl m-auto shrink-0">
         <Spotlight
           className="-top-40 left-0 md:left-60 md:-top-20"
           fill="var(--marketing-white)"
         />
         
-        <div className="flex flex-col md:flex-row h-full min-h-[600px]">
+        <div className="flex flex-col md:flex-row h-full md:min-h-[600px]">
           {/* Left content - Login Form */}
           <div className="flex-1 p-8 md:p-12 lg:p-16 relative z-10 flex flex-col justify-center bg-transparent">
             <Link to="/" className="flex items-center gap-3 mb-10 text-white no-underline transition-opacity hover:opacity-80">
