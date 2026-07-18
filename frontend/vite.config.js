@@ -40,16 +40,15 @@ export default defineConfig({
            */
           {
             urlPattern: /.*\/api\/auth\/me.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkOnly',
             method: 'GET',
             options: {
-              cacheName: 'aethon-auth-me-cache',
-              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
+              cacheName: 'aethon-auth-me-cache'
             }
           },
           {
             urlPattern: /.*\/api\/subjects.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             method: 'GET',
             options: {
               cacheName: 'aethon-subjects-cache',
@@ -58,7 +57,7 @@ export default defineConfig({
           },
           {
             urlPattern: /.*\/api\/academics\/cgpa.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             method: 'GET',
             options: {
               cacheName: 'aethon-cgpa-cache',
@@ -67,7 +66,7 @@ export default defineConfig({
           },
           {
             urlPattern: /.*\/api\/attendance.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             method: 'GET',
             options: {
               cacheName: 'aethon-attendance-cache',
@@ -76,7 +75,7 @@ export default defineConfig({
           },
           {
             urlPattern: /.*\/api\/marks.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             method: 'GET',
             options: {
               cacheName: 'aethon-marks-cache',
@@ -85,7 +84,7 @@ export default defineConfig({
           },
           {
             urlPattern: /.*\/api\/semesters.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             method: 'GET',
             options: {
               cacheName: 'aethon-semesters-cache',
@@ -94,7 +93,7 @@ export default defineConfig({
           },
           {
             urlPattern: /.*\/api\/expenses\/summary.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             method: 'GET',
             options: {
               cacheName: 'aethon-expenses-summary-cache',
@@ -103,7 +102,7 @@ export default defineConfig({
           },
           {
             urlPattern: /.*\/api\/habits\/analytics.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             method: 'GET',
             options: {
               cacheName: 'aethon-habits-analytics-cache',
@@ -112,7 +111,7 @@ export default defineConfig({
           },
           {
             urlPattern: /.*\/api\/tasks.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             method: 'GET',
             options: {
               cacheName: 'aethon-tasks-cache',
@@ -121,7 +120,7 @@ export default defineConfig({
           },
           {
             urlPattern: /.*\/api\/notifications.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             method: 'GET',
             options: {
               cacheName: 'aethon-notifications-cache',
